@@ -4,7 +4,6 @@
 const util = require('./config');
 
 const fs = require('fs');
-const del = require('del');
 
 /**
  * gulpプラグイン
@@ -19,6 +18,10 @@ const $ = require('gulp-load-plugins')({
     'imagemin-*'
   ]
 });
+//node-sassだとNode最新バージョンでエラーが出るためDarSassにすること
+const dartSass = require('gulp-dart-sass');
+const sassGlob = require('gulp-sass-glob-use-forward');
+
 const jsonMerge = require('gulp-merge-json');
 /**
  * webpack関係
@@ -33,8 +36,9 @@ const webpackConfig = require("./webpack.config");
  */
 const css = done => {
   src(`${util.filePath.style.src}!(_)*.scss`)
-  .pipe($.sassGlob())
-  .pipe($.sass({ outputStyle: 'expanded' }))
+  .pipe(sassGlob())
+  .pipe(dartSass.sync().on('error', dartSass.logError))
+  .pipe(dartSass.sync({ outputStyle: 'expanded' }))
   .pipe($.replace(/@charset "UTF-8";/g, ''))
   .pipe($.header('@charset "UTF-8";\n\n'))
   .pipe($.postcss([ $.autoprefixer({cascade: false, grid: true}) ]))
