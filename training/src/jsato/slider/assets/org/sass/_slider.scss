@@ -1,6 +1,0 @@
-// 変数
-@use './common/variable' as var;
-
-main {
-  background-color: var.$black;
-}
