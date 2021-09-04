@@ -17,7 +17,7 @@ npm run json ： 各jsonファイルをindex.jsonに結合する
 `cd ~`  
 `git clone git@github.com:qcoltd/operation-training.git`  
 2. 以下のnodeバージョンをインストールする。  
-`nvm i v12.3.1`  
+`nvm i v16.5.0`  
 3. 作業ブランチを作成してチェックアウトする。  
 4. `resources`に移動して、必要なものを導入する。  
 `cd operation-training/resources`  
