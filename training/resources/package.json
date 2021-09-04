@@ -52,7 +52,7 @@
     "objectFitPolyfill": "^2.3.5",
     "postcss": "^8.2.10",
     "style-loader": "^2.0.0",
-    "swiper": "^4.5.0",
+    "swiper": "^5.4.5",
     "terser-webpack-plugin": "^5.1.1",
     "vinyl-paths": "^3.0.1",
     "webpack": "^5.36.0",

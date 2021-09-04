@@ -1,8 +1,8 @@
 //共通
-@import './common/*';
+@forward './common/*';
 
 //プラグイン系
-@import './lib/*';
+@forward './lib/*';
 
 //ページスタイル
-@import './style';
+@forward './style';

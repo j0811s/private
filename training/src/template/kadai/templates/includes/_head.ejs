@@ -16,6 +16,7 @@
   <meta property="og:site_name" content="<% if( data.title !== '' ){ %><%= data.title + ' | ' ; %><%= TITLE %><% }else{ %><%= TITLE %><% } %>">
   <meta property="og:description" content="<% if( data.description !== '' ){ %><%= data.description; %><% }else{ %><%= DESCRIPTION %><% } %>">
   <link rel="stylesheet" href="<%= data.current %>assets/css/index.css?<%= DATE %>">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2Ces2016%2Ces2017%2CPromise.prototype.finally"></script>
 </head>
 <body id="<%= data.name %>">
 <%- include( '_header', { data : data } ); %>
