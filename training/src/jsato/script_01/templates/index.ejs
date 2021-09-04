@@ -1,0 +1,241 @@
+<%_
+  var data = {
+    url: '',/* スラッシュ始まりのドメイン以下URL ( TOPの場合は空文字で ) */
+    name: 'top',/* bodyタグにつくid名 */
+    title:'',/* TOPの場合は空文字で */
+    description:'',/* TOPの場合は空文字で */
+    keyword:'',/* TOPの場合は空文字で */
+    current:'./'
+  }
+_%>   
+<%_ data.asset = function(){ _%> 
+<%_ }; data.content = function(){ _%>
+  <!-- コンテンツ開始 -->
+  <main class="script01">
+    
+    <!-- モーダル -->
+    <ul class="modaltest">
+      <li>
+        <a href="" class="js-lpc-modal_trigger">モーダルボタン1</a>
+        <div class="lpc-modal js-lpc-modal">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/wKkvbuLhEns" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger">モーダルボタン2</a>
+        <div class="lpc-modal js-lpc-modal mod-modal2">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/HcdzNHCwluM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger">モーダルボタン3</a>
+        <div class="lpc-modal js-lpc-modal">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DuU2PQacRkI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger2">モーダルボタン4</a>
+        <div class="lpc-modal js-lpc-modal2 mod-modal2">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <div>
+                <figure class="mod-noModalClose">
+                  <img src="https://placehold.jp/1500x450.png" alt="">
+                </figure>
+                <button>閉じる</button>
+                <button class="mod-noModalClose mod-test">閉じない</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger2">モーダルボタン5</a>
+        <div class="lpc-modal js-lpc-modal2 mod-modal3">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close"></button>
+            <div class="lpc-modal_content">
+              <div>
+                <div class="mod-sample">
+                  <img src="https://placehold.jp/1000x2450.png" alt="">
+                </div>
+                <span class=" mod-test">閉じる</span>
+                <a href="">閉じない</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <!-- /モーダル -->
+    
+    <!-- モーダル -->
+    <ul class="modaltest">
+      <li>
+        <a href="" class="js-lpc-modal_trigger">モーダルボタン1</a>
+        <div class="lpc-modal js-lpc-modal">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/wKkvbuLhEns" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger">モーダルボタン2</a>
+        <div class="lpc-modal js-lpc-modal mod-modal2">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/HcdzNHCwluM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger">モーダルボタン3</a>
+        <div class="lpc-modal js-lpc-modal">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DuU2PQacRkI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger2">モーダルボタン4</a>
+        <div class="lpc-modal js-lpc-modal2 mod-modal2">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <div>
+                <figure class="mod-noModalClose">
+                  <img src="https://placehold.jp/1500x450.png" alt="">
+                </figure>
+                <button>閉じる</button>
+                <button class="mod-noModalClose mod-test">閉じない</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger2">モーダルボタン5</a>
+        <div class="lpc-modal js-lpc-modal2 mod-modal3">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close"></button>
+            <div class="lpc-modal_content">
+              <div>
+                <div class="mod-sample">
+                  <img src="https://placehold.jp/1000x2450.png" alt="">
+                </div>
+                <span class=" mod-test">閉じる</span>
+                <a href="">閉じない</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <!-- /モーダル -->
+    
+    <!-- モーダル -->
+    <ul class="modaltest">
+      <li>
+        <a href="" class="js-lpc-modal_trigger">モーダルボタン1</a>
+        <div class="lpc-modal js-lpc-modal">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/wKkvbuLhEns" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger">モーダルボタン2</a>
+        <div class="lpc-modal js-lpc-modal mod-modal2">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/HcdzNHCwluM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger">モーダルボタン3</a>
+        <div class="lpc-modal js-lpc-modal">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DuU2PQacRkI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger2">モーダルボタン4</a>
+        <div class="lpc-modal js-lpc-modal2 mod-modal2">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close "></button>
+            <div class="lpc-modal_content">
+              <div>
+                <figure class="mod-noModalClose">
+                  <img src="https://placehold.jp/1500x450.png" alt="">
+                </figure>
+                <button>閉じる</button>
+                <button class="mod-noModalClose mod-test">閉じない</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="" class="js-lpc-modal_trigger2">モーダルボタン5</a>
+        <div class="lpc-modal js-lpc-modal2 mod-modal3">
+          <div class="lpc-modal_container">
+            <button class="lpc-modal_close"></button>
+            <div class="lpc-modal_content">
+              <div>
+                <div class="mod-sample">
+                  <img src="https://placehold.jp/1000x2450.png" alt="">
+                </div>
+                <span class=" mod-test">閉じる</span>
+                <a href="">閉じない</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <!-- /モーダル -->
+
+    
+  </main>
+  <!-- コンテンツ終了 -->
+<%_ } _%> 
+<%_ /* 以下includeファイル */ _%>
+<%- include( data.current + 'includes/_head', { data : data } ); %>
+<%- data.content(); %>
+<%- include( data.current + 'includes/_footer', { data : data } ); %>
+<%- data.asset(); %>
+<%- include( data.current + 'includes/_foot', { data : data } ); %>

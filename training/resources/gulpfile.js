@@ -161,9 +161,10 @@ const video = done => {
 const browser = done => {
   $.browserSync.init({
     port: util.browserSyncOption.port,
+    open: 'external',
     server: {
       baseDir: util.browserSyncOption.baseDir,
-      index: 'index.html',
+      index: 'index.html'
     },
     reloadOnRestart: true,
   });
