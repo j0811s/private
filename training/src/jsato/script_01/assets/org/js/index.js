@@ -1,4 +1,5 @@
 import { Modal } from "./module/_modal";
+import { crossFade } from "./module/_crossFade";
 
 new Modal({
   on: {
@@ -34,4 +35,10 @@ new Modal({
       console.log('afterClose')
     }
   }
+});
+
+new crossFade({
+  wrap: '.js-crossFade',
+  item: '.js-crossFade_item',
+  duration: 6000
 });
