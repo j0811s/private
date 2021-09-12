@@ -1,7 +1,8 @@
 /** UserAgent */
-export const ua = navigator.userAgent.toLowerCase();
-// iOS
-export const isiOS = ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('macintosh') > -1 && 'ontouchend' in document;
+const ua = navigator.userAgent.toLowerCase();
+export const userAgent = {
+  isiOS: ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('macintosh') > -1 && 'ontouchend' in document
+}
 
 
 /** 配列風に変換してforEach */

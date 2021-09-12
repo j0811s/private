@@ -1,5 +1,5 @@
 import './_closest';
-import {isiOS, isHTMLCollection, nodeEach, extend, mediaQuery} from './_util';
+import {userAgent, isHTMLCollection, nodeEach, extend, mediaQuery} from './_util';
 
 // config 記述サンプル
 // {
@@ -94,7 +94,7 @@ export class Modal {
 
   /** 背景固定 */
   setBodyFixed() {
-    if (isiOS) {
+    if (userAgent.isiOS) {
       this.scrollPosition = window.pageYOffset;
       document.body.classList.add('is-fixed_ios');
       document.body.style.top = `-${this.scrollPosition}px`;
@@ -105,7 +105,7 @@ export class Modal {
 
   /** 背景固定解除 */
   setBodyStatic() {
-    if (isiOS) {
+    if (userAgent.isiOS) {
       document.body.classList.remove('is-fixed_ios');
       document.body.style.removeProperty('top');
       window.scrollTo(0, this.scrollPosition);
