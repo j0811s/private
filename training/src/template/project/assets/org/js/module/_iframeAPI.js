@@ -1,4 +1,4 @@
-import {isHTMLCollection, nodeEach, extend} from './_util';
+import { extend } from './_util';
 
 // https://developers.google.com/youtube/player_parameters?hl=ja
 export class Youtube {
