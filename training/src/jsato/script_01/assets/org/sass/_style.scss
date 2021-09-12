@@ -7,6 +7,10 @@
     width: 100%;
   }
 
+  a {
+    color: #000;
+  }
+
   .modaltest {
     text-align: center;
     > li {
@@ -32,6 +36,15 @@
 
   .add-white {
     background-color: rgba(255,255,255,.8);
+  }
+
+  .lp-button {
+    background-color: #fff;
+    color: #000;
+    padding: 10px;
+    text-align: center;
+    line-height: 1;
+    display: inline-block;
   }
 
   .crossFade {

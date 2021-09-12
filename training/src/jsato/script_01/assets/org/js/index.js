@@ -1,31 +1,26 @@
 import { Modal } from "./module/_modal";
 import { crossFade } from "./module/_crossFade";
 
-new Modal({
-  on: {
-    beforeOpen(e) {
-      console.log('beforeOpen')
-      document.body.classList.add('add-beforeOpen');
-    },
-    afterOpen(e) {
-      console.log('afterOpen')
-      setTimeout(() => {
-        document.body.classList.remove('add-beforeOpen');
-      }, 1000)
-    }
-  }
-});
+const modal1 = new Modal();
 
-new Modal({
+const modal2 = new Modal({
   modal: '.js-lpc-modal2',
   trigger: {
     open: '.js-lpc-modal_trigger2',
-    noCloseSelectorNames: ['a', 'figure', 'img'],
-    noCloseClassNames: ['mod-noModalClose', 'mod-sample']
+    noCloseSelectorNames: ['a', 'dd', 'img'],
+    noCloseClassNames: ['mod-noModalClose']
+  }
+});
+
+const modal3 = new Modal({
+  modal: '#js-modal3',
+  trigger: {
+    open: '#js-lpc-modal_trigger3',
+    noCloseClassNames: ['mod-noClick', 'mod-tshtan']
   },
   on: {
-    beforeClose(e) {
-      console.log('beforeClose')
+    afterOpen(e) {
+      console.log('afterOpen')
       document.body.classList.add('add-afterOpen');
     },
     afterClose(e) {
@@ -33,9 +28,24 @@ new Modal({
         document.body.classList.remove('add-afterOpen');
       }, 1000)
       console.log('afterClose')
+    },
+    resize: {
+      query: '(max-width: 599px)',
+      callback: (matches) => {
+        if (matches) {
+          console.log('SP');
+        } else {
+          console.log('Tablt ~ ')
+        }
+      }
     }
   }
 });
+
+
+console.log(modal1);
+console.log(modal2);
+console.log(modal3);
 
 new crossFade({
   wrap: '.js-crossFade',

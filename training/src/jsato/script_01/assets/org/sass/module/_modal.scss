@@ -1,13 +1,13 @@
 body {
   // iOS用
-  &.is-m_fixed {
+  &.is-fixed_ios {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
   }
   // iOS以外
-  &.is-m_hidden {
+  &.is-fixed {
     overflow: hidden;
   }
 }
