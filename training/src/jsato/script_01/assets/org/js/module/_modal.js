@@ -53,13 +53,13 @@ export class Modal {
     Object.assign(this.config.on, this.on);
 
     // モーダルコンテンツ要素
-    const modalName = this.removeFirstString(this.config.modal);
+    const modalName = this.removeFirstLetter(this.config.modal);
     this.modalWrapper = this.isTypeId(this.config.modal) 
       ? document.getElementById(modalName) 
       : document.getElementsByClassName(modalName);
     
     // モーダルを開くトリガー要素
-    const triggerName = this.removeFirstString(this.config.trigger.open);
+    const triggerName = this.removeFirstLetter(this.config.trigger.open);
     this.openTrigger = this.isTypeId(this.config.trigger.open) 
       ? document.getElementById(triggerName) 
       : document.getElementsByClassName(triggerName);
@@ -83,7 +83,7 @@ export class Modal {
   }
 
   /** 先頭の#か.を削除 */
-  removeFirstString(string, reg = /^[.#]?/g) {
+  removeFirstLetter(string, reg = /^[.#]?/g) {
     return string.replace(reg, '');
   }
 
