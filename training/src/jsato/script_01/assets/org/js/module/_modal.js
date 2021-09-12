@@ -22,7 +22,7 @@ export class Modal {
     this.isiOS = ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('macintosh') > -1 && 'ontouchend' in document;
   
     // モーダル設定
-    const mConfig = {
+    this.config = {
       modal: '.js-lpc-modal',
       trigger: {
         open: '.js-lpc-modal_trigger',
@@ -44,25 +44,26 @@ export class Modal {
       //   }
       // }
     }
-    this.overwriteProperty(mConfig, config);
+    // 引数の設定で上書き
+    this.extend(this.config, config);
 
     // モーダルコンテンツ要素
-    this.modalName = mConfig.modal;
+    this.modalName = this.config.modal;
     this.modalWrapper = document.querySelectorAll(this.modalName);
     // モーダルを開くトリガー要素
-    this.openTrigger = document.querySelectorAll(mConfig.trigger.open);
+    this.openTrigger = document.querySelectorAll(this.config.trigger.open);
     // モーダルを閉じる処理を除外するセレクター・クラス名
-    this.noCloseSelectorNames = mConfig.trigger.noCloseSelectorNames;
-    this.noCloseClassNames = mConfig.trigger.noCloseClassNames;
+    this.noCloseSelectorNames = this.config.trigger.noCloseSelectorNames;
+    this.noCloseClassNames = this.config.trigger.noCloseClassNames;
     
     // コールバック
-    if (mConfig.on) {
+    if (this.config.on) {
       // 開く前後
-      this.beforeOpen = mConfig.on.beforeOpen;
-      this.afterOpen = mConfig.on.afterOpen;
+      this.beforeOpen = this.config.on.beforeOpen;
+      this.afterOpen = this.config.on.afterOpen;
       // 閉じる前後
-      this.beforeClose = mConfig.on.beforeClose;
-      this.afterClose = mConfig.on.afterClose;
+      this.beforeClose = this.config.on.beforeClose;
+      this.afterClose = this.config.on.afterClose;
     }
 
     // スクロール位置保存
@@ -78,7 +79,7 @@ export class Modal {
   }
 
   /** プロパティを上書き */
-  overwriteProperty(dest, src) {
+  extend(dest, src) {
     for (const property in src) {
       dest[property] = src[property]
     }
