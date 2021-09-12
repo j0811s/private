@@ -21,6 +21,12 @@ export const isEmpty = (object) =>{
 }
 
 
+/** 指定した種類か真偽値で返す */
+export const isType = (target, type = Array) => {
+  return target instanceof type
+}
+
+
 /** プロパティを上書き */
 export const extend = (dest, src) => {
   for (const property in src) {

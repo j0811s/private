@@ -1,5 +1,6 @@
 import { Modal } from "./module/_modal";
 import { crossFade } from "./module/_crossFade";
+import { Youtube } from "./module/_iframeAPI";
 
 const modal1 = new Modal();
 
@@ -51,4 +52,68 @@ new crossFade({
   wrap: '.js-crossFade',
   item: '.js-crossFade_item',
   duration: 6000
+});
+
+
+new Youtube({
+  ytData: [
+    {
+      playerId: 'js-player1',
+      videoId: 'HcdzNHCwluM'
+    },
+    {
+      playerId: 'js-player2',
+      videoId: 'DuU2PQacRkI'
+    },
+    {
+      playerId: 'js-player3',
+      videoId: 'wKkvbuLhEns'
+    }
+  ],
+  parameter: [
+    {
+      playerVars: {
+        'autoplay': 1,
+        'mute': 1,
+        'controls': 1,
+        'loop': 1,
+        'playlist': 'videoId',
+        'rel': 0,
+        'playsinline': 1
+      },
+      events: {
+        'onReady': (e) => { 
+          e.target.mute();
+          e.target.playVideo();
+        },
+        'onStateChange': (e) => {
+          if (e.target.getPlayerState() === 1) {
+            console.log('video 再生中');
+          }
+        }
+      }
+    },
+    // {
+    //   playerVars: {
+    //     'autoplay': 1,
+    //     'mute': 1,
+    //     'controls': 1,
+    //     'loop': 1,
+    //     'playlist': 'videoId',
+    //     'rel': 0,
+    //     'playsinline': 1
+    //   }
+    // },
+    // {
+    //   playerVars: {
+    //     'autoplay': 1,
+    //     'mute': 1,
+    //     'controls': 1,
+    //     'loop': 1,
+    //     'playlist': 'videoId',
+    //     'rel': 0,
+    //     'playsinline': 1
+    //   }
+    // }
+  ]
 });
