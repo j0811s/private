@@ -1,0 +1,36 @@
+.lpc-fade {
+  opacity: 0;
+
+  &.mod-textParent {
+    overflow: hidden;
+    display: inline-block;
+    animation: textParent .8s linear forwards;
+  }
+
+  &.mod-textChild {
+    display: inline-block;
+    animation: textChildren .8s linear forwards;
+  }
+}
+
+@keyframes textParent {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes textChildren {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
