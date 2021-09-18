@@ -3,6 +3,14 @@
 @use './common/mixin' as mixin;
 
 .script01 {
+  padding: 50px 0;
+  text-align: center;
+
+  h1 {
+    font-weight: bold;
+    font-size: 44px;
+  }
+
   img {
     width: 100%;
   }

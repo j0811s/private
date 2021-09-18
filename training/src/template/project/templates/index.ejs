@@ -12,12 +12,21 @@ _%>
 <%_ }; data.content = function(){ _%>
   <!-- コンテンツ開始 -->
   <main class="script01">
+    <!-- ローカルナビ -->
+    <nav id="js-lpc-navigation" class="lpc-navigation">
+      <ul class="lpc-navigation_list">
+        <li class="lpc-navigation_listItem"><a href="#modal">モーダル</a></li>
+        <li class="lpc-navigation_listItem"><a href="#iframe">iframe API</a></li>
+        <li class="lpc-navigation_listItem"><a href="#crossfade">crossfade</a></li>
+      </ul>
+    </nav>
+
     <h1 class="lpc-fade mod-textParent">
       <span class="lpc-fade mod-textChild">サンプルページ</span>
     </h1>
     
     <!-- モーダル -->
-    <ul class="modaltest">
+    <ul id="modal" class="modaltest js-lpc-navigation_area">
       <li>
         <a href="" class="lpc-mask js-lpc-modal_trigger"><span class="lpc-mask_inner"><span class="lpc-mask_text">モーダルボタン1</span></span></a>
         <div class="lpc-modal js-lpc-modal">
@@ -100,13 +109,15 @@ _%>
     <!-- /モーダル -->
 
     <!-- iframe API -->
-    <div id="js-player1"></div>
-    <div id="js-player2"></div>
-    <div id="js-player"></div>
+    <div id="iframe" class="js-lpc-navigation_area">
+      <div id="js-player1"></div>
+      <div id="js-player2"></div>
+      <div id="js-player"></div>
+    </div>
     <!-- /iframe API -->
 
     <!-- crossFade -->
-    <div class="crossFade">
+    <div id="crossfade" class="crossFade js-lpc-navigation_area">
       <div class="lpc-crossFade js-crossFade">
         <img class="lpc-crossFade_item js-crossFade_item" src="https://placehold.jp/1001x450.png" alt="">
         <img class="lpc-crossFade_item js-crossFade_item" src="https://placehold.jp/1002x450.png" alt="">

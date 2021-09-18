@@ -1,6 +1,9 @@
 import { Modal } from "./module/_modal";
 import { crossFade } from "./module/_crossFade";
 import { Youtube } from "./module/_iframeAPI";
+import { LocalNavigation } from './module/_LocalNavigation';
+
+new LocalNavigation();
 
 const modal1 = new Modal();
 
@@ -125,4 +128,4 @@ new Youtube({
   ]
 });
 
-new Youtube();
+// new Youtube();
