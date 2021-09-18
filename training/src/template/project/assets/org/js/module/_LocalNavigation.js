@@ -15,7 +15,7 @@ export class LocalNavigation {
       navigation: '#js-lpc-navigation', // ナビゲーションの親要素(nav -> ul -> liの構造想定)
       navigationArea: '.js-lpc-navigation_area', // ナビゲーションの対象要素
       activeClassName : 'is-active', // ナビゲーションの現在地に付与する
-      threshold: 0.5 // this.setActive()のスクロール量の判定に使用
+      threshold: 0 // this.setActive()のスクロール量の判定に使用
     }
     extend(this.config, config);
 
@@ -33,7 +33,7 @@ export class LocalNavigation {
     // 現在のスクロールトップ
     this.scrollTop = window.pageYOffset;
 
-    // 現在地のインデックス（現状未使用）
+    // ナビゲーションの現在地
     this.current = 0;
 
     // 初期化
@@ -73,11 +73,19 @@ export class LocalNavigation {
   // アクティブクラスの付け替え
   setActive() {
     for (let i in this.area) {
-      if (this.scrollTop + window.innerHeight * this.config.threshold > this.area[i]) {
+      if (this.scrollTop + (window.innerHeight * this.config.threshold) < this.area[0] || this.scrollTop < this.area[0]) {
+        this.current = 0;
+        this.navigationItem.forEach(listItem => this.removeActive(listItem));
+        this.addActive(this.navigationItem[0]);
+      } else if (this.scrollTop + (window.innerHeight * this.config.threshold) > this.area[i]) {
         this.current = i;
         this.navigationItem.forEach(listItem => this.removeActive(listItem));
         this.addActive(this.navigationItem[i]);
-      }
+      } else if (this.scrollTop + (window.innerHeight * this.config.threshold) > this.area[this.area.length - 1] || document.body.scrollHeight - (this.scrollTop + window.innerHeight) === 0) {
+        this.current = this.area.length - 1;
+        this.navigationItem.forEach(listItem => this.removeActive(listItem));
+        this.addActive(this.navigationItem[this.area.length - 1]);
+      } 
     }
   }
 
@@ -96,7 +104,10 @@ export class LocalNavigation {
     });
 
     // body配下のリサイズ監視(window.resizeでは対応しきれないものを想定)
-    const ro = new ResizeObserver((entries, observer) => this.area = this.getAreaPotision());
+    const ro = new ResizeObserver((entries, observer) => {
+      this.area = this.getAreaPotision();
+      this.setActive();
+    });
     ro.observe(document.body);
   }
 }
