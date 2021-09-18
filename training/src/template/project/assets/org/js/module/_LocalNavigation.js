@@ -55,6 +55,11 @@ export class LocalNavigation {
     return this.navigationArea.map(area => this.getOffsetTop(area) - this.getNavigationHeight());
   }
 
+  // ページ最下部
+  isPageBottom() {
+    return document.body.scrollHeight - (this.scrollTop + window.innerHeight) === 0;
+  }
+
   // アクティブクラスを持っているか真偽値を返す
   hasActiveClass(element) {
     return element.classList.contains(this.config.activeClassName);
@@ -81,7 +86,7 @@ export class LocalNavigation {
         this.current = i;
         this.navigationItem.forEach(listItem => this.removeActive(listItem));
         this.addActive(this.navigationItem[i]);
-      } else if (this.scrollTop + (window.innerHeight * this.config.threshold) > this.area[this.area.length - 1] || document.body.scrollHeight - (this.scrollTop + window.innerHeight) === 0) {
+      } else if (this.scrollTop + (window.innerHeight * this.config.threshold) > this.area[this.area.length - 1] || this.isPageBottom()) {
         this.current = this.area.length - 1;
         this.navigationItem.forEach(listItem => this.removeActive(listItem));
         this.addActive(this.navigationItem[this.area.length - 1]);
