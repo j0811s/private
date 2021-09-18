@@ -17,13 +17,13 @@
     width: 100%;
     height: 100%;
     background-color: #000;
-    animation: mask .5s linear forwards;
+    animation: mask .6s linear forwards;
   }
 }
 
 .lpc-mask_text {
   opacity: 0;
-  animation: mask_fade 0s linear .25s forwards;
+  animation: mask_fade .3s ease-in-out .3s forwards;
 }
 
 @keyframes mask {
