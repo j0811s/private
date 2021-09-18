@@ -7,27 +7,34 @@ export class Youtube {
     this.config = {
       ytData: [
         {
-          playerId: '', // 動画を追加する要素のid名
-          videoId: '' // 動画のIDパラメータ
+          playerId: 'js-player', // 動画を追加する要素のid名
+          videoId: 'ONPO3K33t-Q' // 動画のIDパラメータ
         }
       ],
-      // 複数の動画設定が共通であれば、parameterの中身は一つだけでも可
+      // 設定を使い回すのであれば、配列の中身は一つだけでも可
       parameter: [
         {
           playerVars: {
-            // iframe APIのオプション
-            // 'playlist': 'videoId' と指定すれば、ytData.videoIdと同じものが入る
+            // iframe APIのオプション（デフォルトは自動再生を指定）
+            'autoplay': 1,
+            'mute': 1,
+            'controls': 1,
+            'loop': 1,
+            'playlist': 'videoId', //'videoId' と指定すれば、ytData.videoIdと同じものが入るようにしている
+            'rel': 0,
+            'playsinline': 1
           },
           events: {
             // iframe APIのコールバック関数
+            'onReady': (e) => { 
+              e.target.mute();
+              e.target.playVideo();
+            }
           }
         }
       ]
     }
     extend(this.config, config);
-
-    // script挿入
-    this.insertIframeAPI();
 
     // Youtube情報
     this.player = [];
@@ -45,10 +52,7 @@ export class Youtube {
     document.getElementsByTagName('head')[0].appendChild(scriptTag);
   }
 
-  /** 
-   * パラメータ配列の中身が1つだけか真偽値で返す
-   * 1つならすべての動画で設定を使い回す想定。
-   */
+  /** パラメータ配列の中身が1つだけか真偽値で返す */
   isOnlyOneParam() {
     return this.parameter.length === 1;
   }
@@ -77,6 +81,7 @@ export class Youtube {
 
   /** 実行 */
   execute() {
+    this.insertIframeAPI();
     window.addEventListener('load', () => this.onYouTubeIframeAPIReady());
   }
 }
