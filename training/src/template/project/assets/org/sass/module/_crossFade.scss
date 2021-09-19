@@ -3,12 +3,15 @@
 }
 
 .lpc-crossFade_item {
-  position: absolute;
   top: 0;
   left: 0;
   z-index: 0;
   opacity: 0;
   transition: opacity 2s ease-in-out;
+
+  &:not(:first-of-type) {
+    position: absolute;
+  }
 
   &.is-active {
     opacity: 1;
