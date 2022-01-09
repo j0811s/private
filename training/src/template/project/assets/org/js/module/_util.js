@@ -1,9 +1,19 @@
 /** UserAgent */
 const ua = navigator.userAgent.toLowerCase();
 export const userAgent = {
+  isMobile: ua.match(/iPhone|Android.+Mobile/),
   isiOS: ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('macintosh') > -1 && 'ontouchend' in document
 }
 
+/** タッチデバイス */
+export const isToucheDevice = () => window.ontouchstart !== undefined && 0 < navigator.maxTouchPoints;
+export const getDeviceEvent = () => {
+  return {
+    touchstart: isToucheDevice() ? 'touchstart' : 'mousedown',
+    touchmove: isToucheDevice() ? 'touchmove' : 'mousemove',
+    touchend: isToucheDevice() ? 'touchend' : 'mouseup'
+  }
+}
 
 /** 配列風に変換してforEach */
 export const nodeEach = (nodeList, callback) => {
@@ -16,7 +26,7 @@ export const isHTMLCollection = (element) => Object.prototype.toString.call(elem
 
 
 /** オブジェクトの中身が空っぽか真偽値を返す */
-export const isEmpty = (object) =>{
+export const isEmpty = (object) => {
   return !Object.keys(object).length;
 }
 
@@ -45,7 +55,7 @@ export const extend = (dest, src) => {
 export const mediaQuery = (config) => {
   const mq = window.matchMedia(`${config.query}`);
   const callback = config.callback;
-  
+
   // ブレークポイント判定のe.matchesを引数に持たせる
   const matcheEvent = e => callback(e.matches);
   // ブレークポイントで実行

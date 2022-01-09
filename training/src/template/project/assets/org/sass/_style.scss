@@ -2,6 +2,12 @@
 @use './common/variable' as var;
 @use './common/mixin' as mixin;
 
+body {
+  &:not(.add-loaded) * {
+    transition: none !important;
+  }
+}
+
 .script01 {
   padding: 50px 0;
   text-align: center;
@@ -61,5 +67,10 @@
   .crossFade {
     margin: 60px auto;
     max-width: 960px;
+  }
+
+  .jslider {
+    // max-width: 768px;
+    margin: 60px auto;
   }
 }

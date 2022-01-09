@@ -2,6 +2,11 @@ import { Modal } from "./module/_modal";
 import { crossFade } from "./module/_crossFade";
 import { Youtube } from "./module/_iframeAPI";
 import { LocalNavigation } from './module/_LocalNavigation';
+import { Jslider } from "./module/_jslider";
+
+window.addEventListener('load', () => {
+  document.body.classList.add('add-loaded');
+});
 
 new LocalNavigation();
 
@@ -103,7 +108,7 @@ new Youtube({
         'playsinline': 1
       },
       events: {
-        'onReady': (e) => { 
+        'onReady': (e) => {
           e.target.mute();
           // e.target.playVideo();
         },
@@ -129,3 +134,11 @@ new Youtube({
 });
 
 // new Youtube();
+
+new Jslider('#js-jslider', {
+  initialSlide: 0,
+  slidesToShow: 1,
+  arrows: true,
+  dots: true,
+  swipe: true
+});
