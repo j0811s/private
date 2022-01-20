@@ -233,6 +233,7 @@ export class Jslider {
     /**
      * 式を変更する必要あり
      * 移動量がどのスライドアイテムの座標を超えているかを判定したい
+     * アイテムの横幅が半分以上見えているものをアクティブとする？
      */
     if (this.startX > this.moveX && this.startX > this.moveX && this.currentIndex < this.slideItem.length - 1) {
       this.currentIndex++;
