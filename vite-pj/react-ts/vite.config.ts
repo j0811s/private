@@ -33,9 +33,9 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      '@/': path.join(__dirname, './src/'),
-      '@com/': path.join(__dirname, './src/components/'),
-      '@assets/': path.join(__dirname, './src/assets/')
+      '@css/': path.join(__dirname, './src/assets/css/'),
+      '@js/': path.join(__dirname, './src/assets/js/'),
+      '@img/': path.join(__dirname, './src/assets/img/')
     }
   }
 })
