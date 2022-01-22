@@ -7,16 +7,16 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:@typescript-eslint/recommended",
+    // "plugin:@typescript-eslint/recommended",
   ],
   plugins: [
-    "@typescript-eslint",
+    // "@typescript-eslint",
     "react"
   ],
-  parser: "@typescript-eslint/parser",
+  // parser: "@typescript-eslint/parser",
   parserOptions: {
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    // "project": "./tsconfig.json"
   },
   root: true,
   rules: {
