@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Title } from './components/Title';
 import { PostDate } from './components/PostDate';
 import { PublishBtn } from './components/PublishBtn';
-import './App.css'
 
 const Article = (props) => {
   const [isPublished, setIsPublished] = useState(false);
 
-  const handlePublish = () => {
+  // 子コンポーネントにコールバック関数を渡すならuseCallback経由で
+  const handlePublish = useCallback(() => {
     setIsPublished(prevState => !prevState);
-  }
+  }, [setIsPublished]);
 
   /** 毎回 */
   // useEffect(() => {
