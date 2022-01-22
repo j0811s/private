@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import logo from '@img/logo.svg'
-import '@css/modules/App.scss'
+import '@css/modules/count.scss'
 
-function App() {
+function Count() {
   const [count, setCount] = useState(0)
 
   return (
@@ -42,4 +42,4 @@ function App() {
   )
 }
 
-export default App
+export default Count

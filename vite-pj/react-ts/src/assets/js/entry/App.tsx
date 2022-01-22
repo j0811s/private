@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import '@css/index.scss'
-import App from '../modules/App'
+import Count from '../modules/Count'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Count />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('count')
 )
