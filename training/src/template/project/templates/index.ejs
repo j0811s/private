@@ -4,6 +4,7 @@
     <%_ }; data.content=function(){ _%>
       <!-- コンテンツ開始 -->
       <main class="script01">
+        <div class="boder"></div>
         <!-- ローカルナビ -->
         <nav id="js-lpc-navigation" class="lpc-navigation">
           <ul class="lpc-navigation_list">
@@ -19,7 +20,7 @@
         </h1>
 
         <!-- モーダル -->
-        <ul id="modal" class="modaltest js-lpc-navigation_area">
+        <ul id="modal" class="modaltest js-lpc-navigation_area mod-inView js-inView">
           <li>
             <a href="" class="lpc-mask js-lpc-modal_trigger"><span class="lpc-mask_inner"><span
                   class="lpc-mask_text">モーダルボタン1</span></span></a>
@@ -115,9 +116,15 @@
 
         <!-- iframe API -->
         <div id="iframe" class="js-lpc-navigation_area">
-          <div id="js-player1"></div>
-          <div id="js-player2"></div>
-          <div id="js-player"></div>
+          <div class="">
+            <div id="js-player1"></div>
+          </div>
+          <div class="">
+            <div id="js-player2"></div>
+          </div>
+          <div class="">
+            <div id="js-player"></div>
+          </div>
         </div>
         <!-- /iframe API -->
 
@@ -135,7 +142,7 @@
         <!-- /crossFade -->
 
         <!-- jslider -->
-        <div id="jslider" class="js-lpc-navigation_area">
+        <div id="jslider" class="js-lpc-navigation_area mod-inView js-inView">
           <div class="jslider">
             <div id="js-jslider" class="jslider_container">
               <ul class="jslider_list js-jslider_list">

@@ -3,12 +3,24 @@ import { crossFade } from "./module/_crossFade";
 import { Youtube } from "./module/_iframeAPI";
 import { LocalNavigation } from './module/_LocalNavigation';
 import { Jslider } from "./module/_jslider";
+import {InView} from "./module/_inView";
 
 window.addEventListener('load', () => {
   document.body.classList.add('add-loaded');
+
+  setTimeout(() => {
+
+    new InView(document.getElementsByClassName('js-inView'),{
+      trigger: 'bottom',
+      once: false
+    });
+
+  }, 0);
 });
 
 new LocalNavigation();
+
+
 
 const modal1 = new Modal();
 

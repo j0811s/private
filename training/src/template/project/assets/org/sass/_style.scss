@@ -8,6 +8,16 @@ body {
   }
 }
 
+.boder {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  background-color: #000;
+  height: 1px;
+  z-index: 100;
+}
+
 .script01 {
   padding: 50px 0;
   text-align: center;
@@ -53,6 +63,10 @@ body {
 
   .add-white {
     background-color: rgba(255,255,255,.8);
+  }
+
+  .lp-iframe {
+    // min-height: 100px;
   }
 
   .lp-button {
