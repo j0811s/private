@@ -23,14 +23,14 @@ npm run json ： 各jsonファイルをindex.jsonに結合する
 `cd operation-training/resources`  
 `npm ci`  
 5. `src`内にある`template`をコピーして、各フォルダをリネームする。  
-`src/murata/`  
-`src/murata/kaneka/`
+`src/name/`  
+`src/name/template/`
 6. `resources`にある`_project.js`をコピーして、`project.js`として新規作成する。  
 `project.js`を開き、中に書いてある設定を自分用に変更する。  
 ```javascript
 module.exports = {
-  rootDir: 'murata', //各員の名前フォルダ
-  projectDir: 'kaneka', //名前フォルダの配下にある課題フォルダ
+  rootDir: 'name', //各員の名前フォルダ
+  projectDir: 'template', //名前フォルダの配下にある課題フォルダ
   browserSync: {
     port: '8081', //ブラウザシンク時のポート番号
   },
