@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackWatchedGlobEntries = require('webpack-watched-glob-entries-plugin');
+const ESLintPlugin = require("eslint-webpack-plugin");
 
 const util = require('./config');
 const entryPath = `${util.filePath.script.src}**/*.js`;
@@ -64,7 +65,11 @@ const baseOption = {
     ]
   },
   plugins: [
-    new WebpackWatchedGlobEntries()
+    new WebpackWatchedGlobEntries(),
+    new ESLintPlugin({
+      // extensions: ['.js'],
+      exclude: 'node_modules'
+    }),
   ],
   output: {
     filename: '[name].js',

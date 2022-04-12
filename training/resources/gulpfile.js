@@ -64,14 +64,7 @@ const ejs = done => {
   src(`${util.filePath.ejs.src}**/!(_)*.ejs`)
   .pipe($.ejs({}, {}, {ext: '.html'}))
   .pipe($.rename({extname:'.html'}))
-  .pipe($.htmlmin({
-    removeComments : true,
-    removeScriptTypeAttributes: true,
-    removeStyleLinkTypeAttributes: true,
-    sortAttributes: true,
-    removeEmptyAttributes: true,
-    quoteCharacter: "\""
-  }))
+  .pipe($.htmlmin(util.html.option))
   .pipe(dest(util.filePath.ejs.dist));
 
   done();
@@ -83,14 +76,7 @@ const ejs = done => {
  */
 const html = done => {
   src(`${util.filePath.html.src}**/*.html`)
-  .pipe($.htmlmin({
-    removeComments : true,
-    removeScriptTypeAttributes: true,
-    removeStyleLinkTypeAttributes: true,
-    sortAttributes: true,
-    removeEmptyAttributes: true,
-    quoteCharacter: "\""
-  }))
+  .pipe($.htmlmin(util.html.option))
   .pipe(dest(util.filePath.html.dist));
 
   done();

@@ -1,9 +1,9 @@
-import { Modal } from "./module/_modal";
-import { crossFade } from "./module/_crossFade";
-import { Youtube } from "./module/_iframeAPI";
-import { LocalNavigation } from './module/_LocalNavigation';
-import { Jslider } from "./module/_jslider";
-import {InView} from "./module/_inView";
+import { Modal } from "../module/_modal";
+import { crossFade } from "../module/_crossFade";
+import { Youtube } from "../module/_iframeAPI";
+import { LocalNavigation } from '../module/_LocalNavigation';
+import { Jslider } from "../module/_jslider";
+import {InView} from "../module/_inView";
 
 window.addEventListener('load', () => {
   document.body.classList.add('add-loaded');
@@ -20,9 +20,7 @@ window.addEventListener('load', () => {
 
 new LocalNavigation();
 
-
-
-const modal1 = new Modal();
+new Modal();
 
 const modal2 = new Modal({
   modal: '.js-lpc-modal2',
@@ -74,6 +72,7 @@ const modal3 = new Modal({
   },
   on: {
     afterOpen(e) {
+      console.log(e);
       console.log(modalYT);
       const onPlayerReady = (target) => {
         target.mute();
@@ -82,6 +81,7 @@ const modal3 = new Modal({
       onPlayerReady(modalYT.player[0]);
     },
     afterClose(e) {
+      console.log(e);
       if (modalYT.player[0].getPlayerState() === 1) {
         modalYT.player[0].pauseVideo();
       }
