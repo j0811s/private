@@ -5,7 +5,6 @@
 npm start ： 作業ファイルの変更監視とブラウザシンクを実行する
 npm run build ： 作業ファイルのビルドのみ実行する場合  
 npm run server ： ブラウザシンクのみ実行する場合  
-npm run json ： 各jsonファイルをindex.jsonに結合する  
 
 ※「operation-training/resources」でコマンド実行
 ```
@@ -81,7 +80,6 @@ templates/includes/_head.ejs : <!DOCTYPE html> ~ <body>開始タグの内容
 templates/includes/_header.ejs : body開始タグの下に挿入する内容(index.ejs コンテンツの真上)
 templates/includes/_foot.ejs : </body> ~ </html>の内容
 templates/includes/_footer.ejs : body終了タグの上に挿入する内容(index.ejs コンテンツの真下)
-templates/json/index.json : ejsで扱うJSONファイル（ファイルを分けた場合はコマンドで結合）
 ```
 
 ```

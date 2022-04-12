@@ -22,7 +22,6 @@ const $ = require('gulp-load-plugins')({
 const dartSass = require('gulp-dart-sass');
 const sassGlob = require('gulp-sass-glob-use-forward');
 
-const jsonMerge = require('gulp-merge-json');
 /**
  * webpack関係
  */
@@ -59,26 +58,11 @@ const js = () => {
 
 
 /**
- * JSON結合
- */
-const json = (done) => {
-  src(`${util.filePath.json.src}**/*.json`)
-    .pipe(jsonMerge({
-      fileName: 'index.json',
-      startObj: {},
-      jsonSpace: '  '
-    }))
-    .pipe(dest(util.filePath.json.src));
-  done();
-}
-
-/**
  * EJS出力
  */
 const ejs = done => {
-  const jsonData = fs.existsSync(`${util.filePath.json.src}index.json`) ? JSON.parse(fs.readFileSync(`${util.filePath.json.src}index.json`)) : null;
   src(`${util.filePath.ejs.src}**/!(_)*.ejs`)
-  .pipe($.ejs({jsonData}, {}, {ext: '.html'}))
+  .pipe($.ejs({}, {}, {ext: '.html'}))
   .pipe($.rename({extname:'.html'}))
   .pipe($.htmlmin({
     removeComments : true,
@@ -210,4 +194,3 @@ const watchFiles = done => {
 exports.default = parallel(browser, watchFiles);
 exports.build = util.use.ejs ? parallel(ejs, css, js, img, video) : parallel(html, css, js, img, video);
 exports.server = browser;
-exports.json = json;

@@ -11,9 +11,6 @@ module.exports = {
       src: `../src/${util.rootDir}/${util.projectDir}/templates/`,
       dist: `../dist/${util.rootDir}/${util.projectDir}/`
     },
-    json: {
-      src: `../src/${util.rootDir}/${util.projectDir}/templates/json/`
-    },
     style: {
       src: `../src/${util.rootDir}/${util.projectDir}/assets/org/sass/`,
       dist: `../dist/${util.rootDir}/${util.projectDir}/assets/css/`
