@@ -30,7 +30,7 @@ module.exports = {
   },
   browserSyncOption: {
     port: util.browserSync.port,
-    baseDir: `../dist/${util.rootDir}/${util.projectDir}/`
+    baseDir: util.browserSync && util.browserSync.baseDir ? `../dist/${util.browserSync.baseDir}/` : `../dist/${util.rootDir}/${util.projectDir}/`
   },
   use: {
     ejs: util.use.ejs,
