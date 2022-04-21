@@ -48,7 +48,7 @@ services:
     ports:
       - ${PHPMYADMIN_HOST}:80
     depends_on:
-      - mysql5.7
+      - mysql
     restart: always
 
 volumes:
