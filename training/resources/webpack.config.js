@@ -5,8 +5,8 @@ const WebpackWatchedGlobEntries = require('webpack-watched-glob-entries-plugin')
 const ESLintPlugin = require("eslint-webpack-plugin");
 
 const util = require('./config');
-const entryPath = `${util.filePath.script.src}**/*.js`;
-const ignorePath = `${util.filePath.script.src}**/_*.js`;
+const entryPath = `${util.filePath.script.src}**/*.(js|jsx|tsx)`;
+const ignorePath = `${util.filePath.script.src}**/_*.(js|jsx|tsx)`;
 const distPath = `${__dirname}/${util.filePath.script.dist}`;
 const entries = WebpackWatchedGlobEntries.getEntries([path.resolve(__dirname, entryPath)], {
   ignore: path.resolve(__dirname, ignorePath),
@@ -34,6 +34,7 @@ const baseOption = {
     ],
   },
   resolve: {
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
     alias: {
       npms: process.cwd() + '/node_modules',
       module: process.cwd() + '/modules'
@@ -53,6 +54,10 @@ const baseOption = {
             }
           }
         ]
+      },
+      {
+        test: /\.(tsx|jsx)$/,
+        use: "ts-loader"
       },
       {
         test: /node_modules\/(.+)\.css$/,
