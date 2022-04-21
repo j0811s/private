@@ -35,6 +35,7 @@ const webpackConfig = require("./webpack.config");
  */
 const css = done => {
   src(`${util.filePath.style.src}!(_)*.scss`)
+  .pipe($.plumber())
   .pipe(sassGlob())
   .pipe(dartSass.sync().on('error', dartSass.logError))
   .pipe(dartSass.sync({ outputStyle: 'expanded' }))
