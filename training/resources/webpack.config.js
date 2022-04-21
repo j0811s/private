@@ -18,6 +18,10 @@ const entries = WebpackWatchedGlobEntries.getEntries([path.resolve(__dirname, en
 const baseOption = {
   mode: 'production',
   entry: entries,
+  output: {
+    filename: '[name].js',
+    path: distPath
+  },
   optimization: {
     minimize: true,
     minimizer: [
@@ -71,10 +75,7 @@ const baseOption = {
       exclude: 'node_modules'
     }),
   ],
-  output: {
-    filename: '[name].js',
-    path: distPath
-  }
+  target: ["web", "es5"]
 }
 
 /**
