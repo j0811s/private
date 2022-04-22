@@ -5,12 +5,13 @@ const WebpackWatchedGlobEntries = require('webpack-watched-glob-entries-plugin')
 const ESLintPlugin = require("eslint-webpack-plugin");
 
 const util = require('./config');
-const entryPath = `${util.filePath.script.src}**/*.(js|jsx|tsx)`;
-const ignorePath = `${util.filePath.script.src}**/_*.(js|jsx|tsx)`;
+const entryPath = `${util.filePath.script.src}**/*.js`;
+const entryReactPath = `${util.filePath.script.src}**/*.jsx`;
+const ignorePath = `${util.filePath.script.src}**/_*.js`;
+const ignoreReactPath = `${util.filePath.script.src}**/_*.jsx`;
 const distPath = `${__dirname}/${util.filePath.script.dist}`;
-const entries = WebpackWatchedGlobEntries.getEntries([path.resolve(__dirname, entryPath)], {
-  ignore: path.resolve(__dirname, ignorePath),
-})();
+const entries = WebpackWatchedGlobEntries.getEntries([path.resolve(__dirname, entryPath), path.resolve(__dirname, entryReactPath)],
+  { ignore: [path.resolve(__dirname, ignorePath), path.resolve(__dirname, ignoreReactPath)] })();
 
 /**
  * 基本的な設定値
@@ -34,7 +35,8 @@ const baseOption = {
     ],
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx"],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    modules: [path.resolve(__dirname, 'node_modules')],
     alias: {
       npms: process.cwd() + '/node_modules',
       module: process.cwd() + '/modules'
@@ -43,21 +45,18 @@ const baseOption = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: [/\.jsx?$/],
         use: [
           {
             loader: 'babel-loader',
             options: {
               presets: [
-                '@babel/preset-env'
+                '@babel/preset-env',
+                '@babel/preset-react'
               ]
             }
           }
         ]
-      },
-      {
-        test: /\.(tsx|jsx)$/,
-        use: "ts-loader"
       },
       {
         test: /node_modules\/(.+)\.css$/,
@@ -70,17 +69,17 @@ const baseOption = {
             options: { url: false },
           },
         ],
-      },
+      }
     ]
   },
   plugins: [
     new WebpackWatchedGlobEntries(),
     new ESLintPlugin({
-      // extensions: ['.js'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
       exclude: 'node_modules'
     }),
   ],
-  target: ["web", "es5"]
+  target: ['web', 'es5']
 }
 
 /**
