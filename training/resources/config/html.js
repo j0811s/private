@@ -11,6 +11,4 @@ const htmlmin = {
   quoteCharacter: "\""
 }
 
-module.exports = {
-  htmlmin
-}
+module.exports = htmlmin;

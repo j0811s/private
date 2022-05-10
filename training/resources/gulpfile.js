@@ -126,6 +126,18 @@ const video = done => {
 }
 
 
+/**
+ * その他の出力ファイル
+ */
+const otherFiles = done => {
+  src(util.filePath.other.src, {
+    base: '../src'
+  })
+  .pipe(dest(`${util.filePath.other.dist}`));
+  done();
+}
+
+
  /**
   * ブラウザシンク
   */
@@ -171,6 +183,9 @@ const watchFiles = done => {
   //video
   watch(`${util.filePath.video.src}**/*.mp4`, series(video, browserReload));
 
+  //otherFiles
+  watch(`${util.filePath.other.src}**/*`, series(otherFiles, browserReload));
+
   done();
 };
 
@@ -179,5 +194,5 @@ const watchFiles = done => {
  * 実行
  */
 exports.default = parallel(browser, watchFiles);
-exports.build = util.use.ejs ? parallel(ejs, css, js, img, video) : parallel(html, css, js, img, video);
+exports.build = parallel(util.use.ejs ? ejs : html, css, js, img, video, otherFiles);
 exports.server = browser;

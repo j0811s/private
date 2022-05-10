@@ -6,6 +6,4 @@ const extend = (dest, src) => {
   return dest
 }
 
-module.exports = {
-  extend
-}
+module.exports = extend;

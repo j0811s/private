@@ -1,161 +1,183 @@
-<!DOCTYPE html>
+          <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta content="IE=edge" http-equiv="X-UA-Compatible">
-<meta content="telephone=no" name="format-detection">
-<meta content="width=device-width,initial-scale=1" name="viewport">
-<title>SCRIPT_01</title>
-<link href="https://hoge.jp/" rel="canonical">
-<meta content="hoge" name="description">
-<meta content="https://hoge.jp/" property="og:image">
-<meta content="SCRIPT_01" property="og:title">
-<meta content="article" property="og:type">
-<meta content="https://hoge.jp/" property="og:url">
-<meta content="SCRIPT_01" property="og:site_name">
-<meta content="hoge" property="og:description">
-<link href="./assets/css/index.css?1650601034071" rel="stylesheet">
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2Ces2016%2Ces2017%2CPromise.prototype.finally"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SCRIPT_01</title>
+  <link rel="canonical" href="https://hoge.jp/">
+  <meta name="description" content="hoge">
+  <meta property="og:image" content="https://hoge.jp/">
+  <meta property="og:title" content="SCRIPT_01">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://hoge.jp/">
+  <meta property="og:site_name" content="SCRIPT_01">
+  <meta property="og:description" content="hoge">
+  <link rel="stylesheet" href="./assets/css/index.css?1652189406301">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2Ces2016%2Ces2017%2CPromise.prototype.finally"></script>
 </head>
 <body id="top">
 <header></header>
-<main class="script01">
-<div class="boder"></div>
-<nav class="lpc-navigation" id="js-lpc-navigation">
-<ul class="lpc-navigation_list">
-<li class="lpc-navigation_listItem is-active"><a href="#modal">モーダル</a></li>
-<li class="lpc-navigation_listItem"><a href="#iframe">iframe API</a></li>
-<li class="lpc-navigation_listItem"><a href="#crossfade">crossfade</a></li>
-<li class="lpc-navigation_listItem"><a href="#jslider">jslider</a></li>
-</ul>
-</nav>
-<h1 class="lpc-fade mod-textParent">
-<span class="lpc-fade mod-textChild">サンプルページ</span>
-</h1>
-<div id="root"></div>
-<ul class="modaltest js-lpc-navigation_area mod-inView js-inView" id="modal">
-<li>
-<a href="" class="lpc-mask js-lpc-modal_trigger"><span class="lpc-mask_inner"><span class="lpc-mask_text">モーダルボタン1</span></span></a>
-<div class="lpc-modal js-lpc-modal">
-<div class="lpc-modal_container">
-<button class="lpc-modal_close"></button>
-<div class="lpc-modal_content">
-<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen frameborder="0" height="100%" src="https://www.youtube.com/embed/wKkvbuLhEns" title="YouTube video player" width="100%"></iframe>
-</div>
-</div>
-</div>
-</li>
-<li>
-<a href="" class="lpc-mask js-lpc-modal_trigger"><span class="lpc-mask_inner"><span class="lpc-mask_text">モーダルボタン2</span></span></a>
-<div class="lpc-modal js-lpc-modal mod-modal2">
-<div class="lpc-modal_container">
-<button class="lpc-modal_close"></button>
-<div class="lpc-modal_content">
-<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen frameborder="0" height="100%" src="https://www.youtube.com/embed/HcdzNHCwluM" title="YouTube video player" width="100%"></iframe>
-</div>
-</div>
-</div>
-</li>
-<li>
-<a href="" class="js-lpc-modal_trigger"><span class="lpc-mask_inner"><span class="lpc-mask_text">モーダルボタン3</span></span></a>
-<div class="lpc-modal js-lpc-modal">
-<div class="lpc-modal_container">
-<button class="lpc-modal_close"></button>
-<div class="lpc-modal_content">
-<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen frameborder="0" height="100%" src="https://www.youtube.com/embed/DuU2PQacRkI" title="YouTube video player" width="100%"></iframe>
-</div>
-</div>
-</div>
-</li>
-<li>
-<a href="" class="js-lpc-modal_trigger2">モーダルボタン4</a>
-<div class="lpc-modal js-lpc-modal2 mod-modal2">
-<div class="lpc-modal_container">
-<button class="lpc-modal_close"></button>
-<div class="lpc-modal_content">
-<div>
-<figure class="mod-noModalClose">
-<img alt="" src="https://placehold.jp/1500x450.png">
-</figure>
-<button class="lp-button">閉じる</button>
-<button class="mod-noModalClose mod-test">閉じない</button>
-</div>
-</div>
-</div>
-</div>
-</li>
-<li>
-<a href="" class="js-lpc-modal_trigger2">モーダルボタン5</a>
-<div class="lpc-modal js-lpc-modal2 mod-modal3">
-<div class="lpc-modal_container">
-<button class="lpc-modal_close"></button>
-<div class="lpc-modal_content">
-<div>
-<div class="mod-sample">
-<img alt="" src="https://placehold.jp/1000x2450.png">
-</div>
-<span class="lp-button mod-test">閉じる</span>
-<a href="/">閉じない</a>
-</div>
-</div>
-</div>
-</div>
-</li>
-<li>
-<a href="" id="js-lpc-modal_trigger3">モーダルボタン6 ID</a>
-<div class="lpc-modal" id="js-modal3">
-<div class="lpc-modal_container">
-<button class="lpc-modal_close"></button>
-<div class="lpc-modal_content">
-<div id="js-player3"></div>
-</div>
-</div>
-</div>
-</li>
-</ul>
-<div class="js-lpc-navigation_area" id="iframe">
-<div>
-<div id="js-player1"></div>
-</div>
-<div>
-<div id="js-player2"></div>
-</div>
-<div>
-<div id="js-player"></div>
-</div>
-</div>
-<div class="crossFade js-lpc-navigation_area" id="crossfade">
-<div class="lpc-crossFade js-crossFade">
-<img alt="" src="https://placehold.jp/1001x450.png" class="lpc-crossFade_item js-crossFade_item">
-<img alt="" src="https://placehold.jp/1002x450.png" class="lpc-crossFade_item js-crossFade_item">
-<img alt="" src="https://placehold.jp/1003x450.png" class="lpc-crossFade_item js-crossFade_item">
-<img alt="" src="https://placehold.jp/1004x450.png" class="lpc-crossFade_item js-crossFade_item">
-<img alt="" src="https://placehold.jp/1005x450.png" class="lpc-crossFade_item js-crossFade_item">
-<img alt="" src="https://placehold.jp/1006x450.png" class="lpc-crossFade_item js-crossFade_item">
-</div>
-</div>
-<div class="js-lpc-navigation_area mod-inView js-inView" id="jslider">
-<div class="jslider">
-<div class="jslider_container" id="js-jslider">
-<ul class="jslider_list js-jslider_list">
-<li class="jslider_listItem">
-<img alt="" src="https://placehold.jp/500x500.png">
-</li>
-<li class="jslider_listItem">
-<img alt="" src="https://placehold.jp/510x500.png">
-</li>
-<li class="jslider_listItem">
-<img alt="" src="https://placehold.jp/520x500.png">
-</li>
-<li class="jslider_listItem">
-<img alt="" src="https://placehold.jp/530x500.png">
-</li>
-</ul>
-</div>
-</div>
-</div>
-</main>
-<script src="./assets/js/entry/app.js?1650601034071"></script>
-<script src="./assets/js/entry/main.js?1650601034071"></script>
-</body>
+
+                  <!-- コンテンツ開始 -->
+      <main class="script01">
+        <div class="boder"></div>
+        <!-- ローカルナビ -->
+        <nav id="js-lpc-navigation" class="lpc-navigation">
+          <ul class="lpc-navigation_list">
+            <li class="lpc-navigation_listItem is-active"><a href="#modal">モーダル</a></li>
+            <li class="lpc-navigation_listItem"><a href="#iframe">iframe API</a></li>
+            <li class="lpc-navigation_listItem"><a href="#crossfade">crossfade</a></li>
+            <li class="lpc-navigation_listItem"><a href="#jslider">jslider</a></li>
+          </ul>
+        </nav>
+
+        <h1 class="lpc-fade mod-textParent">
+          <span class="lpc-fade mod-textChild">サンプルページ</span>
+        </h1>
+
+        <!-- React -->
+        <div id="root"></div>
+
+        <!-- モーダル -->
+        <ul id="modal" class="modaltest js-lpc-navigation_area mod-inView js-inView">
+          <li>
+            <a href="" class="lpc-mask js-lpc-modal_trigger"><span class="lpc-mask_inner"><span class="lpc-mask_text">モーダルボタン1</span></span></a>
+            <div class="lpc-modal js-lpc-modal">
+              <div class="lpc-modal_container">
+                <button class="lpc-modal_close"></button>
+                <div class="lpc-modal_content">
+                  <iframe width="100%" height="100%" src="https://www.youtube.com/embed/wKkvbuLhEns" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="" class="lpc-mask js-lpc-modal_trigger"><span class="lpc-mask_inner"><span class="lpc-mask_text">モーダルボタン2</span></span></a>
+            <div class="lpc-modal js-lpc-modal mod-modal2">
+              <div class="lpc-modal_container">
+                <button class="lpc-modal_close"></button>
+                <div class="lpc-modal_content">
+                  <iframe width="100%" height="100%" src="https://www.youtube.com/embed/HcdzNHCwluM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="" class="js-lpc-modal_trigger"><span class="lpc-mask_inner"><span class="lpc-mask_text">モーダルボタン3</span></span></a>
+            <div class="lpc-modal js-lpc-modal">
+              <div class="lpc-modal_container">
+                <button class="lpc-modal_close"></button>
+                <div class="lpc-modal_content">
+                  <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DuU2PQacRkI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="" class="js-lpc-modal_trigger2">モーダルボタン4</a>
+            <div class="lpc-modal js-lpc-modal2 mod-modal2">
+              <div class="lpc-modal_container">
+                <button class="lpc-modal_close"></button>
+                <div class="lpc-modal_content">
+                  <div>
+                    <figure class="mod-noModalClose">
+                      <img src="https://placehold.jp/1500x450.png" alt="">
+                    </figure>
+                    <button class="lp-button">閉じる</button>
+                    <button class="mod-noModalClose mod-test">閉じない</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="" class="js-lpc-modal_trigger2">モーダルボタン5</a>
+            <div class="lpc-modal js-lpc-modal2 mod-modal3">
+              <div class="lpc-modal_container">
+                <button class="lpc-modal_close"></button>
+                <div class="lpc-modal_content">
+                  <div>
+                    <div class="mod-sample">
+                      <img src="https://placehold.jp/1000x2450.png" alt="">
+                    </div>
+                    <span class="lp-button mod-test">閉じる</span>
+                    <a href="/">閉じない</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a id="js-lpc-modal_trigger3" href="" class="">モーダルボタン6 ID</a>
+            <div id="js-modal3" class="lpc-modal">
+              <div class="lpc-modal_container">
+                <button class="lpc-modal_close"></button>
+                <div class="lpc-modal_content">
+                  <div id="js-player3"></div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <!-- /モーダル -->
+
+        <!-- iframe API -->
+        <div id="iframe" class="js-lpc-navigation_area">
+          <div class="">
+            <div id="js-player1"></div>
+          </div>
+          <div class="">
+            <div id="js-player2"></div>
+          </div>
+          <div class="">
+            <div id="js-player"></div>
+          </div>
+        </div>
+        <!-- /iframe API -->
+
+        <!-- crossFade -->
+        <div id="crossfade" class="crossFade js-lpc-navigation_area">
+          <div class="lpc-crossFade js-crossFade">
+            <img class="lpc-crossFade_item js-crossFade_item" src="https://placehold.jp/1001x450.png" alt="">
+            <img class="lpc-crossFade_item js-crossFade_item" src="https://placehold.jp/1002x450.png" alt="">
+            <img class="lpc-crossFade_item js-crossFade_item" src="https://placehold.jp/1003x450.png" alt="">
+            <img class="lpc-crossFade_item js-crossFade_item" src="https://placehold.jp/1004x450.png" alt="">
+            <img class="lpc-crossFade_item js-crossFade_item" src="https://placehold.jp/1005x450.png" alt="">
+            <img class="lpc-crossFade_item js-crossFade_item" src="https://placehold.jp/1006x450.png" alt="">
+          </div>
+        </div>
+        <!-- /crossFade -->
+
+        <!-- jslider -->
+        <div id="jslider" class="js-lpc-navigation_area mod-inView js-inView">
+          <div class="jslider">
+            <div id="js-jslider" class="jslider_container">
+              <ul class="jslider_list js-jslider_list">
+                <li class="jslider_listItem">
+                  <img src="https://placehold.jp/500x500.png" alt="">
+                </li>
+                <li class="jslider_listItem">
+                  <img src="https://placehold.jp/510x500.png" alt="">
+                </li>
+                <li class="jslider_listItem">
+                  <img src="https://placehold.jp/520x500.png" alt="">
+                </li>
+                <li class="jslider_listItem">
+                  <img src="https://placehold.jp/530x500.png" alt="">
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- /jslider -->
+
+      </main>
+      <!-- コンテンツ終了 -->
+
+              <script type="text/javascript" src="./assets/js/entry/app.js?1652189406301"></script>
+<script type="text/javascript" src="./assets/js/entry/main.js?1652189406301"></script>
+                
+                  </body>
 </html>
