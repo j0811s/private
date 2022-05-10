@@ -48,8 +48,6 @@ module.exports = {
 生成されたファイルは、srcディレクトリの構成でdistディレクトリ内に保存される。 
 不要なファイルが混ざっていないか整理しておく。  
 ``` 
-8. masterにマージをすると、以下のようなURLで表示可能。    
-[https://qcoltd.github.io/operation-training/dist/template/kadai/](https://qcoltd.github.io/operation-training/dist/template/kadai/)
 
 ----
 
