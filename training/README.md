@@ -2,11 +2,9 @@
 
 ### gulpタスク 実行コマンド
 ```
-npm start ： 作業ファイルの変更監視とブラウザシンクを実行する
-npm run build ： 作業ファイルのビルドのみ実行する場合  
-npm run server ： ブラウザシンクのみ実行する場合  
-
-※「operation-training/resources」でコマンド実行
+~/private/training/resources/wacth.sh ： 作業ファイルの変更監視とブラウザシンクを実行する
+~/private/training/resources/build.sh ： 作業ファイルのビルドのみ実行する場合  
+~/private/training/resources/server.sh ： ブラウザシンクのみ実行する場合  
 ```
 
 ----
@@ -14,12 +12,12 @@ npm run server ： ブラウザシンクのみ実行する場合
 ### 準備
 1. リポジトリをクローンする。  
 `cd ~`  
-`git clone git@github.com:qcoltd/operation-training.git`  
+`git clone git@github.com:j0811s/private.git`  
 2. 以下のnodeバージョンをインストールする。  
 `nvm i v16.5.0`  
 3. 作業ブランチを作成してチェックアウトする。  
 4. `resources`に移動して、必要なものを導入する。  
-`cd operation-training/resources`  
+`cd ~/private/training/resources/`  
 `npm ci`  
 5. `src`内にある`template`をコピーして、各フォルダをリネームする。  
 `src/name/`  
