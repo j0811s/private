@@ -130,10 +130,12 @@ const video = done => {
  * その他の出力ファイル
  */
 const otherFiles = done => {
-  src(util.filePath.other.src, {
-    base: '../src'
-  })
-  .pipe(dest(`${util.filePath.other.dist}`));
+  if (util.filePath.other.src.length > 0) {
+    src(util.filePath.other.src, {
+      base: '../src'
+    })
+    .pipe(dest(`${util.filePath.other.dist}`));
+  }
   done();
 }
 

@@ -22,7 +22,7 @@ const src = {
   script: `../src/${PJ.rootDir}/${PJ.projectDir}/assets/org/js/`,
   img: `../src/${PJ.rootDir}/${PJ.projectDir}/assets/images/`,
   video: `../src/${PJ.rootDir}/${PJ.projectDir}/assets/video/`,
-  // other: PJ.filePath?.other?.src
+  other: []
 }
 
 const dist = {
@@ -32,7 +32,7 @@ const dist = {
   script: `../dist/${PJ.rootDir}/${PJ.projectDir}/assets/js/`,
   img: `../dist/${PJ.rootDir}/${PJ.projectDir}/assets/images/`,
   video: `../dist/${PJ.rootDir}/${PJ.projectDir}/assets/video/`,
-  // other: `../dist/${PJ.rootDir}/${PJ.projectDir}/`
+  other: `../dist/`
 }
 
 const browserSync = {
@@ -84,8 +84,8 @@ module.exports = {
       dist: get(PJ, 'filePath.video.dist', dist.video)
     },
     other: {
-      src: PJ.filePath?.other?.src,
-      dist: '../dist/'
+      src: get(PJ, 'filePath.other.src', src.other),
+      dist: get(PJ, 'filePath.other.dist', dist.other)
     }
   },
   browserSyncOption: {
