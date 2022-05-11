@@ -1,4 +1,4 @@
-# operation-training
+# training
 
 ### gulpタスク
 ```
