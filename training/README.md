@@ -9,6 +9,15 @@
 
 ----
 
+### Docker
+```
+~/private/training/start.sh： コンテナー起動  
+~/private/training/restart.sh： コンテナー再起動  
+~/private/training/stop.sh： コンテナー停止  
+```
+
+----
+
 ### 準備
 1. リポジトリをクローンする。  
 `cd ~`  
@@ -21,3 +30,4 @@
 `npm ci`  
 5. `src`内にある`template`をコピーして、各フォルダをリネームする。  
 6. `resources`にある`_project.js`をコピーして、`project.js`として複製・編集する。  
+7. `_.env`をコピーして、`.env`として複製・編集する。  
