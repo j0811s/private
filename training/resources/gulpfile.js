@@ -22,8 +22,6 @@ const $ = require('gulp-load-plugins')({
 
 // PHP
 const connect = require('gulp-connect-php');
-// SSI
-const connectSSI = require('connect-ssi');
 
 //node-sassだとNode最新バージョンでエラーが出るためDarSassにすること
 const dartSass = require('gulp-dart-sass');
@@ -155,7 +153,7 @@ const browser = done => {
   if (util.browserSyncOption.proxy) {
     connect.server({
       port: util.browserSyncOption.port,
-      base: util.browserSyncOption.baseDir,
+      base: util.browserSyncOption.server.baseDir,
     }, function (){
       $.browserSync.init({
         open: 'external',
@@ -166,22 +164,7 @@ const browser = done => {
       });
     })
   } else {
-    $.browserSync.init({
-      port: util.browserSyncOption.port,
-      open: 'external',
-      server: {
-        baseDir: util.browserSyncOption.baseDir,
-        index: util.browserSyncOption.index,
-        https: util.browserSyncOption.https,
-        middleware: [
-          connectSSI({
-            ext: '.html',
-            baseDir: util.browserSyncOption.baseDir
-          })
-        ]
-      },
-      reloadOnRestart: true,
-    });
+    $.browserSync.init(util.browserSyncOption);
   }
 
   done();

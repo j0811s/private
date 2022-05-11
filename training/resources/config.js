@@ -3,6 +3,7 @@
  */
 const extend = require('./utility/extend');
 const get = require('./utility/get');
+const connectSSI = require('connect-ssi');
 
 
 /**
@@ -35,12 +36,21 @@ const dist = {
   other: `../dist/`
 }
 
-const browserSync = {
+const defaultBrowserSyncOption = {
   proxy: undefined,
   port: '3000',
-  baseDir: `../dist/${PJ.rootDir}/${PJ.projectDir}/`,
-  index: 'index.html',
-  https: false
+  open: 'external',
+  server: {
+    baseDir: `../dist/${PJ.rootDir}/${PJ.projectDir}/`,
+    index: 'index.html',
+    middleware: [
+      connectSSI({
+        ext: '.html',
+        baseDir: get(PJ, 'browserSync.server.baseDir', `../dist/${PJ.rootDir}/${PJ.projectDir}/`)
+      })
+    ]
+  },
+  reloadOnRestart: true
 }
 
 const use = {
@@ -91,13 +101,7 @@ module.exports = {
       dist: get(PJ, 'filePath.other.dist', dist.other)
     }
   },
-  browserSyncOption: {
-    proxy: get(PJ, 'browserSync.proxy', browserSync.proxy),
-    port: get(PJ, 'browserSync.port', browserSync.port),
-    baseDir: get(PJ, 'browserSync.baseDir', browserSync.baseDir),
-    index: get(PJ, 'browserSync.index', browserSync.index),
-    https: get(PJ, 'browserSync.https', browserSync.https)
-  },
+  browserSyncOption: extend(defaultBrowserSyncOption, PJ.browserSync),
   use: {
     ejs: get(PJ, 'use.ejs', use.ejs),
     jQuery: get(PJ, 'use.jQuery', use.jQuery),

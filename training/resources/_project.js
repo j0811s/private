@@ -6,8 +6,8 @@ const ENV = process.env;
 /**
  * 作業フォルダ
  */
-const WORKSPACE = 'template'; //各員の名前フォルダ
-const PJ = 'project';  //名前フォルダの配下にある課題フォルダ
+const WORKSPACE = 'template';
+const PJ = 'project';
 
 
 /**
@@ -19,8 +19,9 @@ module.exports = {
   browserSync: {
     // proxy: `localhost:${ENV.NGINX_HOST}`, //Docker WordPressのProxy
     // port: '8008',
-    // baseDir: `../dist/`,
-    // index: 'index.html'
+    // server: {
+    //   baseDir: `../dist/${WORKSPACE}/${PJ}/`,
+    // }
   },
   use: {
     ejs: true, //EJSの有無（true, false）
@@ -57,7 +58,7 @@ module.exports = {
     },
     other: {
       src: [
-        `../src/${WORKSPACE}/${PJ}/!(assets)**/*`,
+        `../src/${WORKSPACE}/${PJ}/!(assets|templates)**/*`,
         `../src/${WORKSPACE}/index.php`
       ],
       // dist: `../dist/`
