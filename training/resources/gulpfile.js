@@ -18,6 +18,10 @@ const $ = require('gulp-load-plugins')({
     'imagemin-*'
   ]
 });
+
+// PHP
+const connect = require('gulp-connect-php');
+
 //node-sassだとNode最新バージョンでエラーが出るためDarSassにすること
 const dartSass = require('gulp-dart-sass');
 const sassGlob = require('gulp-sass-glob-use-forward');
@@ -134,6 +138,7 @@ const otherFiles = done => {
     src(util.filePath.other.src, {
       base: '../src'
     })
+    .pipe($.changed(`${util.filePath.other.dist}`))
     .pipe(dest(`${util.filePath.other.dist}`));
   }
   done();
@@ -144,15 +149,31 @@ const otherFiles = done => {
   * ブラウザシンク
   */
 const browser = done => {
-  $.browserSync.init({
-    port: util.browserSyncOption.port,
-    open: 'external',
-    server: {
-      baseDir: util.browserSyncOption.baseDir,
-      index: 'index.html'
-    },
-    reloadOnRestart: true,
-  });
+  if (util.browserSyncOption.proxy) {
+    connect.server({
+      port: util.browserSyncOption.port,
+      base: util.browserSyncOption.baseDir,
+    }, function (){
+      $.browserSync.init({
+        open: 'external',
+        proxy: {
+          target: util.browserSyncOption.proxy, 
+        },
+        reloadOnRestart: true,
+      });
+    })
+  } else {
+    $.browserSync.init({
+      port: util.browserSyncOption.port,
+      open: 'external',
+      server: {
+        baseDir: util.browserSyncOption.baseDir,
+        index: util.browserSyncOption.index,
+        https: util.browserSyncOption.https
+      },
+      reloadOnRestart: true,
+    });
+  }
 
   done();
 }
@@ -186,7 +207,9 @@ const watchFiles = done => {
   watch(`${util.filePath.video.src}**/*.mp4`, series(video, browserReload));
 
   //otherFiles
-  watch(`${util.filePath.other.src}**/*`, series(otherFiles, browserReload));
+  if (util.filePath.other.src.length > 0) {
+    watch(util.filePath.other.src, series(otherFiles, browserReload));
+  }
 
   done();
 };

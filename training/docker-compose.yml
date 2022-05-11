@@ -8,7 +8,6 @@ services:
       - "${NGINX_HOST}:80"
       - "${NGINX_SSL}:443" # "mkcert localhost 127.0.0.1"で証明書を発行している状態
     volumes:
-      # - ./src/${WORKING_DIR}/${PROJECT_DIR}:/var/www/html
       - ./src:/var/www/html
       - ./resources/nginx/conf.d/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./resources/cert/localhost+1.pem:/etc/certs/localhost.pem
@@ -20,7 +19,6 @@ services:
   php7.4:
     build: ./resources/php
     volumes:
-      # - ./src/${WORKING_DIR}/${PROJECT_DIR}:/var/www/html
       - ./src:/var/www/html
     depends_on:
       - mysql

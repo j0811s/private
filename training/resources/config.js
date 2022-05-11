@@ -36,8 +36,11 @@ const dist = {
 }
 
 const browserSync = {
-  port: '8080',
-  baseDir: `../dist/${PJ.rootDir}/${PJ.projectDir}/`
+  proxy: undefined,
+  port: '3000',
+  baseDir: `../dist/${PJ.rootDir}/${PJ.projectDir}/`,
+  index: 'index.html',
+  https: false
 }
 
 const use = {
@@ -89,8 +92,11 @@ module.exports = {
     }
   },
   browserSyncOption: {
+    proxy: get(PJ, 'browserSync.proxy', browserSync.proxy),
     port: get(PJ, 'browserSync.port', browserSync.port),
     baseDir: get(PJ, 'browserSync.baseDir', browserSync.baseDir),
+    index: get(PJ, 'browserSync.index', browserSync.index),
+    https: get(PJ, 'browserSync.https', browserSync.https)
   },
   use: {
     ejs: get(PJ, 'use.ejs', use.ejs),
