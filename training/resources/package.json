@@ -28,6 +28,7 @@
     "babel-loader": "^8.2.5",
     "browser-sync": "^2.26.14",
     "clean-css-cli": "^5.2.2",
+    "connect-ssi": "^1.1.1",
     "css-loader": "^5.2.4",
     "del": "^6.0.0",
     "eslint": "^8.13.0",

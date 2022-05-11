@@ -15,12 +15,15 @@ const $ = require('gulp-load-plugins')({
     'gulp.*',
     'autoprefixer',
     'browser-sync',
-    'imagemin-*'
+    'imagemin-*',
+    'connect-ssi'
   ]
 });
 
 // PHP
 const connect = require('gulp-connect-php');
+// SSI
+const connectSSI = require('connect-ssi');
 
 //node-sassだとNode最新バージョンでエラーが出るためDarSassにすること
 const dartSass = require('gulp-dart-sass');
@@ -169,7 +172,13 @@ const browser = done => {
       server: {
         baseDir: util.browserSyncOption.baseDir,
         index: util.browserSyncOption.index,
-        https: util.browserSyncOption.https
+        https: util.browserSyncOption.https,
+        middleware: [
+          connectSSI({
+            ext: '.html',
+            baseDir: util.browserSyncOption.baseDir
+          })
+        ]
       },
       reloadOnRestart: true,
     });
