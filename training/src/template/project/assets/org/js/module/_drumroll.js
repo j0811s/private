@@ -70,7 +70,7 @@ export default class Drumroll {
       setTimeout(() => {
 
         n.classList.add('add-roll');
-        n.classList.add(`mod-startTime${reverseIndex}`);
+        n.classList.add(`mod-delay${reverseIndex}`);
 
         setTimeout(() => {
           let currentRollNum = 0;
