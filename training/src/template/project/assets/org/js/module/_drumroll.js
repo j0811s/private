@@ -6,7 +6,7 @@ export default class Drumroll {
     this.config = {
       number: 1234567890,
       rollNum: 1,
-      duration: 100, //_drumroll.scss $duration と合わせる
+      duration: 500, //_drumroll.scss $duration と合わせる
       startTime: 1000,
       stopTime: 500,
       comma: true
@@ -69,35 +69,38 @@ export default class Drumroll {
 
       setTimeout(() => {
 
-        n.classList.add('add-roll');
         n.classList.add(`mod-delay${reverseIndex}`);
+        n.classList.add('add-roll');
 
         setTimeout(() => {
           let currentRollNum = 0;
           let rollCount = 0;
-          let targetCount = rollCount + 1;
+          let targetCount = 1;
           
           const intervalId = setInterval(() => {
-            if (rollCount < this.numberLength - 1) {
+            if (rollCount < 9) {
               rollCount++;
             } else {
               rollCount = 0;
               currentRollNum++;
             }
 
-            targetCount < this.numberLength - 1 ? targetCount++ : targetCount = 0;
+            targetCount < 9 ? targetCount++ : targetCount = 0;
 
             n.querySelector('.js-drumroll_roll').textContent = rollCount;
             n.querySelector('.js-drumroll_target').textContent = targetCount;
 
             if (currentRollNum >= this.rollNum) {
-              setTimeout(() => {
-                n.querySelector('.js-drumroll_roll').textContent = endNum;
-                n.querySelector('.js-drumroll_target').textContent = endNum;
-                n.classList.remove('add-roll');
-                n.classList.add(`add-stop`);
-                clearInterval(intervalId);
-              }, i * this.stopTime);
+
+              if (targetCount >= endNum) {
+                // setTimeout(() => {
+                  // n.querySelector('.js-drumroll_roll').textContent = endNum;
+                  // n.querySelector('.js-drumroll_target').textContent = endNum;
+                  n.classList.remove('add-roll');
+                  n.classList.add(`add-stop`);
+                  clearInterval(intervalId);
+                // }, i * this.stopTime);
+              }
             }
 
           }, this.duration)

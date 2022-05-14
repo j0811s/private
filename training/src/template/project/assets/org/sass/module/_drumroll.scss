@@ -1,5 +1,5 @@
 $numberLength: 10;
-$duration: .1s;
+$duration: .5s;
 
 .drumroll{
   display: flex;
@@ -33,8 +33,7 @@ $duration: .1s;
   }
 
   &.add-stop {
-    // animation-play-state: paused;
-    transform: translate3d(0, 50%, 0)!important;
+    animation: drumroll_end $duration linear forwards;
   }
 }
 @keyframes drumroll {
@@ -43,6 +42,14 @@ $duration: .1s;
   }
   to {
     transform: translate3d(0, calc(100% - 57px), 0);
+  }
+}
+@keyframes drumroll_end {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 50%, 0);
   }
 }
 

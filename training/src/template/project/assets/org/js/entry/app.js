@@ -22,7 +22,7 @@ window.addEventListener('load', () => {
   
   new Drumroll('js-drumroll', {
     number: 987654321,
-    rollNum: 3,
+    rollNum: 1,
     // stopTime: 2000,
     startTime: 1000,
     comma: true
