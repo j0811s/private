@@ -4,6 +4,7 @@ import { Youtube } from "../module/_iframeAPI";
 import { LocalNavigation } from '../module/_LocalNavigation';
 import { Jslider } from "../module/_jslider";
 import {InView} from "../module/_inView";
+import Drumroll from "../module/_drumroll";
 
 window.addEventListener('load', () => {
   document.body.classList.add('add-loaded');
@@ -16,7 +17,17 @@ window.addEventListener('load', () => {
     });
 
   }, 0);
+
+  
+  new Drumroll('js-drumroll', {
+    number: 987654321,
+    rollNum: 3,
+    // stopTime: 2000,
+    startTime: 1000,
+    comma: true
+  });
 });
+
 
 new LocalNavigation();
 

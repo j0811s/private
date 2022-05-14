@@ -1,0 +1,57 @@
+$numberLength: 10;
+$duration: .1s;
+
+.drumroll{
+  display: flex;
+  justify-content: center;
+}
+
+.drumroll_inner {
+  overflow: hidden;
+  position: relative;
+  width: 33px;
+  height: 57px;
+}
+
+.drumroll_numbers {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  transition: transform $duration linear;
+
+  &.add-roll {
+    animation: drumroll $duration linear infinite;
+
+    @for $i from 0 through $numberLength {
+      &.mod-delay#{$i} {
+        animation-delay: #{$i * $duration};
+        transition-delay: #{$i * $duration};
+      }
+    }
+  }
+
+  &.add-stop {
+    // animation-play-state: paused;
+    transform: translate3d(0, 50%, 0)!important;
+  }
+}
+@keyframes drumroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, calc(100% - 57px), 0);
+  }
+}
+
+.drumroll_num {
+  display: flex;
+  flex-direction: column;
+}
+
+.drumroll_num,
+.drumroll_comma {
+  font-size: 50px;
+}

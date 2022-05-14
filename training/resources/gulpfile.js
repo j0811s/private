@@ -39,7 +39,7 @@ const webpackConfig = require("./webpack.config");
  * CSS出力
  */
 const css = done => {
-  src(`${util.filePath.style.src}!(_)*.scss`)
+  src(`${util.filePath.style.src}!(_)*.{scss,css}`)
   .pipe($.plumber())
   .pipe(sassGlob())
   .pipe(dartSass.sync().on('error', dartSass.logError))
