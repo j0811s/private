@@ -6,7 +6,7 @@ export default class Drumroll {
     this.config = {
       number: 1234567890,
       rollNum: 1,
-      duration: 500, //_drumroll.scss $duration と合わせる
+      duration: 200, //_drumroll.scss $duration と合わせる
       startTime: 1000,
       stopTime: 500,
       comma: true
@@ -19,7 +19,7 @@ export default class Drumroll {
     this.startTime = this.config.startTime;
     this.stopTime = this.config.stopTime;
     this.comma = this.config.comma;
-    
+
     const number = this.comma ? Number(this.number).toLocaleString() : String(this.number);
     this.numberArray = this._getStringArray(number);
     this.numberLength = [...String(this.number)].length;
@@ -63,20 +63,20 @@ export default class Drumroll {
   }
 
   _init() {
-    [].slice.call(document.getElementsByClassName('js-drumroll_numbers')).forEach((n, i) => {
+    [].slice.call(this.elem.getElementsByClassName('js-drumroll_numbers')).forEach((n, i) => {
       const reverseIndex = (this.numberLength - 1) - i;
       const endNum = Number(n.querySelector('.js-drumroll_target').dataset.num);
 
       setTimeout(() => {
 
-        n.classList.add(`mod-delay${reverseIndex}`);
         n.classList.add('add-roll');
+        n.classList.add(`mod-delay${reverseIndex}`);
 
         setTimeout(() => {
           let currentRollNum = 0;
           let rollCount = 0;
           let targetCount = 1;
-          
+
           const intervalId = setInterval(() => {
             if (rollCount < 9) {
               rollCount++;
@@ -91,16 +91,12 @@ export default class Drumroll {
             n.querySelector('.js-drumroll_target').textContent = targetCount;
 
             if (currentRollNum >= this.rollNum) {
-
-              if (targetCount >= endNum) {
-                // setTimeout(() => {
-                  // n.querySelector('.js-drumroll_roll').textContent = endNum;
-                  // n.querySelector('.js-drumroll_target').textContent = endNum;
-                  n.classList.remove('add-roll');
-                  n.classList.add(`add-stop`);
-                  clearInterval(intervalId);
-                // }, i * this.stopTime);
-              }
+              setTimeout(() => {
+                n.classList.remove('add-roll');
+                n.classList.add(`add-stop`);
+                n.querySelector('.js-drumroll_target').textContent = endNum;
+                clearInterval(intervalId);
+              }, i * this.duration * this.numberLength);
             }
 
           }, this.duration)

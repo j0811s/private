@@ -1,5 +1,5 @@
 $numberLength: 10;
-$duration: .5s;
+$duration: .2s;
 
 .drumroll{
   display: flex;
@@ -20,14 +20,16 @@ $duration: .5s;
   display: flex;
   flex-direction: column-reverse;
   transition: transform $duration linear;
+  transform: translate3d(0, 0, 0);
 
   &.add-roll {
     animation: drumroll $duration linear infinite;
+    // transform: translate3d(0, calc(100% - 57px), 0);
 
     @for $i from 0 through $numberLength {
       &.mod-delay#{$i} {
         animation-delay: #{$i * $duration};
-        transition-delay: #{$i * $duration};
+        // transition-delay: #{$i * $duration};
       }
     }
   }
@@ -46,6 +48,7 @@ $duration: .5s;
 }
 @keyframes drumroll_end {
   from {
+    // transform: translate3d(0, calc(100% - 57px), 0);
     transform: translate3d(0, 0, 0);
   }
   to {

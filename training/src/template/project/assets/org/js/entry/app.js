@@ -21,8 +21,8 @@ window.addEventListener('load', () => {
 
   
   new Drumroll('js-drumroll', {
-    number: 987654321,
-    rollNum: 1,
+    number: 907651321,
+    rollNum: 2,
     // stopTime: 2000,
     startTime: 1000,
     comma: true
