@@ -5,6 +5,7 @@ import { LocalNavigation } from '../module/_LocalNavigation';
 import { Jslider } from "../module/_jslider";
 import {InView} from "../module/_inView";
 import Drumroll from "../module/_drumroll";
+import MouseStalker from "../module/_mouseStalker";
 
 window.addEventListener('load', () => {
   document.body.classList.add('add-loaded');
@@ -28,6 +29,10 @@ window.addEventListener('load', () => {
   });
 });
 
+
+MouseStalker('js-mouseStalker', {
+  // target: document.getElementById('modal')
+});
 
 new LocalNavigation();
 
