@@ -6,6 +6,7 @@ import { Jslider } from "../module/_jslider";
 import {InView} from "../module/_inView";
 import Drumroll from "../module/_drumroll";
 import MouseStalker from "../module/_mouseStalker";
+import Accordion from "../module/_accordion";
 
 window.addEventListener('load', () => {
   document.body.classList.add('add-loaded');
@@ -26,6 +27,10 @@ window.addEventListener('load', () => {
     // stopTime: 2000,
     startTime: 1000,
     comma: true
+  });
+
+  document.getElementById('js-root').addEventListener('click', () => {
+    new Accordion('root');
   });
 });
 
