@@ -47,9 +47,8 @@ export default class Accordion {
   _isDuringExecution() {
     const isUp = (this.type === 'slideUp' && (getComputedStyle(this.elementById).display === 'none' || this.elementById.classList.contains('add-execute')));
     const isDown =  (this.type === 'slideDown' && (getComputedStyle(this.elementById).display !== 'none' || this.elementById.classList.contains('add-execute')));
-    const typeNone = (this.type !== 'slideUp' && this.type !== 'slideDown');
 
-    return isUp || isDown || typeNone;
+    return isUp || isDown;
   }
 
   /**
