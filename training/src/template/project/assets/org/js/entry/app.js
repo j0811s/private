@@ -7,6 +7,7 @@ import {InView} from "../module/_inView";
 import Drumroll from "../module/_drumroll";
 import MouseStalker from "../module/_mouseStalker";
 import Accordion from "../module/_accordion";
+import ScrollLock from "../module/_scrollLock";
 
 window.addEventListener('load', () => {
   document.body.classList.add('add-loaded');
@@ -34,6 +35,10 @@ window.addEventListener('load', () => {
   });
 });
 
+new ScrollLock(null, {
+  sp: true,
+  pc: true
+});
 
 MouseStalker('js-mouseStalker', {
   // target: document.getElementById('modal')
