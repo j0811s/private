@@ -44,13 +44,12 @@ export default class Accordion {
   /**
    * 実行中の判定
    */
-  _duringExecution() {
+  _isDuringExecution() {
     const isUp = (this.type === 'slideUp' && (getComputedStyle(this.elementById).display === 'none' || this.elementById.classList.contains('add-execute')));
     const isDown =  (this.type === 'slideDown' && (getComputedStyle(this.elementById).display !== 'none' || this.elementById.classList.contains('add-execute')));
     const typeNone = (this.type !== 'slideUp' && this.type !== 'slideDown');
 
-    if (isUp || isDown || typeNone) return;
-    this.elementById.classList.add('add-execute');
+    return isUp || isDown || typeNone;
   }
 
   /**
@@ -86,6 +85,7 @@ export default class Accordion {
    */
   _setAnimation() {
     // スタイルセット
+    this.elementById.classList.add('add-execute');
     this.elementById.style.overflow = 'hidden';
     if (this.type === 'slideDown') this.elementById.style.display = 'block';
 
@@ -102,20 +102,13 @@ export default class Accordion {
   }
 
   /**
-   * 初期設定
-   */
-  _init() {
-    this._initSlideToggle();
-    this._duringExecution();
-  }
-
-  /**
    * アニメーション実行
    */
   _execute() {
-    this._init();
+    this._initSlideToggle();
+    if (this._isDuringExecution()) return;
     const animation = this._setAnimation();
-    
+
     const start = new Date();
     const loop = () => {
       const elapsedTime = new Date() - start;
