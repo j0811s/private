@@ -1,5 +1,6 @@
 import './_closest';
 import {userAgent, isHTMLCollection, nodeEach, extend, mediaQuery} from './_util';
+import ScrollLock from "./_scrollLock";
 
 // config 記述サンプル
 // {
@@ -92,34 +93,35 @@ export class Modal {
     return string.slice(0, 1) === '#' ? true : false;
   }
 
-  /** 背景固定 */
-  setBodyFixed() {
-    if (userAgent.isiOS) {
-      this.scrollPosition = window.pageYOffset;
-      document.body.classList.add('is-fixed_ios');
-      document.body.style.top = `-${this.scrollPosition}px`;
-    } else {
-      document.body.classList.add('is-fixed');
-    }
-  }
+  // /** 背景固定 */
+  // setBodyFixed() {
+  //   if (userAgent.isiOS) {
+  //     this.scrollPosition = window.pageYOffset;
+  //     document.body.classList.add('is-fixed_ios');
+  //     document.body.style.top = `-${this.scrollPosition}px`;
+  //   } else {
+  //     document.body.classList.add('is-fixed');
+  //   }
+  // }
 
-  /** 背景固定解除 */
-  setBodyStatic() {
-    if (userAgent.isiOS) {
-      document.body.classList.remove('is-fixed_ios');
-      document.body.style.removeProperty('top');
-      window.scrollTo(0, this.scrollPosition);
-    } else {
-      document.body.classList.remove('is-fixed');
-    }
-  }
+  // /** 背景固定解除 */
+  // setBodyStatic() {
+  //   if (userAgent.isiOS) {
+  //     document.body.classList.remove('is-fixed_ios');
+  //     document.body.style.removeProperty('top');
+  //     window.scrollTo(0, this.scrollPosition);
+  //   } else {
+  //     document.body.classList.remove('is-fixed');
+  //   }
+  // }
 
   /** モーダル開くクリックイベント */
   setOpen(target, index = undefined) {
     target.addEventListener('click', e => {
       e.preventDefault();
       this.beforeOpen(e);
-      this.setBodyFixed();
+      // this.setBodyFixed();
+      new ScrollLock(this.modalWrapper).lock();
       index === undefined ? this.modalWrapper.classList.add('is-open') : this.modalWrapper[index].classList.add('is-open');
       this.afterOpen(e);
     });
@@ -154,7 +156,8 @@ export class Modal {
       if (this.isExclusionSelector(e) || this.isExclusionClass(e)) return
       e.preventDefault();
       this.beforeClose(e);
-      this.setBodyStatic();
+      // this.setBodyStatic();
+      new ScrollLock(this.modalWrapper).unLock();
       e.currentTarget.classList.remove('is-open');
       this.afterClose(e);
     });

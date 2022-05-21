@@ -14,7 +14,7 @@
   <meta property="og:url" content="https://hoge.jp/">
   <meta property="og:site_name" content="SCRIPT_01">
   <meta property="og:description" content="hoge">
-  <link rel="stylesheet" href="./assets/css/index.css?1653127407711">
+  <link rel="stylesheet" href="./assets/css/index.css?1653150514463">
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2Ces2016%2Ces2017%2CPromise.prototype.finally"></script>
 </head>
 <body id="top">
@@ -28,7 +28,7 @@
         
         <!--#include virtual="/ssi.html" -->
 
-        <div class="boder"></div>
+        <!-- <div class="boder"></div> -->
         <!-- ローカルナビ -->
         <nav id="js-lpc-navigation" class="lpc-navigation">
           <ul class="lpc-navigation_list">
@@ -36,13 +36,32 @@
             <li class="lpc-navigation_listItem"><a href="#modal">モーダル</a></li>
             <li class="lpc-navigation_listItem"><a href="#iframe">iframe API</a></li>
             <li class="lpc-navigation_listItem"><a href="#crossfade">crossfade</a></li>
-            <li class="lpc-navigation_listItem"><a href="#jslider">jslider</a></li>
           </ul>
         </nav>
 
         <h1 class="lpc-fade mod-textParent">
           <span class="lpc-fade mod-textChild">サンプルページ</span>
         </h1>
+
+        <br>
+        <button id="js-scrollLock">スクロールロック</button>
+        <button id="js-scrollUnLock">スクロールアンロック</button>
+        <ul>
+          <li>
+            <button id="js-scrollLock_modalBtn">モーダル スクロールロック</button>
+            <div id="js-scrollLock_modal" class="lpc-modal">
+              <div class="lpc-modal_container">
+                <button class="lpc-modal_close"></button>
+                <div class="lpc-modal_content" style="display: block;">
+                  <p>サンプルテキスト</p>
+                  <figure class="mod-noModalClose">
+                    <img src="https://placehold.jp/1000x2700.png" alt="">
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
 
         <!-- React -->
         <br>
@@ -164,34 +183,11 @@
         </div>
         <!-- /crossFade -->
 
-        <!-- jslider -->
-        <div id="jslider" class="js-lpc-navigation_area mod-inView js-inView">
-          <div class="jslider">
-            <div id="js-jslider" class="jslider_container">
-              <ul class="jslider_list js-jslider_list">
-                <li class="jslider_listItem">
-                  <img src="https://placehold.jp/500x500.png" alt="">
-                </li>
-                <li class="jslider_listItem">
-                  <img src="https://placehold.jp/510x500.png" alt="">
-                </li>
-                <li class="jslider_listItem">
-                  <img src="https://placehold.jp/520x500.png" alt="">
-                </li>
-                <li class="jslider_listItem">
-                  <img src="https://placehold.jp/530x500.png" alt="">
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!-- /jslider -->
-
       </main>
       <!-- コンテンツ終了 -->
 
-              <script type="text/javascript" src="./assets/js/entry/app.js?1653127407711"></script>
-<script type="text/javascript" src="./assets/js/entry/main.js?1653127407711"></script>
+              <script type="text/javascript" src="./assets/js/entry/app.js?1653150514463"></script>
+<script type="text/javascript" src="./assets/js/entry/main.js?1653150514463"></script>
                 
                   </body>
 </html>

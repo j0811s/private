@@ -2,12 +2,19 @@ import { Modal } from "../module/_modal";
 import { crossFade } from "../module/_crossFade";
 import { Youtube } from "../module/_iframeAPI";
 import { LocalNavigation } from '../module/_LocalNavigation';
-import { Jslider } from "../module/_jslider";
 import {InView} from "../module/_inView";
 import Drumroll from "../module/_drumroll";
 import MouseStalker from "../module/_mouseStalker";
 import Accordion from "../module/_accordion";
 import ScrollLock from "../module/_scrollLock";
+
+
+const scrollLock = new ScrollLock(null, {
+  disable: {
+    sp: false,
+    pc: true
+  }
+});
 
 window.addEventListener('load', () => {
   document.body.classList.add('add-loaded');
@@ -33,12 +40,25 @@ window.addEventListener('load', () => {
   document.getElementById('js-root').addEventListener('click', () => {
     new Accordion('root');
   });
+
+  document.getElementById('js-scrollLock').addEventListener('click', () => {
+    scrollLock.lock();
+  });
+
+  document.getElementById('js-scrollUnLock').addEventListener('click', () => {
+    scrollLock.unLock();
+  })
+
+  const scrollLockModal = new Modal({
+    modal: '#js-scrollLock_modal',
+    trigger: {
+      open: '#js-scrollLock_modalBtn',
+      noCloseSelectorNames: ['a', 'dd', 'img'],
+      noCloseClassNames: ['mod-noModalClose']
+    }
+  });
 });
 
-new ScrollLock(null, {
-  sp: true,
-  pc: true
-});
 
 MouseStalker('js-mouseStalker', {
   // target: document.getElementById('modal')
@@ -172,11 +192,3 @@ new Youtube({
 });
 
 // new Youtube();
-
-new Jslider('#js-jslider', {
-  initialSlide: 0,
-  slidesToShow: 1,
-  arrows: true,
-  dots: true,
-  swipe: true
-});

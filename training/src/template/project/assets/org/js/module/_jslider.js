@@ -1,5 +1,30 @@
 import { getDeviceEvent, extend } from './_util';
 
+/**
+ * 
+        <!-- jslider -->
+        <div id="jslider" class="js-lpc-navigation_area mod-inView js-inView">
+          <div class="jslider">
+            <div id="js-jslider" class="jslider_container">
+              <ul class="jslider_list js-jslider_list">
+                <li class="jslider_listItem">
+                  <img src="https://placehold.jp/500x500.png" alt="">
+                </li>
+                <li class="jslider_listItem">
+                  <img src="https://placehold.jp/510x500.png" alt="">
+                </li>
+                <li class="jslider_listItem">
+                  <img src="https://placehold.jp/520x500.png" alt="">
+                </li>
+                <li class="jslider_listItem">
+                  <img src="https://placehold.jp/530x500.png" alt="">
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- /jslider -->
+ */
 export class Jslider {
   constructor(container, option) {
     /**
