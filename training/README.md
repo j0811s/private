@@ -2,7 +2,7 @@
 
 ### gulpタスク
 ```
-~/private/training/resources/wacth.sh
+~/private/training/resources/watch.sh
 ~/private/training/resources/build.sh
 ~/private/training/resources/server.sh
 ```
