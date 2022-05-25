@@ -1,13 +1,13 @@
 {
   "name": "resources",
   "version": "1.0.0",
-  "description": "コーディング練習",
+  "description": "private",
   "main": "index.js",
   "scripts": {
     "start": "npx gulp",
     "build": "npx gulp build",
-    "server": "npx gulp server",
-    "eslint": "eslint ../src/**/entry/*.js"
+    "server": "node server.js",
+    "eslint": "eslint ../htdocs/**/entry/*.js"
   },
   "keywords": [],
   "author": "",
