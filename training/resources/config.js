@@ -85,14 +85,12 @@ const use = {
   imagemin: {
     jpg: false, //ex. 80
     png: false //ex. [.70, .80]
+  },
+  minify: {
+    html: true,
+    css: true,
+    js: true
   }
-}
-
-
-const minify = {
-  html: true,
-  css: true,
-  js: true,
 }
 
 
@@ -137,11 +135,11 @@ module.exports = {
     imagemin: {
       jpg: get(PJ, 'use.imagemin.jpg', use.imagemin.jpg),
       png: get(PJ, 'use.imagemin.png', use.imagemin.png),
+    },
+    minify: {
+      html: get(PJ, 'use.minify.html', use.minify.html) == true ? htmlmin : false,
+      css: get(PJ, 'use.minify.css', use.minify.css),
+      js: get(PJ, 'use.minify.js', use.minify.js)
     }
-  },
-  minify: {
-    html: get(PJ, 'minify.html', minify.html) == true ? htmlmin : false,
-    css: get(PJ, 'minify.css', minify.css),
-    js: get(PJ, 'minify.js', minify.js)
   }
 }

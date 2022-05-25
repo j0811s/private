@@ -34,8 +34,8 @@ const webpackConfig = require("./webpack.config");
  * minifyフラグ
  */
 const minify = {
-  html: config.minify.html,
-  css: !!config.minify.css
+  html: config.use.minify.html,
+  css: !!config.use.minify.css
 }
 
 

@@ -5,7 +5,7 @@ const WebpackWatchedGlobEntries = require('webpack-watched-glob-entries-plugin')
 const ESLintPlugin = require("eslint-webpack-plugin");
 
 const config = require('./config');
-const minify = !!config.minify.js;
+const minify = !!config.use.minify.js;
 const entryPath = `${config.filePath.js.src}**/*.js`;
 const entryReactPath = `${config.filePath.js.src}**/*.jsx`;
 const ignorePath = `${config.filePath.js.src}**/_*.js`;

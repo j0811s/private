@@ -28,17 +28,12 @@ const browserSync = {
  */
 const use = {
   ejs: true,
-  jQuery: false
-}
-
-
-/**
- * minify設定
- */
-const minify = {
-  html: false,
-  css: false,
-  js: false
+  jQuery: false,
+  minify: {
+    html: true,
+    css: true,
+    js: true
+  }
 }
 
 
@@ -87,6 +82,5 @@ module.exports = {
   projectDir,
   browserSync,
   use,
-  minify,
   filePath
 }
