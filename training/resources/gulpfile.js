@@ -34,7 +34,7 @@ const webpackConfig = require("./webpack.config");
  * CSS出力
  */
 const css = done => {
-  src(`${config.filePath.style.src}!(_)*.{scss,css}`)
+  src(`${config.filePath.css.src}!(_)*.{scss,css}`)
   .pipe($.plumber())
   .pipe(sassGlob())
   .pipe(dartSass.sync().on('error', dartSass.logError))
@@ -43,7 +43,7 @@ const css = done => {
   .pipe($.header('@charset "UTF-8";\n\n'))
   .pipe($.postcss([ $.autoprefixer({cascade: false, grid: true}) ]))
   .pipe($.cleanCss())
-  .pipe(dest(config.filePath.style.dist));
+  .pipe(dest(config.filePath.css.dist));
 
   done();
 }
@@ -54,7 +54,7 @@ const css = done => {
  */
 const js = () => {
   return webpackStream(webpackConfig, webpack)
-  .pipe(dest(config.filePath.script.dist));
+  .pipe(dest(config.filePath.js.dist));
 }
 
 
@@ -168,10 +168,10 @@ const watchFiles = done => {
   }
   
   //css
-  watch(`${config.filePath.style.src}**/*.scss`, css);
+  watch(`${config.filePath.css.src}**/*.scss`, css);
 
   //js
-  watch(`${config.filePath.script.src}**/*.js`, js);
+  watch(`${config.filePath.js.src}**/*.js`, js);
 
   //img
   watch(`${config.filePath.img.src}**/*.{png,jpg,svg,gif,jpeg,ico}`, img);
