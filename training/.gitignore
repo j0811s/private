@@ -18,4 +18,4 @@ wp-*.php
 **/wp-content/uploads
 **/wp-content/upgrade
 **/wp-content/plugins
-# **/wp-content/themes/*​
+**/wp-content/themes/twentytwenty
