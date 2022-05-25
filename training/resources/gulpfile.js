@@ -1,7 +1,7 @@
 /**
  * 定義ファイル
  */
-const util = require('./config');
+const config = require('./config');
 
 const fs = require('fs');
 
@@ -14,14 +14,9 @@ const $ = require('gulp-load-plugins')({
     'gulp-*',
     'gulp.*',
     'autoprefixer',
-    'browser-sync',
-    'imagemin-*',
-    'connect-ssi'
+    'imagemin-*'
   ]
 });
-
-// PHP
-const connect = require('gulp-connect-php');
 
 //node-sassだとNode最新バージョンでエラーが出るためDarSassにすること
 const dartSass = require('gulp-dart-sass');
@@ -39,7 +34,7 @@ const webpackConfig = require("./webpack.config");
  * CSS出力
  */
 const css = done => {
-  src(`${util.filePath.style.src}!(_)*.{scss,css}`)
+  src(`${config.filePath.style.src}!(_)*.{scss,css}`)
   .pipe($.plumber())
   .pipe(sassGlob())
   .pipe(dartSass.sync().on('error', dartSass.logError))
@@ -48,7 +43,7 @@ const css = done => {
   .pipe($.header('@charset "UTF-8";\n\n'))
   .pipe($.postcss([ $.autoprefixer({cascade: false, grid: true}) ]))
   .pipe($.cleanCss())
-  .pipe(dest(util.filePath.style.dist));
+  .pipe(dest(config.filePath.style.dist));
 
   done();
 }
@@ -59,7 +54,7 @@ const css = done => {
  */
 const js = () => {
   return webpackStream(webpackConfig, webpack)
-  .pipe(dest(util.filePath.script.dist));
+  .pipe(dest(config.filePath.script.dist));
 }
 
 
@@ -67,11 +62,11 @@ const js = () => {
  * EJS出力
  */
 const ejs = done => {
-  src(`${util.filePath.ejs.src}**/!(_)*.ejs`)
+  src(`${config.filePath.ejs.src}**/!(_)*.ejs`)
   .pipe($.ejs({}, {}, {ext: '.html'}))
   .pipe($.rename({extname:'.html'}))
-  .pipe($.htmlmin(util.html.option))
-  .pipe(dest(util.filePath.ejs.dist));
+  .pipe($.htmlmin(config.html.option))
+  .pipe(dest(config.filePath.ejs.dist));
 
   done();
 }
@@ -81,10 +76,25 @@ const ejs = done => {
  * HTML出力(ejs無しパターン)
  */
 const html = done => {
-  src(`${util.filePath.html.src}**/*.html`)
-  .pipe($.htmlmin(util.html.option))
-  .pipe(dest(util.filePath.html.dist));
+  src(`${config.filePath.html.src}**/*.html`)
+  .pipe($.htmlmin(config.html.option))
+  .pipe(dest(config.filePath.html.dist));
 
+  done();
+}
+
+
+/**
+* WordPress関連出力
+*/
+const wp = done => {
+  if (config.filePath.wordpress.src.length > 0) {
+    src(config.filePath.wordpress.src, { 
+      base: '../src' 
+    })
+    .pipe($.changed(`${config.filePath.wordpress.dist}`))
+    .pipe(dest(config.filePath.wordpress.dist));
+  }
   done();
 }
 
@@ -93,27 +103,27 @@ const html = done => {
  * 画像出力
  */
 const img = done => {
-  if ((util.use.imagemin.jpg || util.use.imagemin.png) !== false) {
-    const isUseBool = [util.use.imagemin.jpg, util.use.imagemin.png];
+  if ((config.use.imagemin.jpg || config.use.imagemin.png) !== false) {
+    const isUseBool = [config.use.imagemin.jpg, config.use.imagemin.png];
     const minOption = [
       $.imageminMozjpeg({
-        quality: util.use.imagemin.jpg
+        quality: config.use.imagemin.jpg
       }),
       $.imageminPngquant({
-        quality: util.use.imagemin.png,
+        quality: config.use.imagemin.png,
         speed: 1
       })
     ];
     isUseBool.some((option, i) => option === false ? minOption.splice(i, 1) : minOption);
   
-    src(`${util.filePath.img.src}**/*.{png,jpg,svg,gif,jpeg,ico}`)
-    .pipe($.changed(`${util.filePath.img.dist}`))
+    src(`${config.filePath.img.src}**/*.{png,jpg,svg,gif,jpeg,ico}`)
+    .pipe($.changed(`${config.filePath.img.dist}`))
     .pipe($.imagemin(minOption))
-    .pipe(dest(`${util.filePath.img.dist}`));
+    .pipe(dest(`${config.filePath.img.dist}`));
   } else {
-    src(`${util.filePath.img.src}**/*.{png,jpg,svg,gif,jpeg,ico}`)
-    .pipe($.changed(`${util.filePath.img.dist}`))
-    .pipe(dest(`${util.filePath.img.dist}`));
+    src(`${config.filePath.img.src}**/*.{png,jpg,svg,gif,jpeg,ico}`)
+    .pipe($.changed(`${config.filePath.img.dist}`))
+    .pipe(dest(`${config.filePath.img.dist}`));
   }
 
   done();
@@ -124,9 +134,9 @@ const img = done => {
  * 動画出力
  */
 const video = done => {
-  src(`${util.filePath.video.src}**/*.mp4`)
-  .pipe($.changed(`${util.filePath.video.dist}`))
-  .pipe(dest(`${util.filePath.video.dist}`));
+  src(`${config.filePath.video.src}**/*.mp4`)
+  .pipe($.changed(`${config.filePath.video.dist}`))
+  .pipe(dest(`${config.filePath.video.dist}`));
   done();
 }
 
@@ -135,42 +145,13 @@ const video = done => {
  * その他の出力ファイル
  */
 const otherFiles = done => {
-  if (util.filePath.other.src.length > 0) {
-    src(util.filePath.other.src, {
+  if (config.filePath.other.src.length > 0) {
+    src(config.filePath.other.src, {
       base: '../src'
     })
-    .pipe($.changed(`${util.filePath.other.dist}`))
-    .pipe(dest(`${util.filePath.other.dist}`));
+    .pipe($.changed(`${config.filePath.other.dist}`))
+    .pipe(dest(`${config.filePath.other.dist}`));
   }
-  done();
-}
-
-
- /**
-  * ブラウザシンク
-  */
-const browser = done => {
-  if (util.browserSyncOption.proxy) {
-    connect.server({
-      port: util.browserSyncOption.port,
-      base: util.browserSyncOption.server.baseDir,
-    }, function (){
-      $.browserSync.init({
-        open: 'external',
-        proxy: {
-          target: util.browserSyncOption.proxy, 
-        },
-        reloadOnRestart: true,
-      });
-    })
-  } else {
-    $.browserSync.init(util.browserSyncOption);
-  }
-
-  done();
-}
-const browserReload = done =>  {
-  $.browserSync.reload();
   done();
 }
 
@@ -180,36 +161,40 @@ const browserReload = done =>  {
  */
 const watchFiles = done => {
   //html
-  if (util.use.ejs) {
-    watch(`${util.filePath.ejs.src}**/*.ejs`, series(ejs, browserReload));
+  if (config.use.ejs) {
+    watch(`${config.filePath.ejs.src}**/*.ejs`, ejs);
   } else {
-    watch(`${util.filePath.html.src}**/*.html`, series(html, browserReload));
+    watch(`${config.filePath.html.src}**/*.html`, html);
   }
   
   //css
-  watch(`${util.filePath.style.src}**/*.scss`, series(css, browserReload));
+  watch(`${config.filePath.style.src}**/*.scss`, css);
 
   //js
-  watch(`${util.filePath.script.src}**/*.js`, series(js, browserReload));
+  watch(`${config.filePath.script.src}**/*.js`, js);
 
   //img
-  watch(`${util.filePath.img.src}**/*.{png,jpg,svg,gif,jpeg,ico}`, series(img, browserReload));
+  watch(`${config.filePath.img.src}**/*.{png,jpg,svg,gif,jpeg,ico}`, img);
 
   //video
-  watch(`${util.filePath.video.src}**/*.mp4`, series(video, browserReload));
+  watch(`${config.filePath.video.src}**/*.mp4`, video);
+
+  //wordpress
+  if (config.filePath.wordpress.src.length > 0) {
+    watch(config.filePath.wordpress.src, wp);
+  }
 
   //otherFiles
-  if (util.filePath.other.src.length > 0) {
-    watch(util.filePath.other.src, series(otherFiles, browserReload));
+  if (config.filePath.other.src.length > 0) {
+    watch(config.filePath.other.src, otherFiles);
   }
 
   done();
-};
+}
 
 
 /**
  * 実行
  */
-exports.default = parallel(browser, watchFiles);
-exports.build = parallel(util.use.ejs ? ejs : html, css, js, img, video, otherFiles);
-exports.server = browser;
+exports.default = watchFiles;
+exports.build = parallel(config.use.ejs ? ejs : html, css, js, img, video, wp, otherFiles);

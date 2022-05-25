@@ -17,41 +17,69 @@ const htmlmin = require('./config/html');
  * 既定値
  */
 const src = {
-  html: `../src/${PJ.rootDir}/${PJ.projectDir}/`,
-  ejs: `../src/${PJ.rootDir}/${PJ.projectDir}/templates/`,
-  style: `../src/${PJ.rootDir}/${PJ.projectDir}/assets/org/sass/`,
-  script: `../src/${PJ.rootDir}/${PJ.projectDir}/assets/org/js/`,
-  img: `../src/${PJ.rootDir}/${PJ.projectDir}/assets/images/`,
-  video: `../src/${PJ.rootDir}/${PJ.projectDir}/assets/video/`,
+  html: `../src/${PJ.workspace}/${PJ.projectDir}/`,
+  ejs: `../src/${PJ.workspace}/${PJ.projectDir}/templates/`,
+  wordpress: [],
+  css: `../src/${PJ.workspace}/${PJ.projectDir}/assets/org/sass/`,
+  js: `../src/${PJ.workspace}/${PJ.projectDir}/assets/org/js/`,
+  img: `../src/${PJ.workspace}/${PJ.projectDir}/assets/images/`,
+  video: `../src/${PJ.workspace}/${PJ.projectDir}/assets/video/`,
   other: []
 }
 
 const dist = {
-  html: `../dist/${PJ.rootDir}/${PJ.projectDir}/`,
-  ejs: `../dist/${PJ.rootDir}/${PJ.projectDir}/`,
-  style: `../dist/${PJ.rootDir}/${PJ.projectDir}/assets/css/`,
-  script: `../dist/${PJ.rootDir}/${PJ.projectDir}/assets/js/`,
-  img: `../dist/${PJ.rootDir}/${PJ.projectDir}/assets/images/`,
-  video: `../dist/${PJ.rootDir}/${PJ.projectDir}/assets/video/`,
+  html: `../dist/${PJ.workspace}/${PJ.projectDir}/`,
+  ejs: `../dist/${PJ.workspace}/${PJ.projectDir}/`,
+  wordpress: `../dist/`,
+  css: `../dist/${PJ.workspace}/${PJ.projectDir}/assets/css/`,
+  js: `../dist/${PJ.workspace}/${PJ.projectDir}/assets/js/`,
+  img: `../dist/${PJ.workspace}/${PJ.projectDir}/assets/images/`,
+  video: `../dist/${PJ.workspace}/${PJ.projectDir}/assets/video/`,
   other: `../dist/`
 }
 
-const defaultBrowserSyncOption = {
+
+const browserSyncBaseDir = `../dist/${PJ.workspace}/${PJ.projectDir}/`;
+const browserSyncBaseOption = {
   proxy: undefined,
   port: '3000',
   open: 'external',
+  https: false,
   server: {
-    baseDir: `../dist/${PJ.rootDir}/${PJ.projectDir}/`,
+    baseDir: browserSyncBaseDir,
     index: 'index.html',
     middleware: [
       connectSSI({
         ext: '.html',
-        baseDir: get(PJ, 'browserSync.server.baseDir', `../dist/${PJ.rootDir}/${PJ.projectDir}/`)
+        baseDir: get(PJ, 'browserSync.server.baseDir', `../dist/${PJ.workspace}/${PJ.projectDir}`)
       })
     ]
   },
-  reloadOnRestart: true
+  reloadOnRestart: true,
+  files: [
+    `${browserSyncBaseDir}**/*.html`,
+    `${browserSyncBaseDir}**/*.php`,
+    `${browserSyncBaseDir}**/*.css`,
+    `${browserSyncBaseDir}**/*.js`,
+  ]
 }
+extend(browserSyncBaseOption, PJ.browserSync);
+
+const browserSyncProxyOption = {
+  https: true,
+  open: 'external',
+  proxy: PJ.browserSync.proxy,
+  reloadOnRestart: true,
+  files: [
+    `${browserSyncBaseDir}**/*.html`,
+    `${browserSyncBaseDir}**/*.php`,
+    `${browserSyncBaseDir}**/*.css`,
+    `${browserSyncBaseDir}**/*.js`,
+  ]
+}
+
+const browserSyncOption = PJ.browserSync.proxy ? browserSyncProxyOption : browserSyncBaseOption;
+
 
 const use = {
   ejs: true,
@@ -80,13 +108,17 @@ module.exports = {
       src: get(PJ, 'filePath.ejs.src', src.ejs),
       dist: get(PJ, 'filePath.ejs.dist', dist.ejs)
     },
-    style: {
-      src: get(PJ, 'filePath.style.src', src.style),
-      dist: get(PJ, 'filePath.style.dist', dist.style)
+    wordpress: {
+      src: get(PJ, 'filePath.wordpress.src', src.wordpress),
+      dist: get(PJ, 'filePath.wordpress.dist', dist.wordpress) 
     },
-    script: {
-      src: get(PJ, 'filePath.script.src', src.script),
-      dist: get(PJ, 'filePath.script.dist', dist.script)
+    css: {
+      src: get(PJ, 'filePath.css.src', src.css),
+      dist: get(PJ, 'filePath.css.dist', dist.css)
+    },
+    js: {
+      src: get(PJ, 'filePath.js.src', src.js),
+      dist: get(PJ, 'filePath.js.dist', dist.js)
     },
     img: {
       src: get(PJ, 'filePath.img.src', src.img),
@@ -101,7 +133,7 @@ module.exports = {
       dist: get(PJ, 'filePath.other.dist', dist.other)
     }
   },
-  browserSyncOption: extend(defaultBrowserSyncOption, PJ.browserSync),
+  browserSyncOption,
   use: {
     ejs: get(PJ, 'use.ejs', use.ejs),
     jQuery: get(PJ, 'use.jQuery', use.jQuery),

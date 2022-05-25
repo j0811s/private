@@ -4,12 +4,12 @@ const TerserPlugin = require('terser-webpack-plugin');
 const WebpackWatchedGlobEntries = require('webpack-watched-glob-entries-plugin');
 const ESLintPlugin = require("eslint-webpack-plugin");
 
-const util = require('./config');
-const entryPath = `${util.filePath.script.src}**/*.js`;
-const entryReactPath = `${util.filePath.script.src}**/*.jsx`;
-const ignorePath = `${util.filePath.script.src}**/_*.js`;
-const ignoreReactPath = `${util.filePath.script.src}**/_*.jsx`;
-const distPath = `${__dirname}/${util.filePath.script.dist}`;
+const config = require('./config');
+const entryPath = `${config.filePath.js.src}**/*.js`;
+const entryReactPath = `${config.filePath.js.src}**/*.jsx`;
+const ignorePath = `${config.filePath.js.src}**/_*.js`;
+const ignoreReactPath = `${config.filePath.js.src}**/_*.jsx`;
+const distPath = `${__dirname}/${config.filePath.js.dist}`;
 const entries = WebpackWatchedGlobEntries.getEntries([path.resolve(__dirname, entryPath), path.resolve(__dirname, entryReactPath)],
   { ignore: [path.resolve(__dirname, ignorePath), path.resolve(__dirname, ignoreReactPath)] })();
 
@@ -98,6 +98,6 @@ const usejQuery = new webpack.ProvidePlugin({
 let option = baseOption;
 
 //jQueryを利用する場合
-if (util.use.jQuery) option = Object.assign(baseOption, { plugins : [ usejQuery ]});
+if (config.use.jQuery) option = Object.assign(baseOption, { plugins : [ usejQuery ]});
 
 module.exports = option;

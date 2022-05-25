@@ -1,75 +1,94 @@
 const path = require('path');
-const dotenv = require('dotenv');
-dotenv.config({path: path.join(__dirname, '../.env')});
-const ENV = process.env;
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 
 /**
  * 作業フォルダ
  */
-const WORKSPACE = 'template';
-const PJ = 'project';
+// 通常向け
+const workspace = 'template'; // 作業場所
+const projectDir = 'kadai'; // ページまでのpath
 
+// WordPress向け
+// const workspace = 'training'; // 作業場所
+// const projectDir = 'wp-sample/wp'; // ページまでのpath
+// const wpThemeName = 'wp-practice'; // WordPressテーマ名
 
 /**
- * ブラウザシンク
+ * ブラウザシンク設定
  */
 const browserSync = {
-  // proxy: `localhost:${ENV.NGINX_HOST}`, //Docker WordPressのProxy
-  // port: '8008',
-  // server: {
-  //   baseDir: `../dist/${WORKSPACE}/${PJ}/`,
-  // }
-}
-
-
-/**
- * 機能有無
- */
-const use = {
-  ejs: true, //EJSの有無（true, false）
-  jQuery: false, //jQueryの有無（true, false）
-  imagemin: {
-    jpg: false, //JPEG画質（Number, false）
-    png: false //PNG画質（Array, false）
+  // proxy: `localhost:${process.env.NGINX_HOST}`, //Docker WordPress用（serverと共存不可）
+  server: {
+    baseDir: `../dist/${workspace}/${projectDir}/`,
+    index: 'index.html'
   }
 }
 
+/**
+ * 使用する機能
+ */
+const use = {
+  ejs: true,
+  jQuery: false
+}
 
 /**
- * ファイルパス
+ * 各種ファイルパスの指定
  */
+const wpThemePath = `wp-content/themes/${wpThemeName}`;
 const filePath = {
   html: {
-    src: `../src/${WORKSPACE}/${PJ}/`,
-    dist: `../dist/${WORKSPACE}/${PJ}/`
+    src: `../src/${workspace}/${projectDir}/`,
+    dist: `../dist/${workspace}/${projectDir}/`,
   },
   ejs: {
-    src: `../src/${WORKSPACE}/${PJ}/templates/`,
-    dist: `../dist/${WORKSPACE}/${PJ}/`
+    src: `../src/${workspace}/${projectDir}/templates/`,
+    dist: `../dist/${workspace}/${projectDir}/`,
   },
-  style: {
-    src: `../src/${WORKSPACE}/${PJ}/assets/org/sass/`,
-    dist: `../dist/${WORKSPACE}/${PJ}/assets/css/`
+  wordpress: {
+    src: [
+      // `../src/${workspace}/${projectDir}/${wpThemePath}/`,
+      // `../src/${workspace}/${projectDir}/*`,
+      // `../src/${workspace}/${projectDir}/**/*`,
+      // `!../src/${workspace}/${projectDir}/${wpThemePath}/assets/**`,
+      // `../src/${workspace}/${projectDir}/${wpThemePath}/*.{php,css}`,
+      // // PHPテスト用
+      // `../src/index.php`,
+    ],
+    dist: `../dist/`
   },
-  script: {
-    src: `../src/${WORKSPACE}/${PJ}/assets/org/js/`,
-    dist: `../dist/${WORKSPACE}/${PJ}/assets/js/`
+  css: {
+    src: `../src/${workspace}/${projectDir}/assets/org/sass/`,
+    dist: `../dist/${workspace}/${projectDir}/assets/css/`,
+    // src: `../src/${workspace}/${projectDir}/${wpThemePath}/assets/org/sass/`, //例.WordPress
+    // dist: `../dist/${workspace}/${projectDir}/${wpThemePath}/assets/css/` //例.WordPress
+  },
+  js: {
+    src: `../src/${workspace}/${projectDir}/assets/org/js/`,
+    dist: `../dist/${workspace}/${projectDir}/assets/js/`,
+    // src: `../src/${workspace}/${projectDir}/${wpThemePath}/assets/org/js/`, //例.WordPress
+    // dist: `../dist/${workspace}/${projectDir}/${wpThemePath}/assets/js/` //例.WordPress
   },
   img: {
-    src: `../src/${WORKSPACE}/${PJ}/assets/images/`,
-    dist: `../dist/${WORKSPACE}/${PJ}/assets/images/`
+    src: `../src/${workspace}/${projectDir}/assets/images/`,
+    dist: `../dist/${workspace}/${projectDir}/assets/images/`,
+    // src: `../src/${workspace}/${projectDir}/${wpThemePath}/assets/images/`, //例.WordPress
+    // dist: `../dist/${workspace}/${projectDir}/${wpThemePath}/assets/images/` //例.WordPress
   },
   video: {
-    src: `../src/${WORKSPACE}/${PJ}/assets/video/`,
-    dist: `../dist/${WORKSPACE}/${PJ}/assets/video/`
+    src: `../src/${workspace}/${projectDir}/assets/video/`,
+    dist: `../dist/${workspace}/${projectDir}/assets/video/`,
+    // src: `../src/${workspace}/${projectDir}/${wpThemePath}/assets/video/`, //例.WordPress
+    // dist: `../dist/${workspace}/${projectDir}/${wpThemePath}/assets/video/` //例.WordPress
   },
   other: {
     src: [
-      `../src/${WORKSPACE}/${PJ}/!(assets|templates)**/*`,
-      `../src/${WORKSPACE}/index.php`
+      // meiji
+      // `../src/${workspace}/${projectDir}/meiji/sweets/icecream/essel/common/**`,
+      // `../src/${workspace}/${projectDir}/meiji/include/**`,
     ],
-    // dist: `../dist/`
+    dist: `../dist/`
   }
 }
 
@@ -96,8 +115,8 @@ const html = {
  * エクスポート
  */
 module.exports = {
-  rootDir: WORKSPACE,
-  projectDir: PJ,
+  workspace,
+  projectDir,
   browserSync,
   use,
   filePath,

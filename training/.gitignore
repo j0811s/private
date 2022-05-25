@@ -6,6 +6,8 @@ node_modules
 unobserved
 
 resources/project.js
+resources/mysql57
+resources/cert
 resources/unobserved
 
 wp-admin

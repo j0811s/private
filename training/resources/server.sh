@@ -1,3 +1,3 @@
 #!/bin/bash
-npx gulp server
+node server.js
 exit 0
