@@ -64,7 +64,7 @@ const browserSyncBaseOption = {
 extend(browserSyncBaseOption, PJ.browserSync);
 
 const browserSyncProxyOption = {
-  https: true,
+  // https: true,
   open: 'external',
   proxy: PJ.browserSync.proxy,
   reloadOnRestart: true,
