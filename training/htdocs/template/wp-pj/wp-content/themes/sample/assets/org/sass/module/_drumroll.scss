@@ -1,0 +1,67 @@
+$numberLength: 10;
+$duration: .2s;
+
+.drumroll{
+  display: flex;
+  justify-content: center;
+}
+
+.drumroll_inner {
+  overflow: hidden;
+  position: relative;
+  width: 33px;
+  height: 57px;
+}
+
+.drumroll_numbers {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  transition: transform $duration linear;
+  transform: translate3d(0, 0, 0);
+
+  &.add-roll {
+    animation: drumroll $duration linear infinite;
+    // transform: translate3d(0, calc(100% - 57px), 0);
+
+    @for $i from 0 through $numberLength {
+      &.mod-delay#{$i} {
+        animation-delay: #{$i * $duration};
+        // transition-delay: #{$i * $duration};
+      }
+    }
+  }
+
+  &.add-stop {
+    animation: drumroll_end $duration linear forwards;
+  }
+}
+@keyframes drumroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, calc(100% - 57px), 0);
+  }
+}
+@keyframes drumroll_end {
+  from {
+    // transform: translate3d(0, calc(100% - 57px), 0);
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 50%, 0);
+  }
+}
+
+.drumroll_num {
+  display: flex;
+  flex-direction: column;
+}
+
+.drumroll_num,
+.drumroll_comma {
+  font-size: 50px;
+}

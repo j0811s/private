@@ -31,19 +31,77 @@ const webpackConfig = require("./webpack.config");
 
 
 /**
+ * minifyフラグ
+ */
+const minify = {
+  html: config.minify.html,
+  css: !!config.minify.css
+}
+
+
+/**
+ * HTML出力
+ */
+const html = done => {
+  if (minify.html) {
+    src(`${config.filePath.html.src}**/*.html`)
+    .pipe($.htmlmin(minify.html))
+    .pipe(dest(config.filePath.html.dest));
+  } else {
+    src(`${config.filePath.html.src}**/*.html`)
+    .pipe(dest(config.filePath.html.dest));
+  }
+
+  done();
+}
+
+
+/**
+ * EJS出力
+ */
+const ejs = done => {
+  const _src = () => {
+    return src(`${config.filePath.ejs.src}**/!(_)*.ejs`)
+    .pipe($.ejs({}, {}, {ext: '.html'}))
+    .pipe($.rename({extname:'.html'}))
+  }
+
+  if (minify.html) {
+    _src()
+    .pipe($.htmlmin(minify.html))
+    .pipe(dest(config.filePath.ejs.dest));
+  } else {
+    _src()
+    .pipe(dest(config.filePath.ejs.dest));
+  }
+
+  done();
+}
+
+
+/**
  * CSS出力
  */
-const css = done => {
-  src(`${config.filePath.css.src}!(_)*.{scss,css}`)
-  .pipe($.plumber())
-  .pipe(sassGlob())
-  .pipe(dartSass.sync().on('error', dartSass.logError))
-  .pipe(dartSass.sync({ outputStyle: 'expanded' }))
-  .pipe($.replace(/@charset "UTF-8";/g, ''))
-  .pipe($.header('@charset "UTF-8";\n\n'))
-  .pipe($.postcss([ $.autoprefixer({cascade: false, grid: true}) ]))
-  .pipe($.cleanCss())
-  .pipe(dest(config.filePath.css.dist));
+ const css = done => {
+   const _src = () => {
+     return src(`${config.filePath.css.src}!(_)*.{scss,css}`)
+     .pipe($.plumber())
+     .pipe(sassGlob())
+     .pipe(dartSass.sync().on('error', dartSass.logError))
+     .pipe(dartSass.sync({ outputStyle: 'expanded' }))
+     .pipe($.replace(/@charset "UTF-8";/g, ''))
+     .pipe($.header('@charset "UTF-8";\n\n'))
+     .pipe($.postcss([ $.autoprefixer({cascade: false, grid: true}) ]))
+   }
+
+   if (minify.css) {
+    _src()
+    .pipe($.cleanCss())
+    .pipe(dest(config.filePath.css.dest));
+   } else {
+    _src()
+    .pipe(dest(config.filePath.css.dest));
+   }
 
   done();
 }
@@ -54,48 +112,7 @@ const css = done => {
  */
 const js = () => {
   return webpackStream(webpackConfig, webpack)
-  .pipe(dest(config.filePath.js.dist));
-}
-
-
-/**
- * EJS出力
- */
-const ejs = done => {
-  src(`${config.filePath.ejs.src}**/!(_)*.ejs`)
-  .pipe($.ejs({}, {}, {ext: '.html'}))
-  .pipe($.rename({extname:'.html'}))
-  .pipe($.htmlmin(config.html.option))
-  .pipe(dest(config.filePath.ejs.dist));
-
-  done();
-}
-
-
-/**
- * HTML出力(ejs無しパターン)
- */
-const html = done => {
-  src(`${config.filePath.html.src}**/*.html`)
-  .pipe($.htmlmin(config.html.option))
-  .pipe(dest(config.filePath.html.dist));
-
-  done();
-}
-
-
-/**
-* WordPress関連出力
-*/
-const wp = done => {
-  if (config.filePath.wordpress.src.length > 0) {
-    src(config.filePath.wordpress.src, { 
-      base: '../src' 
-    })
-    .pipe($.changed(`${config.filePath.wordpress.dist}`))
-    .pipe(dest(config.filePath.wordpress.dist));
-  }
-  done();
+  .pipe(dest(config.filePath.js.dest));
 }
 
 
@@ -117,26 +134,15 @@ const img = done => {
     isUseBool.some((option, i) => option === false ? minOption.splice(i, 1) : minOption);
   
     src(`${config.filePath.img.src}**/*.{png,jpg,svg,gif,jpeg,ico}`)
-    .pipe($.changed(`${config.filePath.img.dist}`))
+    .pipe($.changed(`${config.filePath.img.dest}`))
     .pipe($.imagemin(minOption))
-    .pipe(dest(`${config.filePath.img.dist}`));
+    .pipe(dest(`${config.filePath.img.dest}`));
   } else {
     src(`${config.filePath.img.src}**/*.{png,jpg,svg,gif,jpeg,ico}`)
-    .pipe($.changed(`${config.filePath.img.dist}`))
-    .pipe(dest(`${config.filePath.img.dist}`));
+    .pipe($.changed(`${config.filePath.img.dest}`))
+    .pipe(dest(`${config.filePath.img.dest}`));
   }
 
-  done();
-}
-
-
-/**
- * 動画出力
- */
-const video = done => {
-  src(`${config.filePath.video.src}**/*.mp4`)
-  .pipe($.changed(`${config.filePath.video.dist}`))
-  .pipe(dest(`${config.filePath.video.dist}`));
   done();
 }
 
@@ -147,10 +153,10 @@ const video = done => {
 const otherFiles = done => {
   if (config.filePath.other.src.length > 0) {
     src(config.filePath.other.src, {
-      base: '../src'
+      base: '../htdocs'
     })
-    .pipe($.changed(`${config.filePath.other.dist}`))
-    .pipe(dest(`${config.filePath.other.dist}`));
+    .pipe($.changed(`${config.filePath.other.dest}`))
+    .pipe(dest(`${config.filePath.other.dest}`));
   }
   done();
 }
@@ -176,14 +182,6 @@ const watchFiles = done => {
   //img
   watch(`${config.filePath.img.src}**/*.{png,jpg,svg,gif,jpeg,ico}`, img);
 
-  //video
-  watch(`${config.filePath.video.src}**/*.mp4`, video);
-
-  //wordpress
-  if (config.filePath.wordpress.src.length > 0) {
-    watch(config.filePath.wordpress.src, wp);
-  }
-
   //otherFiles
   if (config.filePath.other.src.length > 0) {
     watch(config.filePath.other.src, otherFiles);
@@ -197,4 +195,4 @@ const watchFiles = done => {
  * 実行
  */
 exports.default = watchFiles;
-exports.build = parallel(config.use.ejs ? ejs : html, css, js, img, video, wp, otherFiles);
+exports.build = parallel(config.use.ejs ? ejs : html, css, js, img, otherFiles);

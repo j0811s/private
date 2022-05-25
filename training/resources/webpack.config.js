@@ -5,11 +5,12 @@ const WebpackWatchedGlobEntries = require('webpack-watched-glob-entries-plugin')
 const ESLintPlugin = require("eslint-webpack-plugin");
 
 const config = require('./config');
+const minify = !!config.minify.js;
 const entryPath = `${config.filePath.js.src}**/*.js`;
 const entryReactPath = `${config.filePath.js.src}**/*.jsx`;
 const ignorePath = `${config.filePath.js.src}**/_*.js`;
 const ignoreReactPath = `${config.filePath.js.src}**/_*.jsx`;
-const distPath = `${__dirname}/${config.filePath.js.dist}`;
+const distPath = `${__dirname}/${config.filePath.js.dest}`;
 const entries = WebpackWatchedGlobEntries.getEntries([path.resolve(__dirname, entryPath), path.resolve(__dirname, entryReactPath)],
   { ignore: [path.resolve(__dirname, ignorePath), path.resolve(__dirname, ignoreReactPath)] })();
 
@@ -24,7 +25,7 @@ const baseOption = {
     path: distPath
   },
   optimization: {
-    minimize: true,
+    minimize: minify,
     minimizer: [
       new TerserPlugin({
         terserOptions: {

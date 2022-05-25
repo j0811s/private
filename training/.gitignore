@@ -10,12 +10,17 @@ resources/mysql57
 resources/cert
 resources/unobserved
 
+license.txt
+readme.html
 wp-admin
 wp-includes
 wp-*.php
-!wp-config.php
-**/wp-content/languages
-**/wp-content/uploads
-**/wp-content/upgrade
-**/wp-content/plugins
-**/wp-content/themes/twentytwenty
+wp-config.php
+xmlrpc.php
+wp-content/languages
+wp-content/uploads
+wp-content/upgrade
+wp-content/plugins
+wp-content/themes/twentytwenty
+wp-content/themes/twentytwentyone
+wp-content/themes/twentytwentytwo
