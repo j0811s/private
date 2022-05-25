@@ -14,7 +14,7 @@
   <meta property="og:url" content="">
   <meta property="og:site_name" content="">
   <meta property="og:description" content="">
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="<?php echo add_timestamp('assets/css/style.css') ?>">
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2Ces2016%2Ces2017%2CPromise.prototype.finally"></script>
 </head>
 <body>
