@@ -7,7 +7,7 @@
     "start": "npx gulp",
     "build": "npx gulp build",
     "server": "node server.js",
-    "eslint": "eslint ../htdocs/**/entry/*.js"
+    "eslint": "eslint ../htdocs/**/org/js/**/*.js"
   },
   "keywords": [],
   "author": "",
