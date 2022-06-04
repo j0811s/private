@@ -1,0 +1,13 @@
+body {
+  &:not(.add-loaded) * {
+    transition: none !important;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  a {
+    color: inherit;
+  }
+}

@@ -18,3 +18,8 @@
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2Ces2016%2Ces2017%2CPromise.prototype.finally"></script>
 </head>
 <body>
+  <header class="header"></header>
+  
+  <div id="js-mouseStalker" class="mouseStalker">
+    <div class="mouseStalker_icon"></div>
+  </div>
