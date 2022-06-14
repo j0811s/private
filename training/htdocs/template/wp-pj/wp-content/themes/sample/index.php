@@ -1,10 +1,23 @@
 <?php get_header() ?>
 
-
 <main class="top">
-  <h1 class="top-ttl">サンプルページ</h1>
+  <h1 class="top-ttl">テンプレート</h1>
+
+  <!-- top-archive -->
+  <div class="top-archive">
+    <h2 class="top-archive_ttl">お知らせ</h2>
+    <?php get_template_part('parts/post-list', null, ''); ?>
+  </div>
+
+  <div class="top-archive">
+    <h2 class="top-archive_ttl">ブログ</h2>
+    <?php get_template_part('parts/post-list', null, 'blog'); ?>
+  </div>
 
   <!-- top-wordList -->
+  <div id="js-mouseStalker" class="mouseStalker">
+    <div class="mouseStalker_icon"></div>
+  </div>
   <dl id="js-mouseStalkerArea" class="top-wordList">
     <div class="top-wordList_container">
       <dt class="js-accordionBtn">
@@ -31,13 +44,6 @@
       <dd id="js-readtext3" class="top-wordList_readtext">説明テキスト説明テキスト<br>説明テキスト説明テキスト説明テキスト説明テキスト<br>説明テキスト説明テキスト<br>説明テキスト説明テキスト<br>説明テキスト説明テキスト<br>説明テキスト説明テキスト<br>説明テキスト説明テキスト<br>説明テキスト説明テキスト<br>説明テキスト説明テキスト<br>説明テキスト説明テキスト<br></dd>
     </div>
   </dl>
-
-  <!-- top-archive -->
-  <ul class="top-archive">
-    <li class="top-archive_ttl">記事タイトル1</li>
-    <li class="top-archive_ttl">記事タイトル2</li>
-    <li class="top-archive_ttl">記事タイトル3</li>
-  </ul>
 
 </main>
 

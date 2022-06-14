@@ -17,19 +17,23 @@ scrollLock.lock();
 /**
  * マウスストーカー
  */
-MouseStalker('js-mouseStalker',{
-  target: document.getElementById('js-mouseStalkerArea')
-});
+if (document.getElementById('js-mouseStalker')) {
+  MouseStalker('js-mouseStalker',{
+    target: document.getElementById('js-mouseStalkerArea')
+  });
+}
 
 
 /**
  * アコーディオン
  */
-[].slice.call(document.getElementsByClassName('js-accordionBtn')).forEach((v, i) => {
-  v.addEventListener('click', () => {
-    new Accordion(`js-readtext${i}`);
+if (document.getElementsByClassName('js-accordionBtn').length) {
+  [].slice.call(document.getElementsByClassName('js-accordionBtn')).forEach((v, i) => {
+    v.addEventListener('click', () => {
+      new Accordion(`js-readtext${i}`);
+    });
   });
-});
+}
 
 
 /**

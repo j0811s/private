@@ -1,0 +1,7 @@
+@use '../common/variable' as var;
+@use '../common/mixin' as mixin;
+
+.news {
+  max-width: 800px;
+  margin: 0 auto;
+}

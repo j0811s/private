@@ -107,10 +107,6 @@ module.exports = {
       src: get(PJ, 'filePath.ejs.src', src.ejs),
       dest: get(PJ, 'filePath.ejs.dest', dest.ejs)
     },
-    wordpress: {
-      src: get(PJ, 'filePath.wordpress.src', src.wordpress),
-      dest: get(PJ, 'filePath.wordpress.dest', dest.wordpress) 
-    },
     css: {
       src: get(PJ, 'filePath.css.src', src.css),
       dest: get(PJ, 'filePath.css.dest', dest.css)

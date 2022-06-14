@@ -1,0 +1,60 @@
+@use '../common/variable' as var;
+@use '../common/mixin' as mixin;
+
+.util-archive {
+
+  // 投稿ページ
+  &.mod-single {
+    .util-archive_ttl {
+      font-size: 30px;
+      font-weight: bold;
+    }
+  }
+
+  // 投稿ページ以外
+  &:not(.mod-single) {
+    .util-archive_ttl {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+
+}
+
+.util-archive_link {
+  display: block;
+  text-decoration: none;
+
+  &:hover {
+    opacity: .7;
+  }
+}
+
+.util-archive_ttl {
+  border-left: 4px solid #000;
+  padding-left: 0.5em;
+}
+
+.util-archive_content {
+  margin-top: 30px;
+
+  *:empty {
+    display: none;
+  }
+
+  > p {
+    font-size: 16px;
+    line-height: 1.75;
+    margin: 10px 0;
+    padding: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

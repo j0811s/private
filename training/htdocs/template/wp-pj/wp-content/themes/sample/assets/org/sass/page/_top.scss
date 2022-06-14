@@ -2,18 +2,18 @@
 @use '../common/mixin' as mixin;
 
 .top {
-  padding: 60px 10px;
+  padding: 30px 10px;
+  margin: 0 auto;
+  max-width: 500px;
 }
 
 .top-ttl {
   font-size: 40px;
   font-weight: bold;
   line-height: 1.1;
-  text-align: center;
 }
 
 .top-wordList {
-  width: 500px;
   margin: 60px auto;
 }
 
@@ -25,11 +25,10 @@
 }
 
 .top-wordList_readtext {
-  // display: none;
+  display: none;
 }
 
 .top-archive {
-  width: 500px;
   margin: 60px auto;
 }
 

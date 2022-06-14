@@ -6,4 +6,5 @@
 @forward './module/*';
 
 //ページスタイル
-@forward './page/top';
+@forward './parts/*';
+@forward './page/*';
