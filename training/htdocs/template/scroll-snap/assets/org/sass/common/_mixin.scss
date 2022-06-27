@@ -1,0 +1,31 @@
+@mixin button {
+  background: none;
+  border: none;
+  outline: none;
+  appearance: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+
+//ブレークポイント
+$breakpoints: (
+  'sm': (max-width: 374px), //スマホ(小型向け)
+  'sp': (max-width: 599px), //スマホ
+  'tb': (min-width: 600px) and (max-width: 959px), //タブレット
+  'mobile': (max-width: 959px), //スマホ ~ タブレット
+  'dekstop': (min-width: 960px), //デスクトップ通常 ~
+  'md': (min-width: 600px),
+  'lg': (min-width: 1280px),
+  'xl': (min-width: 1600px),
+) !default;
+@mixin mq($breakpoint: dekstop) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media screen and #{inspect(map-get($breakpoints, $breakpoint))} {
+      @content;
+    }
+  } @else {
+    @error "参照可能：#{map-keys($breakpoints)}";
+  }
+}

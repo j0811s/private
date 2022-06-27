@@ -1,0 +1,101 @@
+.jslider {
+  position: relative;
+  overflow: hidden;
+}
+
+.jslider_container {
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.jslider_list {
+  display: flex;
+  flex-wrap: nowrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  transform: translate3d(0, 0, 0);
+  
+  &.is-move {
+    transition: transform .5s;
+  }
+}
+
+.jslider_listItem {
+  display: block;
+  list-style: none;
+}
+
+/*
+ * ドット
+ */
+.jslider_dots {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 4px;
+}
+
+.jslider_dot {
+  cursor: pointer;
+  display: block;
+  width: 18px;
+  height: 1px;
+  background-color: #000;
+  transition: height .2s;
+
+  & + .jslider_dot {
+    margin-left: 10px;
+  }
+
+  &.is-active {
+    height: 4px;
+  }
+}
+
+/*
+ * 矢印
+ */
+.jslider_arrows {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  outline: none;
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  display: block;
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  border: 1px solid #000;
+
+  &.mod-prev {
+    left: 0;
+  }
+
+  &.mod-next {
+    right: 0;
+  }
+}
+
+.jslider_arrow {
+  display: inline-block;
+
+  .mod-prev & {
+    &:before {
+      content: '<';
+    }
+  }
+
+  .mod-next & {
+    &:before {
+      content: '>';
+    }
+  }
+}
