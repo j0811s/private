@@ -4,6 +4,6 @@ const scrollSnap = new ScrollSnap();
 
 console.log(scrollSnap.getTouchPoints);
 
-window.addEventListener('wheel', (e) => {
-  console.log(scrollSnap.getState.isScrolling);
-});
+// window.addEventListener('wheel', (e) => {
+//   console.log(scrollSnap.getState.isScrolling);
+// });
