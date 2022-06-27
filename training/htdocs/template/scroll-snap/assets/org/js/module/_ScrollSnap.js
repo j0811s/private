@@ -3,16 +3,33 @@ export default class ScrollSnap {
   #isScrolling;
 
   constructor(container, config) {
+    // 引数
     this.#container = container ? document.getElementById(container) : document.documentElement;
     this.config = config;
 
+    // ステータス
     this.timerId;
     this.#isScrolling = false;
 
+    // 位置情報
     this.pageY;
     this.touchStart, this.touchMove, this.touchEnd;
 
-    this.#setEvents();
+    // 関数
+    this.getVerticalMovement = this.#getVerticalMovement.bind(this);
+    this.setTouchStart = this.#setTouchStart.bind(this);
+    this.setTouchMove = this.#setTouchMove.bind(this);
+    this.setTouchEnd = this.#setTouchEnd.bind(this);
+
+    // 初期化
+    this.init();
+  }
+
+  /**
+   * 初期化
+   */
+  init() {
+    this.addEvent();
   }
 
   /**
@@ -81,26 +98,47 @@ export default class ScrollSnap {
   }
 
   /**
+   * touchstart or mousedownイベントの座標取得
+   */
+  #setTouchStart(e) {
+    this.touchStart = e.pageY;
+  }
+
+  /**
+   * touchmove or mousemoveイベントの座標取得
+   */
+  #setTouchMove(e) {
+    this.touchMove = e.pageY;
+  }
+
+  /**
+   * touchend or mouseupイベントの座標取得
+   */
+  #setTouchEnd(e) {
+    this.touchEnd = this.touchStart - this.touchMove;
+    // touchMoveがなければ処理中止
+    if (this.touchMove == null) return;
+    this.touchMove = null;
+    this.#getVerticalMovement(e);
+  }
+
+  /**
    * イベント登録
    */
-  #setEvents() {
-    // タッチポイント有無のイベント分岐
-    if (!this.getTouchPoints) this.getContainer.addEventListener('wheel', this.#getVerticalMovement.bind(this));
+  addEvent() {
+    if (!this.getTouchPoints) this.getContainer.addEventListener('wheel', this.getVerticalMovement);
+    this.getContainer.addEventListener(this.getEvent.start, this.setTouchStart);
+    this.getContainer.addEventListener(this.getEvent.move, this.setTouchMove);
+    this.getContainer.addEventListener(this.getEvent.end, this.setTouchEnd);
+  }
 
-    this.getContainer.addEventListener(this.getEvent.start, (e) => {
-      this.touchStart = e.pageY;
-    });
-
-    this.getContainer.addEventListener(this.getEvent.move, (e) => {
-      this.touchMove = e.pageY;
-    });
-
-    this.getContainer.addEventListener(this.getEvent.end, (e) => {
-      this.touchEnd = this.touchStart - this.touchMove;
-      // touchMoveがなければ処理中止
-      if (this.touchMove == null) return;
-      this.touchMove = null;
-      this.#getVerticalMovement(e);
-    });
+  /**
+   * イベント削除
+   */
+  removeEvent() {
+    if (!this.getTouchPoints) this.getContainer.removeEventListener('wheel', this.getVerticalMovement);
+    this.getContainer.removeEventListener(this.getEvent.start, this.setTouchStart);
+    this.getContainer.removeEventListener(this.getEvent.move, this.setTouchMove);
+    this.getContainer.removeEventListener(this.getEvent.end, this.setTouchEnd);
   }
 }

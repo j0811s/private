@@ -4,6 +4,10 @@ const scrollSnap = new ScrollSnap();
 
 console.log(scrollSnap.getTouchPoints);
 
-// window.addEventListener('wheel', (e) => {
-//   console.log(scrollSnap.getState.isScrolling);
+// window.addEventListener('scroll', (e) => {
+// console.log(scrollSnap.getState.isScrolling);
 // });
+
+// setTimeout(() => {
+//   scrollSnap.removeEvent();
+// }, 2000);
