@@ -2,21 +2,26 @@ import { extend } from './_util';
 
 export default class ScrollSnap {
   #container;
+  #navAnker;
   #isScrolling;
 
   constructor(container, config) {
-    // 対象要素
-    this.#container = document.getElementById(container);
-
     // 設定
     this.config = {
       init: true, // インスタンス生成時にイベントリスナーに登録する
       duration: 1000, // #isScrollingの切り替え時間
       interval: 1500, //コンテンツ遷移までのインターバル
       ease: 'ease-in-out',
-      type: 'normal' // 'card'でカードめくり風にする
+      anker: null, // 配列で個別指定
+      ignoreClassName: 'js-ssIgnore', // フル表示の対象外クラス名
+      type: 'normal', // 'card'でカードめくり風にする
+      navContainer: 'js-ssNavigation'
     };
     extend(this.config, config);
+
+    // 対象要素
+    this.#container = document.getElementById(container);
+    this.#navAnker = document.querySelectorAll(`#${this.config.navContainer} a`);
 
     // ステータス
     this.timerId;
@@ -28,7 +33,7 @@ export default class ScrollSnap {
 
     // セクション要素情報
     this.wh = window.innerHeight;
-    this.currentSection = 1;
+    this.currentIndex = 0;
     this.sectionAll = this.getContainer.childNodes;
 
     // 関数
@@ -36,6 +41,7 @@ export default class ScrollSnap {
     this.setTouchStart = this.#setTouchStart.bind(this);
     this.setTouchMove = this.#setTouchMove.bind(this);
     this.setTouchEnd = this.#setTouchEnd.bind(this);
+    this.resize = this.#resize.bind(this);
 
     // 初期化
     this.init();
@@ -46,13 +52,25 @@ export default class ScrollSnap {
    */
   init() {
     this.#setBaseStyle();
-    this.#addSectionClassName();
+    this.#addAnkerValue();
     this.#setSectionHeight();
+    this.#updateActive();
     if (this.config.init) this.addEvent();
 
     if (this.config.type === 'card') {
       this.#setCardStyle();
     }
+
+    window.addEventListener('resize', this.resize);
+
+    this.getNavAnker.forEach((btn, i) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const value = `-${this.wh * i}px`;
+        this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
+        this.currentIndex = i;
+      });
+    });
   }
 
   /**
@@ -60,6 +78,13 @@ export default class ScrollSnap {
    */
   get getContainer() {
     return this.#container;
+  }
+
+  /**
+   * アンカーリンク要素取得
+   */
+  get getNavAnker() {
+    return this.#navAnker;
   }
 
   /**
@@ -107,6 +132,9 @@ export default class ScrollSnap {
     // 上下スクロール
     this.pageY < 0 ? this.#moveUp() : this.#moveDown();
 
+    // アクティブ要素更新
+    this.#updateActive();
+
     // スクロール中をリセット
     clearTimeout(this.timerId);
     this.timerId = setTimeout(() => {
@@ -139,6 +167,35 @@ export default class ScrollSnap {
   }
 
   /**
+   * タッチ座標をリセット
+   */
+  #resetTouchPosition() {
+    this.touchStart = null;
+    this.touchMove = null;
+    this.touchEnd = null;
+  }
+
+  /**
+   * 上移動
+   */
+  #moveUp() {
+    if (this.currentIndex === 0) return;
+    this.currentIndex--;
+    const value = `-${this.wh * this.currentIndex}px`;
+    this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
+  }
+
+  /**
+   * 下移動
+   */
+  #moveDown() {
+    if (this.currentIndex === this.sectionAll.length - 1) return;
+    this.currentIndex++;
+    const value = `-${this.wh * this.currentIndex}px`;
+    this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
+  }
+
+  /**
    * イベント登録
    */
   addEvent() {
@@ -159,6 +216,34 @@ export default class ScrollSnap {
   }
 
   /**
+   * 現在のインデックスをbodyのdata属性に追加
+   */
+  #addContainerIndex() {
+    document.body.dataset.currentIndex = this.currentIndex;
+  }
+
+  /**
+   * セクションにアクティブクラス追加
+   */
+  #addCurrentClass() {
+    this.sectionAll.forEach((sec, i) => {
+      if (i === this.currentIndex) {
+        sec.classList.add('add-current');
+      } else if (i !== this.currentIndex && sec.classList.contains('add-current')) {
+        sec.classList.remove('add-current');
+      }
+    });
+  }
+
+  /**
+   * アクティブ情報更新
+   */
+  #updateActive() {
+    this.#addContainerIndex();
+    this.#addCurrentClass();
+  }
+
+  /**
    * スタイル追加
    */
   #setBaseStyle() {
@@ -168,26 +253,6 @@ export default class ScrollSnap {
     this.getContainer.style.setProperty('transition-property', 'transform');
     this.getContainer.style.setProperty('transition-duration', `${this.config.duration}ms`);
     this.getContainer.style.setProperty('transition-timing-function', this.config.ease);
-  }
-
-  /**
-   * 上移動
-   */
-  #moveUp() {
-    if (this.currentSection === 1) return;
-    this.currentSection--;
-    const value = `-${this.wh * (this.currentSection - 1)}px`;
-    this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
-  }
-
-  /**
-   * 下移動
-   */
-  #moveDown() {
-    if (this.currentSection === this.sectionAll.length) return;
-    this.currentSection++;
-    const value = `-${this.wh * (this.currentSection - 1)}px`;
-    this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
   }
 
   /**
@@ -207,11 +272,11 @@ export default class ScrollSnap {
   }
 
   /**
-   * セクション用のdata属性追加
+   * アンカーリンク用のdata属性追加
    */
-  #addSectionClassName() {
+  #addAnkerValue() {
     this.sectionAll.forEach((sec, i) => {
-      sec.dataset.ssSection = i;
+      sec.dataset.ssAnker = this.config.anker === null ? i : this.config.anker[i];
     });
   }
 
@@ -220,7 +285,16 @@ export default class ScrollSnap {
    */
   #setSectionHeight() {
     this.sectionAll.forEach((sec, i) => {
+      if (sec.classList.contains(this.config.ignoreClassName)) return;
       sec.style.setProperty('height', `${this.wh}px`);
     });
+  }
+
+  /**
+   * リサイズ
+   */
+  #resize() {
+    this.wh = window.innerHeight;
+    this.#setSectionHeight();
   }
 }

@@ -13,12 +13,39 @@
   }
 }
 
+.scrollsnap-header {
+  position: fixed;
+  top: 50%;
+  right: 50px;
+  transform: translate(0, -50%);
+  z-index: 10;
+}
+
+.scrollsnap-nav {
+  li {
+    list-style: none;
+  }
+
+  a {
+    border-radius: 100px;
+    background: #000;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+  }
+}
+
+.scrollsnap-navList {
+  margin: 0;
+  padding: 0;
+}
+
 .scrollsnap-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  // height: 100vh;
   position: relative;
 
   &::after {

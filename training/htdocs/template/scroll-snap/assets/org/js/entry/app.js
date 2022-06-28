@@ -2,9 +2,10 @@ import ScrollSnap from '../module/_ScrollSnap';
 
 const scrollSnap = new ScrollSnap('js-scrollSnap', {
   init: true,
-  duration: 1000,
-  // delay: 2000,
-  ease: 'ease'
+  duration: 500,
+  delay: 1000,
+  // ease: 'ease',
+  anker: ['kv', 'about', 'info', 'contact']
   // type: 'card'
 });
 
