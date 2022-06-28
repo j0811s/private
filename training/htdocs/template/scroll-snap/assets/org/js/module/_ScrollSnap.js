@@ -74,23 +74,6 @@ export default class ScrollSnap {
   }
 
   /**
-   * アンカーリンクのクリックイベント
-   */
-  #anckerEvent() {
-    if (this.getNavAnker == null) return;
-
-    this.getNavAnker.forEach((btn, i) => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const value = `-${this.wh * i}px`;
-        this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
-        this.currentIndex = i;
-        this.#updateActive();
-      });
-    });
-  }
-
-  /**
    * コンテナー要素取得
    */
   get getContainer() {
@@ -267,12 +250,21 @@ export default class ScrollSnap {
   }
 
   /**
+   * URLハッシュ更新
+   */
+  #updateHash() {
+    if (this.config.navigation.anker == null) return;
+    location.hash = this.config.navigation.anker[this.currentIndex];
+  }
+
+  /**
    * アクティブ情報更新
    */
   #updateActive() {
     this.#addContainerIndex();
     this.#addCurrentClass();
     this.#addNavigationCurrentClass();
+    this.#updateHash();
   }
 
   /**
@@ -285,6 +277,7 @@ export default class ScrollSnap {
     document.body.style.setProperty('height', '100%');
     // document.body.style.setProperty('min-height', '100vh');
     document.body.style.setProperty('min-height', 'calc(var(--vh, 1vh) * 100)');
+    this.getContainer.style.setProperty('position', 'relative');
     this.getContainer.style.setProperty('transform', `translate3d(0, 0, 0)`);
     this.getContainer.style.setProperty('transition-property', 'transform');
     this.getContainer.style.setProperty('transition-duration', `${this.config.animation.duration}ms`);
@@ -295,7 +288,6 @@ export default class ScrollSnap {
    * type: 'card'の追加スタイル
    */
   #setCardStyle() {
-    this.getContainer.style.setProperty('position', 'relative');
     this.getContainer.style.setProperty('height', `${this.wh}px`);
     this.sectionAll.forEach((sec, i) => {
       sec.style.setProperty('position', 'absolute');
@@ -313,6 +305,23 @@ export default class ScrollSnap {
   #addAnkerValue() {
     this.sectionAll.forEach((sec, i) => {
       sec.dataset.ssAnker = this.config.navigation.anker === null ? i : this.config.navigation.anker[i];
+    });
+  }
+
+  /**
+   * アンカーリンクのクリックイベント
+   */
+  #anckerEvent() {
+    if (this.getNavAnker == null) return;
+
+    this.getNavAnker.forEach((btn, i) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const value = `-${this.wh * i}px`;
+        this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
+        this.currentIndex = i;
+        this.#updateActive();
+      });
     });
   }
 
