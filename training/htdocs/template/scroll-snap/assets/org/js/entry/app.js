@@ -2,11 +2,15 @@ import ScrollSnap from '../module/_ScrollSnap';
 
 const scrollSnap = new ScrollSnap('js-scrollSnap', {
   init: true,
-  duration: 500,
-  delay: 1000,
-  // ease: 'ease',
-  anker: ['kv', 'about', 'info', 'contact']
-  // type: 'card'
+  animation: {
+    // duration: 500,
+    // interval: 1000,
+    ease: 'ease-in-out'
+  },
+  // type: 'card',
+  navigation: {
+    anker: ['kv', 'about', 'info', 'contact']
+  }
 });
 
 console.log(scrollSnap.getTouchPoints);

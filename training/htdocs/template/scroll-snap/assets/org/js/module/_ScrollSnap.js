@@ -1,4 +1,5 @@
-import { extend } from './_util';
+import { mergeDeep } from './_mergeDeep';
+import { setFillHeight } from './_setFillHeight';
 
 export default class ScrollSnap {
   #container;
@@ -9,19 +10,23 @@ export default class ScrollSnap {
     // 設定
     this.config = {
       init: true, // インスタンス生成時にイベントリスナーに登録する
-      duration: 1000, // #isScrollingの切り替え時間
-      interval: 1500, //コンテンツ遷移までのインターバル
-      ease: 'ease-in-out',
-      anker: null, // 配列で個別指定
       ignoreClassName: 'js-ssIgnore', // フル表示の対象外クラス名
-      type: 'normal', // 'card'でカードめくり風にする
-      navContainer: 'js-ssNavigation'
+      animation: {
+        duration: 500, // #isScrollingの切り替え時間
+        interval: 1000, //コンテンツ遷移までのインターバル
+        ease: 'ease-in-out',
+        type: 'normal' // 'card'でカードめくり風にする
+      },
+      navigation: {
+        container: 'js-ssNavigation',
+        anker: null // 配列で個別指定
+      }
     };
-    extend(this.config, config);
+    mergeDeep(this.config, config);
 
     // 対象要素
     this.#container = document.getElementById(container);
-    this.#navAnker = document.querySelectorAll(`#${this.config.navContainer} a`);
+    this.#navAnker = document.querySelectorAll(`#${this.config.navigation.container} a`);
 
     // ステータス
     this.timerId;
@@ -55,13 +60,24 @@ export default class ScrollSnap {
     this.#addAnkerValue();
     this.#setSectionHeight();
     this.#updateActive();
-    if (this.config.init) this.addEvent();
-
-    if (this.config.type === 'card') {
-      this.#setCardStyle();
-    }
+    this.#anckerEvent();
 
     window.addEventListener('resize', this.resize);
+    window.addEventListener('resize', setFillHeight);
+    setFillHeight();
+
+    if (this.config.init) this.addEvent();
+
+    if (this.config.animation.type === 'card') {
+      this.#setCardStyle();
+    }
+  }
+
+  /**
+   * アンカーリンクのクリックイベント
+   */
+  #anckerEvent() {
+    if (this.getNavAnker == null) return;
 
     this.getNavAnker.forEach((btn, i) => {
       btn.addEventListener('click', (e) => {
@@ -69,6 +85,7 @@ export default class ScrollSnap {
         const value = `-${this.wh * i}px`;
         this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
         this.currentIndex = i;
+        this.#updateActive();
       });
     });
   }
@@ -139,7 +156,7 @@ export default class ScrollSnap {
     clearTimeout(this.timerId);
     this.timerId = setTimeout(() => {
       this.#isScrolling = false;
-    }, this.config.interval);
+    }, this.config.animation.interval);
   }
 
   /**
@@ -236,23 +253,42 @@ export default class ScrollSnap {
   }
 
   /**
+   * セクションにアクティブクラス追加
+   */
+  #addNavigationCurrentClass() {
+    if (this.getNavAnker == null) return;
+    this.getNavAnker.forEach((a, i) => {
+      if (i === this.currentIndex) {
+        a.classList.add('add-current');
+      } else if (i !== this.currentIndex && a.classList.contains('add-current')) {
+        a.classList.remove('add-current');
+      }
+    });
+  }
+
+  /**
    * アクティブ情報更新
    */
   #updateActive() {
     this.#addContainerIndex();
     this.#addCurrentClass();
+    this.#addNavigationCurrentClass();
   }
 
   /**
    * スタイル追加
    */
   #setBaseStyle() {
+    document.documentElement.style.setProperty('overflow', 'hidden');
+    document.documentElement.style.setProperty('height', '100%');
     document.body.style.setProperty('overflow', 'hidden');
     document.body.style.setProperty('height', '100%');
+    // document.body.style.setProperty('min-height', '100vh');
+    document.body.style.setProperty('min-height', 'calc(var(--vh, 1vh) * 100)');
     this.getContainer.style.setProperty('transform', `translate3d(0, 0, 0)`);
     this.getContainer.style.setProperty('transition-property', 'transform');
-    this.getContainer.style.setProperty('transition-duration', `${this.config.duration}ms`);
-    this.getContainer.style.setProperty('transition-timing-function', this.config.ease);
+    this.getContainer.style.setProperty('transition-duration', `${this.config.animation.duration}ms`);
+    this.getContainer.style.setProperty('transition-timing-function', this.config.animation.ease);
   }
 
   /**
@@ -276,7 +312,7 @@ export default class ScrollSnap {
    */
   #addAnkerValue() {
     this.sectionAll.forEach((sec, i) => {
-      sec.dataset.ssAnker = this.config.anker === null ? i : this.config.anker[i];
+      sec.dataset.ssAnker = this.config.navigation.anker === null ? i : this.config.navigation.anker[i];
     });
   }
 
@@ -296,5 +332,7 @@ export default class ScrollSnap {
   #resize() {
     this.wh = window.innerHeight;
     this.#setSectionHeight();
+    const value = `-${this.wh * this.currentIndex}px`;
+    this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
   }
 }
