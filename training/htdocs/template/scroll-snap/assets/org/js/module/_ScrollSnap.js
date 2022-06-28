@@ -1,11 +1,22 @@
+import { extend } from './_util';
+
 export default class ScrollSnap {
   #container;
   #isScrolling;
 
   constructor(container, config) {
-    // 引数
-    this.#container = container ? document.getElementById(container) : document.documentElement;
-    this.config = config;
+    // 対象要素
+    this.#container = document.getElementById(container);
+
+    // 設定
+    this.config = {
+      init: true, // インスタンス生成時にイベントリスナーに登録する
+      duration: 1000, // #isScrollingの切り替え時間
+      interval: 1500, //コンテンツ遷移までのインターバル
+      ease: 'ease-in-out',
+      type: 'normal' // 'card'でカードめくり風にする
+    };
+    extend(this.config, config);
 
     // ステータス
     this.timerId;
@@ -14,6 +25,11 @@ export default class ScrollSnap {
     // 位置情報
     this.pageY;
     this.touchStart, this.touchMove, this.touchEnd;
+
+    // セクション要素情報
+    this.wh = window.innerHeight;
+    this.currentSection = 1;
+    this.sectionAll = this.getContainer.childNodes;
 
     // 関数
     this.getVerticalMovement = this.#getVerticalMovement.bind(this);
@@ -29,7 +45,14 @@ export default class ScrollSnap {
    * 初期化
    */
   init() {
-    this.addEvent();
+    this.#setBaseStyle();
+    this.#addSectionClassName();
+    this.#setSectionHeight();
+    if (this.config.init) this.addEvent();
+
+    if (this.config.type === 'card') {
+      this.#setCardStyle();
+    }
   }
 
   /**
@@ -60,7 +83,7 @@ export default class ScrollSnap {
    * イベントタイプ
    * @returns イベント名のプロパティ
    */
-  get getEvent() {
+  get getEventType() {
     return {
       start: this.getTouchPoints ? 'touchstart' : 'mousedown',
       move: this.getTouchPoints ? 'touchmove' : 'mousemove',
@@ -81,20 +104,14 @@ export default class ScrollSnap {
     // 現在地を代入
     this.pageY = this.getTouchPoints || e.type === 'mouseup' ? this.touchEnd : e.deltaY;
 
-    // 上方向
-    if (this.pageY < 0) {
-      console.log('UP');
-    }
-    // 下方向
-    else {
-      console.log('DOWN');
-    }
+    // 上下スクロール
+    this.pageY < 0 ? this.#moveUp() : this.#moveDown();
 
     // スクロール中をリセット
     clearTimeout(this.timerId);
     this.timerId = setTimeout(() => {
       this.#isScrolling = false;
-    }, 1000);
+    }, this.config.interval);
   }
 
   /**
@@ -116,7 +133,6 @@ export default class ScrollSnap {
    */
   #setTouchEnd(e) {
     this.touchEnd = this.touchStart - this.touchMove;
-    // touchMoveがなければ処理中止
     if (this.touchMove == null) return;
     this.touchMove = null;
     this.#getVerticalMovement(e);
@@ -127,9 +143,9 @@ export default class ScrollSnap {
    */
   addEvent() {
     if (!this.getTouchPoints) this.getContainer.addEventListener('wheel', this.getVerticalMovement);
-    this.getContainer.addEventListener(this.getEvent.start, this.setTouchStart);
-    this.getContainer.addEventListener(this.getEvent.move, this.setTouchMove);
-    this.getContainer.addEventListener(this.getEvent.end, this.setTouchEnd);
+    this.getContainer.addEventListener(this.getEventType.start, this.setTouchStart);
+    this.getContainer.addEventListener(this.getEventType.move, this.setTouchMove);
+    this.getContainer.addEventListener(this.getEventType.end, this.setTouchEnd);
   }
 
   /**
@@ -137,8 +153,74 @@ export default class ScrollSnap {
    */
   removeEvent() {
     if (!this.getTouchPoints) this.getContainer.removeEventListener('wheel', this.getVerticalMovement);
-    this.getContainer.removeEventListener(this.getEvent.start, this.setTouchStart);
-    this.getContainer.removeEventListener(this.getEvent.move, this.setTouchMove);
-    this.getContainer.removeEventListener(this.getEvent.end, this.setTouchEnd);
+    this.getContainer.removeEventListener(this.getEventType.start, this.setTouchStart);
+    this.getContainer.removeEventListener(this.getEventType.move, this.setTouchMove);
+    this.getContainer.removeEventListener(this.getEventType.end, this.setTouchEnd);
+  }
+
+  /**
+   * スタイル追加
+   */
+  #setBaseStyle() {
+    document.body.style.setProperty('overflow', 'hidden');
+    document.body.style.setProperty('height', '100%');
+    this.getContainer.style.setProperty('transform', `translate3d(0, 0, 0)`);
+    this.getContainer.style.setProperty('transition-property', 'transform');
+    this.getContainer.style.setProperty('transition-duration', `${this.config.duration}ms`);
+    this.getContainer.style.setProperty('transition-timing-function', this.config.ease);
+  }
+
+  /**
+   * 上移動
+   */
+  #moveUp() {
+    if (this.currentSection === 1) return;
+    this.currentSection--;
+    const value = `-${this.wh * (this.currentSection - 1)}px`;
+    this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
+  }
+
+  /**
+   * 下移動
+   */
+  #moveDown() {
+    if (this.currentSection === this.sectionAll.length) return;
+    this.currentSection++;
+    const value = `-${this.wh * (this.currentSection - 1)}px`;
+    this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
+  }
+
+  /**
+   * type: 'card'の追加スタイル
+   */
+  #setCardStyle() {
+    this.getContainer.style.setProperty('position', 'relative');
+    this.getContainer.style.setProperty('height', `${this.wh}px`);
+    this.sectionAll.forEach((sec, i) => {
+      sec.style.setProperty('position', 'absolute');
+      sec.style.setProperty('top', '0');
+      sec.style.setProperty('left', '0');
+      sec.style.setProperty('z-index', -i);
+      sec.style.setProperty('width', '100%');
+      sec.style.setProperty('height', '100%');
+    });
+  }
+
+  /**
+   * セクション用のdata属性追加
+   */
+  #addSectionClassName() {
+    this.sectionAll.forEach((sec, i) => {
+      sec.dataset.ssSection = i;
+    });
+  }
+
+  /**
+   * セクション用のheightプロパティ設定
+   */
+  #setSectionHeight() {
+    this.sectionAll.forEach((sec, i) => {
+      sec.style.setProperty('height', `${this.wh}px`);
+    });
   }
 }

@@ -1,6 +1,12 @@
 import ScrollSnap from '../module/_ScrollSnap';
 
-const scrollSnap = new ScrollSnap();
+const scrollSnap = new ScrollSnap('js-scrollSnap', {
+  init: true,
+  duration: 1000,
+  // delay: 2000,
+  ease: 'ease'
+  // type: 'card'
+});
 
 console.log(scrollSnap.getTouchPoints);
 
@@ -9,5 +15,6 @@ console.log(scrollSnap.getTouchPoints);
 // });
 
 // setTimeout(() => {
+//   scrollSnap.addEvent();
 //   scrollSnap.removeEvent();
 // }, 2000);
