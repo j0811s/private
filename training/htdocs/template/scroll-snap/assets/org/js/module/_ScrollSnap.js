@@ -125,11 +125,14 @@ export default class ScrollSnap {
     // スクロールフラグを有効
     this.#isScrolling = true;
 
-    // 現在地を代入
-    const pageY = this.getTouchPoints || e.type === 'mouseup' ? this.touchEnd : e.deltaY;
-
-    // 上下スクロール
-    pageY < 0 ? this.#moveUp() : this.#moveDown();
+    // 上下スクロール判定
+    if (e.type === 'keydown') {
+      if (e.keyCode === 38) this.#moveUp();
+      if (e.keyCode === 40) this.#moveDown();
+    } else {
+      const pageY = this.getTouchPoints || e.type === 'mouseup' ? this.touchEnd : e.deltaY;
+      pageY < 0 ? this.#moveUp() : this.#moveDown();
+    }
 
     // アクティブ要素更新
     this.#updateActive();
@@ -166,15 +169,6 @@ export default class ScrollSnap {
   }
 
   /**
-   * タッチ座標をリセット
-   */
-  #resetTouchPosition() {
-    this.touchStart = null;
-    this.touchMove = null;
-    this.touchEnd = null;
-  }
-
-  /**
    * 上移動
    */
   #moveUp() {
@@ -198,7 +192,8 @@ export default class ScrollSnap {
    * イベント登録
    */
   addEvent() {
-    if (!this.getTouchPoints) this.getContainer.addEventListener('wheel', this.getVerticalMovement);
+    document.addEventListener('keydown', this.getVerticalMovement);
+    this.getContainer.addEventListener('wheel', this.getVerticalMovement);
     this.getContainer.addEventListener(this.getEventType.start, this.setTouchStart);
     this.getContainer.addEventListener(this.getEventType.move, this.setTouchMove);
     this.getContainer.addEventListener(this.getEventType.end, this.setTouchEnd);
@@ -208,7 +203,8 @@ export default class ScrollSnap {
    * イベント削除
    */
   removeEvent() {
-    if (!this.getTouchPoints) this.getContainer.removeEventListener('wheel', this.getVerticalMovement);
+    document.removeEventListener('keydown', this.getVerticalMovement);
+    this.getContainer.removeEventListener('wheel', this.getVerticalMovement);
     this.getContainer.removeEventListener(this.getEventType.start, this.setTouchStart);
     this.getContainer.removeEventListener(this.getEventType.move, this.setTouchMove);
     this.getContainer.removeEventListener(this.getEventType.end, this.setTouchEnd);
