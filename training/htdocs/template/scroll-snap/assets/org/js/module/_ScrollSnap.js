@@ -123,7 +123,7 @@ export default class ScrollSnap {
    * @returns height情報
    */
   #getSectionRect(index) {
-    const _i = index ? index : this.currentIndex;
+    const _i = index != null ? index : this.currentIndex;
     const currentSection = this.#getSectionElement(_i);
 
     // 1つ前のセクション
@@ -331,7 +331,7 @@ export default class ScrollSnap {
 
         // 移動方向を決定
         this.sectionData = this.#getSectionRect(i);
-        const up = Math.abs((i > 0 ? this.#translateY : 0) + this.sectionData.prevRect.top);
+        const up = Math.abs(i > 0 ? this.#translateY + this.sectionData.prevRect.top : 0);
         const down = Math.abs(this.#translateY + this.sectionData.currentRect.top);
         this.#translateY = i > this.currentIndex ? down : up;
 
