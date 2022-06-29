@@ -5,6 +5,7 @@ export default class ScrollSnap {
   #container;
   #navAnker;
   #isScrolling;
+  #translateY;
 
   constructor(container, config) {
     // 設定
@@ -36,9 +37,11 @@ export default class ScrollSnap {
     this.touchStart, this.touchMove, this.touchEnd;
 
     // セクション要素情報
-    this.wh = window.innerHeight;
     this.currentIndex = 0;
+    this.wh = window.innerHeight;
     this.sectionAll = this.getContainer.childNodes;
+    this.#translateY = 0;
+    this.sectionRectData = {};
 
     // 関数
     this.getVerticalMovement = this.#getVerticalMovement.bind(this);
@@ -116,32 +119,49 @@ export default class ScrollSnap {
   }
 
   /**
-   * 垂直方向の移動判定
+   * 移動先のセクションの高さを取得
+   * @returns height情報
    */
-  #getVerticalMovement(e) {
-    // スクロール中なら中断
-    if (this.getState.isScrolling) return;
+  #getSectionRect(index) {
+    const currentSection = this.#getSectionElement(index);
 
-    // スクロールフラグを有効
-    this.#isScrolling = true;
+    // 1つ前のセクション
+    const prevHeight =
+      currentSection.previousElementSibling == null
+        ? null
+        : currentSection.previousElementSibling.getBoundingClientRect().height;
 
-    // 上下スクロール判定
-    if (e.type === 'keydown') {
-      if (e.keyCode === 38) this.#moveUp();
-      if (e.keyCode === 40) this.#moveDown();
-    } else {
-      const pageY = this.getTouchPoints || e.type === 'mouseup' ? this.touchEnd : e.deltaY;
-      pageY < 0 ? this.#moveUp() : this.#moveDown();
-    }
+    // 現在のセクション
+    const currentHeight = currentSection.getBoundingClientRect().height;
 
-    // アクティブ要素更新
-    this.#updateActive();
+    // 1つ後のセクション
+    const nextHeight =
+      currentSection.nextElementSibling == null
+        ? null
+        : currentSection.nextElementSibling.getBoundingClientRect().height;
 
-    // スクロール中をリセット
-    clearTimeout(this.timerId);
-    this.timerId = setTimeout(() => {
-      this.#isScrolling = false;
-    }, this.config.animation.interval);
+    // Rect
+    const prevRect = currentSection.getBoundingClientRect();
+    const currentRect = currentSection.getBoundingClientRect();
+    const nextRect = currentSection.getBoundingClientRect();
+
+    return {
+      prevHeight,
+      currentHeight,
+      nextHeight,
+      prevRect,
+      currentRect,
+      nextRect
+    };
+  }
+
+  /**
+   * セクション要素を取得
+   * @param  {Number} index
+   */
+  #getSectionElement(index) {
+    const _i = index === undefined ? this.currentIndex : index;
+    return this.sectionAll[_i];
   }
 
   /**
@@ -186,42 +206,54 @@ export default class ScrollSnap {
    * 上移動
    */
   #moveUp() {
-    if (this.currentIndex === 0) return;
+    if (this.currentIndex === 0 || this.sectionRectData.prevHeight === null) return;
+    // 現在のtranslateY - 戻り先の高さ = 次のtranslateY
+    this.#translateY = Math.abs(this.#translateY - this.sectionRectData.prevHeight);
+    this.getContainer.style.setProperty('transform', `translate3d(0, -${this.#translateY}px, 0)`);
     this.currentIndex--;
-    const value = `-${this.wh * this.currentIndex}px`;
-    this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
   }
 
   /**
    * 下移動
    */
   #moveDown() {
-    if (this.currentIndex === this.sectionAll.length - 1) return;
+    if (this.currentIndex === this.sectionAll.length - 1 || this.sectionRectData.nextHeight === null) return;
+    // 現在のtranslateY + 現在の要素の高さ = 次のtranslateY
+    this.#translateY = Math.abs(this.#translateY + this.sectionRectData.currentHeight);
+    this.getContainer.style.setProperty('transform', `translate3d(0, -${this.#translateY}px, 0)`);
     this.currentIndex++;
-    const value = `-${this.wh * this.currentIndex}px`;
-    this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
   }
 
   /**
-   * イベント登録
+   * 垂直方向の移動判定
    */
-  addEvent() {
-    document.addEventListener('keydown', this.getVerticalMovement);
-    this.getContainer.addEventListener('wheel', this.getVerticalMovement);
-    this.getContainer.addEventListener(this.getEventType.start, this.setTouchStart);
-    this.getContainer.addEventListener(this.getEventType.move, this.setTouchMove);
-    this.getContainer.addEventListener(this.getEventType.end, this.setTouchEnd);
-  }
+  #getVerticalMovement(e) {
+    // スクロール中なら中断
+    if (this.getState.isScrolling) return;
 
-  /**
-   * イベント削除
-   */
-  removeEvent() {
-    document.removeEventListener('keydown', this.getVerticalMovement);
-    this.getContainer.removeEventListener('wheel', this.getVerticalMovement);
-    this.getContainer.removeEventListener(this.getEventType.start, this.setTouchStart);
-    this.getContainer.removeEventListener(this.getEventType.move, this.setTouchMove);
-    this.getContainer.removeEventListener(this.getEventType.end, this.setTouchEnd);
+    // スクロールフラグを有効
+    this.#isScrolling = true;
+
+    // 上下スクロール判定
+    if (e.type === 'keydown') {
+      if (e.keyCode === 38) this.#moveUp();
+      if (e.keyCode === 40) this.#moveDown();
+    } else {
+      const pageY = this.getTouchPoints || e.type === 'mouseup' ? this.touchEnd : e.deltaY;
+      pageY < 0 ? this.#moveUp() : this.#moveDown();
+    }
+
+    // アクティブ要素更新
+    this.#updateActive();
+
+    // height情報更新
+    this.sectionRectData = this.#getSectionRect();
+
+    // スクロール中をリセット
+    clearTimeout(this.timerId);
+    this.timerId = setTimeout(() => {
+      this.#isScrolling = false;
+    }, this.config.animation.interval);
   }
 
   /**
@@ -277,6 +309,41 @@ export default class ScrollSnap {
   }
 
   /**
+   * アンカーリンク用のdata属性追加
+   */
+  #addAnkerValue() {
+    this.sectionAll.forEach((sec, i) => {
+      sec.dataset.ssAnker = this.config.navigation.anker === null ? `section-${i}` : this.config.navigation.anker[i];
+    });
+  }
+
+  /**
+   * アンカーリンクのクリックイベント
+   */
+  #anckerEvent() {
+    if (this.getNavAnker == null) return;
+
+    this.getNavAnker.forEach((btn, i) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (i === this.currentIndex) return;
+
+        // 移動方向を決定
+        this.sectionRectData = this.#getSectionRect(i);
+        const pageYOffset = window.pageYOffset || document.documentElement.scrollTop;
+        const up = Math.abs(this.#translateY + this.sectionRectData.prevRect.top - pageYOffset);
+        const down = Math.abs(this.#translateY + this.sectionRectData.currentRect.top + pageYOffset);
+        this.#translateY = i > this.currentIndex ? down : up;
+
+        // 状態を更新
+        this.currentIndex = i;
+        this.#updateActive();
+        this.getContainer.style.setProperty('transform', `translate3d(0, -${this.#translateY}px, 0)`);
+      });
+    });
+  }
+
+  /**
    * スタイル追加
    */
   #setBaseStyle() {
@@ -309,32 +376,6 @@ export default class ScrollSnap {
   }
 
   /**
-   * アンカーリンク用のdata属性追加
-   */
-  #addAnkerValue() {
-    this.sectionAll.forEach((sec, i) => {
-      sec.dataset.ssAnker = this.config.navigation.anker === null ? i : this.config.navigation.anker[i];
-    });
-  }
-
-  /**
-   * アンカーリンクのクリックイベント
-   */
-  #anckerEvent() {
-    if (this.getNavAnker == null) return;
-
-    this.getNavAnker.forEach((btn, i) => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const value = `-${this.wh * i}px`;
-        this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
-        this.currentIndex = i;
-        this.#updateActive();
-      });
-    });
-  }
-
-  /**
    * セクション用のheightプロパティ設定
    */
   #setSectionHeight() {
@@ -342,6 +383,8 @@ export default class ScrollSnap {
       if (sec.classList.contains(this.config.ignoreClassName)) return;
       sec.style.setProperty('height', `${this.wh}px`);
     });
+
+    this.sectionRectData = this.#getSectionRect();
   }
 
   /**
@@ -350,7 +393,30 @@ export default class ScrollSnap {
   #updateSectionHeight() {
     this.wh = window.innerHeight;
     this.#setSectionHeight();
+
     const value = `-${this.wh * this.currentIndex}px`;
     this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
+  }
+
+  /**
+   * イベント登録
+   */
+  addEvent() {
+    document.addEventListener('keydown', this.getVerticalMovement);
+    this.getContainer.addEventListener('wheel', this.getVerticalMovement);
+    this.getContainer.addEventListener(this.getEventType.start, this.setTouchStart);
+    this.getContainer.addEventListener(this.getEventType.move, this.setTouchMove);
+    this.getContainer.addEventListener(this.getEventType.end, this.setTouchEnd);
+  }
+
+  /**
+   * イベント削除
+   */
+  removeEvent() {
+    document.removeEventListener('keydown', this.getVerticalMovement);
+    this.getContainer.removeEventListener('wheel', this.getVerticalMovement);
+    this.getContainer.removeEventListener(this.getEventType.start, this.setTouchStart);
+    this.getContainer.removeEventListener(this.getEventType.move, this.setTouchMove);
+    this.getContainer.removeEventListener(this.getEventType.end, this.setTouchEnd);
   }
 }
