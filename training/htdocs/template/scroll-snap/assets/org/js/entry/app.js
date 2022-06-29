@@ -9,7 +9,7 @@ const scrollSnap = new ScrollSnap('js-scrollSnap', {
   },
   // type: 'card',
   navigation: {
-    anker: ['kv', 'about', 'info', 'contact', 'mail']
+    anchors: ['kv', 'about', 'info', 'contact', 'mail']
   }
 });
 

@@ -3,7 +3,7 @@ import { setFillHeight } from './_setFillHeight';
 
 export default class ScrollSnap {
   #container;
-  #navAnker;
+  #navAnchors;
   #isScrolling;
   #translateY;
 
@@ -20,14 +20,14 @@ export default class ScrollSnap {
       },
       navigation: {
         container: 'js-ssNavigation',
-        anker: null // 配列で個別指定
+        anchors: null // 配列で個別指定
       }
     };
     mergeDeep(this.config, config);
 
     // 対象要素
     this.#container = document.getElementById(container);
-    this.#navAnker = document.querySelectorAll(`#${this.config.navigation.container} a`);
+    this.#navAnchors = document.querySelectorAll(`#${this.config.navigation.container} a`);
 
     // ステータス
     this.timerId;
@@ -85,8 +85,8 @@ export default class ScrollSnap {
   /**
    * アンカーリンク要素取得
    */
-  get getNavAnker() {
-    return this.#navAnker;
+  get getNavAnchors() {
+    return this.#navAnchors;
   }
 
   /**
@@ -281,8 +281,8 @@ export default class ScrollSnap {
    * セクションにアクティブクラス追加
    */
   #addNavigationCurrentClass() {
-    if (this.getNavAnker == null) return;
-    this.getNavAnker.forEach((a, i) => {
+    if (this.getNavAnchors == null) return;
+    this.getNavAnchors.forEach((a, i) => {
       if (i === this.currentIndex) {
         a.classList.add('add-current');
       } else if (i !== this.currentIndex && a.classList.contains('add-current')) {
@@ -295,8 +295,8 @@ export default class ScrollSnap {
    * URLハッシュ更新
    */
   #updateHash() {
-    if (this.config.navigation.anker == null) return;
-    location.hash = this.config.navigation.anker[this.currentIndex];
+    if (this.config.navigation.anchors == null) return;
+    location.hash = this.config.navigation.anchors[this.currentIndex];
   }
 
   /**
@@ -314,7 +314,8 @@ export default class ScrollSnap {
    */
   #addAnkerValue() {
     this.sectionAll.forEach((sec, i) => {
-      sec.dataset.ssAnker = this.config.navigation.anker === null ? `section-${i}` : this.config.navigation.anker[i];
+      if (this.config.navigation.anchors === null) return;
+      sec.dataset.ssAnchors = this.config.navigation.anchors[i];
     });
   }
 
@@ -322,9 +323,9 @@ export default class ScrollSnap {
    * アンカーリンクのクリックイベント
    */
   #anckerEvent() {
-    if (this.getNavAnker == null) return;
+    if (this.getNavAnchors == null) return;
 
-    this.getNavAnker.forEach((btn, i) => {
+    this.getNavAnchors.forEach((btn, i) => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         if (i === this.currentIndex) return;
