@@ -173,7 +173,7 @@ export default class ScrollSnap {
    */
   #setTouchStart(e) {
     if (this.getState.isScrolling) return;
-    this.touchStart = e.type === 'touchstart' ? e.touches[0].pageY : e.pageY;
+    this.touchStart = e.type === 'touchstart' ? e.changedTouches[0].pageY : e.pageY;
   }
 
   /**
@@ -181,7 +181,7 @@ export default class ScrollSnap {
    */
   #setTouchMove(e) {
     if (this.touchStart === undefined) return;
-    this.touchMove = e.type === 'touchmove' ? e.touches[0].pageY : e.pageY;
+    this.touchMove = e.type === 'touchmove' ? e.changedTouches[0].pageY : e.pageY;
   }
 
   /**
