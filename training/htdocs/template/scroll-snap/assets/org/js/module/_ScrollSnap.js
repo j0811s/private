@@ -41,7 +41,7 @@ export default class ScrollSnap {
     this.wh = window.innerHeight;
     this.sectionAll = this.getContainer.childNodes;
     this.#translateY = 0;
-    this.sectionRectData = {};
+    this.sectionData = {};
 
     // 関数
     this.getVerticalMovement = this.#getVerticalMovement.bind(this);
@@ -123,7 +123,8 @@ export default class ScrollSnap {
    * @returns height情報
    */
   #getSectionRect(index) {
-    const currentSection = this.#getSectionElement(index);
+    const _i = index ? index : this.currentIndex;
+    const currentSection = this.#getSectionElement(_i);
 
     // 1つ前のセクション
     const prevHeight =
@@ -206,9 +207,9 @@ export default class ScrollSnap {
    * 上移動
    */
   #moveUp() {
-    if (this.currentIndex === 0 || this.sectionRectData.prevHeight === null) return;
+    if (this.currentIndex === 0 || this.sectionData.prevHeight === null) return;
     // 現在のtranslateY - 戻り先の高さ = 次のtranslateY
-    this.#translateY = Math.abs(this.#translateY - this.sectionRectData.prevHeight);
+    this.#translateY = Math.abs(this.#translateY - this.sectionData.prevHeight);
     this.getContainer.style.setProperty('transform', `translate3d(0, -${this.#translateY}px, 0)`);
     this.currentIndex--;
   }
@@ -217,9 +218,9 @@ export default class ScrollSnap {
    * 下移動
    */
   #moveDown() {
-    if (this.currentIndex === this.sectionAll.length - 1 || this.sectionRectData.nextHeight === null) return;
+    if (this.currentIndex === this.sectionAll.length - 1 || this.sectionData.nextHeight === null) return;
     // 現在のtranslateY + 現在の要素の高さ = 次のtranslateY
-    this.#translateY = Math.abs(this.#translateY + this.sectionRectData.currentHeight);
+    this.#translateY = Math.abs(this.#translateY + this.sectionData.currentHeight);
     this.getContainer.style.setProperty('transform', `translate3d(0, -${this.#translateY}px, 0)`);
     this.currentIndex++;
   }
@@ -247,7 +248,7 @@ export default class ScrollSnap {
     this.#updateActive();
 
     // height情報更新
-    this.sectionRectData = this.#getSectionRect();
+    this.sectionData = this.#getSectionRect();
 
     // スクロール中をリセット
     clearTimeout(this.timerId);
@@ -329,10 +330,9 @@ export default class ScrollSnap {
         if (i === this.currentIndex) return;
 
         // 移動方向を決定
-        this.sectionRectData = this.#getSectionRect(i);
-        const pageYOffset = window.pageYOffset || document.documentElement.scrollTop;
-        const up = Math.abs(this.#translateY + this.sectionRectData.prevRect.top - pageYOffset);
-        const down = Math.abs(this.#translateY + this.sectionRectData.currentRect.top + pageYOffset);
+        this.sectionData = this.#getSectionRect(i);
+        const up = Math.abs((i > 0 ? this.#translateY : 0) + this.sectionData.prevRect.top);
+        const down = Math.abs(this.#translateY + this.sectionData.currentRect.top);
         this.#translateY = i > this.currentIndex ? down : up;
 
         // 状態を更新
@@ -349,10 +349,11 @@ export default class ScrollSnap {
   #setBaseStyle() {
     document.documentElement.style.setProperty('overflow', 'hidden');
     document.documentElement.style.setProperty('height', '100%');
+
     document.body.style.setProperty('overflow', 'hidden');
     document.body.style.setProperty('height', '100%');
-    // document.body.style.setProperty('min-height', '100vh');
     document.body.style.setProperty('min-height', 'calc(var(--vh, 1vh) * 100)');
+
     this.getContainer.style.setProperty('position', 'relative');
     this.getContainer.style.setProperty('transform', `translate3d(0, 0, 0)`);
     this.getContainer.style.setProperty('transition-property', 'transform');
@@ -384,7 +385,7 @@ export default class ScrollSnap {
       sec.style.setProperty('height', `${this.wh}px`);
     });
 
-    this.sectionRectData = this.#getSectionRect();
+    this.sectionData = this.#getSectionRect();
   }
 
   /**
@@ -394,8 +395,12 @@ export default class ScrollSnap {
     this.wh = window.innerHeight;
     this.#setSectionHeight();
 
-    const value = `-${this.wh * this.currentIndex}px`;
-    this.getContainer.style.setProperty('transform', `translate3d(0, ${value}, 0)`);
+    // 全体 - (全体 - 指定セクション親からの距離)
+    this.#translateY = Math.abs(
+      this.getContainer.getBoundingClientRect().height -
+        (this.getContainer.getBoundingClientRect().height - this.sectionAll[this.currentIndex].offsetTop)
+    );
+    this.getContainer.style.setProperty('transform', `translate3d(0, -${this.#translateY}px, 0)`);
   }
 
   /**
