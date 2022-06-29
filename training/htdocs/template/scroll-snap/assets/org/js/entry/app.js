@@ -13,7 +13,7 @@ const scrollSnap = new ScrollSnap('js-scrollSnap', {
   }
 });
 
-console.log(scrollSnap.getTouchPoints);
+console.log(scrollSnap.getTouchDevice);
 
 // window.addEventListener('scroll', (e) => {
 // console.log(scrollSnap.getState.isScrolling);

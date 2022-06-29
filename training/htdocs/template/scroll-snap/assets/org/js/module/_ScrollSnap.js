@@ -102,8 +102,14 @@ export default class ScrollSnap {
    * タッチデバイス判定
    * @returns Boolean
    */
-  get getTouchPoints() {
-    return window.ontouchstart !== undefined && 0 < navigator.maxTouchPoints;
+  get getTouchDevice() {
+    return (
+      !!(
+        typeof window !== 'undefined' &&
+        ('ontouchstart' in window ||
+          (window.DocumentTouch && typeof document !== 'undefined' && document instanceof window.DocumentTouch))
+      ) || !!(typeof navigator !== 'undefined' && (navigator.maxTouchPoints || navigator.msMaxTouchPoints))
+    );
   }
 
   /**
@@ -112,9 +118,9 @@ export default class ScrollSnap {
    */
   get getEventType() {
     return {
-      start: this.getTouchPoints ? 'touchstart' : 'mousedown',
-      move: this.getTouchPoints ? 'touchmove' : 'mousemove',
-      end: this.getTouchPoints ? 'touchend' : 'mouseup'
+      start: this.getTouchDevice ? 'touchstart' : 'mousedown',
+      move: this.getTouchDevice ? 'touchmove' : 'mousemove',
+      end: this.getTouchDevice ? 'touchend' : 'mouseup'
     };
   }
 
@@ -240,7 +246,7 @@ export default class ScrollSnap {
       if (e.keyCode === 38) this.#moveUp();
       if (e.keyCode === 40) this.#moveDown();
     } else {
-      const pageY = this.getTouchPoints || e.type === 'mouseup' ? this.touchEnd : e.deltaY;
+      const pageY = this.getTouchDevice || e.type === 'mouseup' ? this.touchEnd : e.deltaY;
       pageY < 0 ? this.#moveUp() : this.#moveDown();
     }
 
