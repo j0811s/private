@@ -4,8 +4,8 @@ const scrollSnap = new ScrollSnap('js-scrollSnap', {
   init: true,
   animation: {
     // duration: 500,
-    // interval: 1000,
-    ease: 'ease-in-out'
+    // interval: 1200
+    // ease: 'ease-in-out'
   },
   // type: 'card',
   navigation: {

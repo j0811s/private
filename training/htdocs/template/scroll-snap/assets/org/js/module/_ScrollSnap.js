@@ -33,7 +33,6 @@ export default class ScrollSnap {
     this.#isScrolling = false;
 
     // 位置情報
-    this.pageY;
     this.touchStart, this.touchMove, this.touchEnd;
 
     // セクション要素情報
@@ -127,10 +126,10 @@ export default class ScrollSnap {
     this.#isScrolling = true;
 
     // 現在地を代入
-    this.pageY = this.getTouchPoints || e.type === 'mouseup' ? this.touchEnd : e.deltaY;
+    const pageY = this.getTouchPoints || e.type === 'mouseup' ? this.touchEnd : e.deltaY;
 
     // 上下スクロール
-    this.pageY < 0 ? this.#moveUp() : this.#moveDown();
+    pageY < 0 ? this.#moveUp() : this.#moveDown();
 
     // アクティブ要素更新
     this.#updateActive();
