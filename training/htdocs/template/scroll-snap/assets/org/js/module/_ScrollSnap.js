@@ -63,9 +63,6 @@ export default class ScrollSnap {
     this.#setSectionHeight();
     this.#updateActive();
     this.#anckerEvent();
-
-    window.addEventListener('resize', this.updateSectionHeight);
-    window.addEventListener('resize', setFillHeight);
     setFillHeight();
 
     if (this.config.init) this.addEvent();
@@ -419,6 +416,9 @@ export default class ScrollSnap {
     this.getContainer.addEventListener(this.getEventType.start, this.setTouchStart);
     this.getContainer.addEventListener(this.getEventType.move, this.setTouchMove);
     this.getContainer.addEventListener(this.getEventType.end, this.setTouchEnd);
+
+    window.addEventListener('resize', this.updateSectionHeight);
+    window.addEventListener('resize', setFillHeight);
   }
 
   /**
@@ -430,5 +430,8 @@ export default class ScrollSnap {
     this.getContainer.removeEventListener(this.getEventType.start, this.setTouchStart);
     this.getContainer.removeEventListener(this.getEventType.move, this.setTouchMove);
     this.getContainer.removeEventListener(this.getEventType.end, this.setTouchEnd);
+
+    window.removeEventListener('resize', this.updateSectionHeight);
+    window.removeEventListener('resize', setFillHeight);
   }
 }
