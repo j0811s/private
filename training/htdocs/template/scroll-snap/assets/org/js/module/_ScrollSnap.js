@@ -46,7 +46,7 @@ export default class ScrollSnap {
     this.setTouchStart = this.#setTouchStart.bind(this);
     this.setTouchMove = this.#setTouchMove.bind(this);
     this.setTouchEnd = this.#setTouchEnd.bind(this);
-    this.resize = this.#resize.bind(this);
+    this.updateSectionHeight = this.#updateSectionHeight.bind(this);
 
     // 初期化
     this.init();
@@ -62,7 +62,7 @@ export default class ScrollSnap {
     this.#updateActive();
     this.#anckerEvent();
 
-    window.addEventListener('resize', this.resize);
+    window.addEventListener('resize', this.updateSectionHeight);
     window.addEventListener('resize', setFillHeight);
     setFillHeight();
 
@@ -336,9 +336,9 @@ export default class ScrollSnap {
   }
 
   /**
-   * リサイズ
+   * セクション関連の高さ更新
    */
-  #resize() {
+  #updateSectionHeight() {
     this.wh = window.innerHeight;
     this.#setSectionHeight();
     const value = `-${this.wh * this.currentIndex}px`;
