@@ -148,6 +148,7 @@ export default class ScrollSnap {
    * touchstart or mousedownイベントの座標取得
    */
   #setTouchStart(e) {
+    if (this.getState.isScrolling) return;
     this.touchStart = e.pageY;
   }
 
@@ -155,6 +156,7 @@ export default class ScrollSnap {
    * touchmove or mousemoveイベントの座標取得
    */
   #setTouchMove(e) {
+    if (this.touchStart === undefined) return;
     this.touchMove = e.pageY;
   }
 
@@ -162,10 +164,22 @@ export default class ScrollSnap {
    * touchend or mouseupイベントの座標取得
    */
   #setTouchEnd(e) {
+    if (this.touchMove === this.touchStart || this.touchMove === undefined) {
+      this.#resetTouchValue();
+      return;
+    }
     this.touchEnd = this.touchStart - this.touchMove;
-    if (this.touchMove == null) return;
-    this.touchMove = null;
     this.#getVerticalMovement(e);
+    this.#resetTouchValue();
+  }
+
+  /**
+   * 座標リセット
+   */
+  #resetTouchValue() {
+    this.touchStart = undefined;
+    this.touchMove = undefined;
+    this.touchEnd = undefined;
   }
 
   /**
