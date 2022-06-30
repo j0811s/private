@@ -243,7 +243,7 @@ export default class ScrollSnap {
       if (e.keyCode === 38) this.#moveUp();
       if (e.keyCode === 40) this.#moveDown();
     } else {
-      const pageY = this.getTouchDevice || e.type === 'mouseup' ? this.touchEnd : e.deltaY;
+      const pageY = e.type === 'wheel' ? e.deltaY : this.touchEnd;
       pageY < 0 ? this.#moveUp() : this.#moveDown();
     }
 
