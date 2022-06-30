@@ -192,7 +192,9 @@ export default class ScrollSnap {
       this.#resetTouchValue();
       return;
     }
+
     this.touchEnd = this.touchStart - this.touchMove;
+    if (this.currentIndex === 0 && this.touchEnd + this.wh / 10 < 0) location.reload();
     this.#getVerticalMovement(e);
     this.#resetTouchValue();
   }
