@@ -360,6 +360,7 @@ export default class ScrollSnap {
     document.body.style.setProperty('height', '100%');
     document.body.style.setProperty('min-height', 'calc(var(--vh, 1vh) * 100)');
 
+    this.getContainer.style.setProperty('touch-action', 'manipulation');
     this.getContainer.style.setProperty('position', 'relative');
     this.getContainer.style.setProperty('transform', `translate3d(0, 0, 0)`);
     this.getContainer.style.setProperty('transition-property', 'transform');
