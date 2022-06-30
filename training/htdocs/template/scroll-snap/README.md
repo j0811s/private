@@ -76,9 +76,9 @@ const scrollSnap = new ScrollSnap('js-scrollSnap', {
   セクションコンテンツをウィンドウの高さに合わせない。
 - `duration`: (default `500`)  
   セクションのスライド速度。
-- `interval`: (default `1000`)  
+- `interval`: (default `500`)  
   次のスライドまでの間隔。
-- `ease`: (default `'ease-in-out'`)  
+- `ease`: (default `'ease'`)  
   スライドの CSS イージング。
 - `type`: (default `'normal'`)  
   `'card'`でセクションを重ねがけにする。

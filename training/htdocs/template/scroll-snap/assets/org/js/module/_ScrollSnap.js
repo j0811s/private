@@ -14,8 +14,8 @@ export default class ScrollSnap {
       ignoreClassName: 'js-ssIgnore', // フル表示の対象外クラス名
       animation: {
         duration: 500, // #isScrollingの切り替え時間
-        interval: 1000, //コンテンツ遷移までのインターバル
-        ease: 'ease-in-out',
+        interval: 500, //コンテンツ遷移までのインターバル
+        ease: 'ease',
         type: 'normal' // 'card'でカードめくり風にする
       },
       navigation: {
